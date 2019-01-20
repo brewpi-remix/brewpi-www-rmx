@@ -27,6 +27,7 @@
  *
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
+ 
 /* jshint jquery:true */
 /* global reloadControlConstantsFromArduino, reloadControlSettingsFromArduino, reloadControlVariablesFromArduino,
           reloadControlSettings, reloadControlConstants, reloadControlVariables,
@@ -42,24 +43,24 @@ $(document).ready(function(){
     reloadControlSettingsFromArduino();
     reloadControlVariablesFromArduino();
     //Maintenance Panel
-	$('#maintenance-panel')
-	.dialog({
-		autoOpen: false,
-		title: 'Maintenance Panel',
-		height: 850,
-		width: 1000
-	}).tabs();
+        $('#maintenance-panel')
+        .dialog({
+                autoOpen: false,
+                title: 'Maintenance Panel',
+                height: 850,
+                width: 1000
+        }).tabs();
 
     // unhide after loading
     $("#maintenance-panel").css("visibility", "visible");
 
-    $("button#maintenance").button({	icons: {primary: "ui-icon-newwin" } }).unbind('click').click(function(){
+    $("button#maintenance").button({    icons: {primary: "ui-icon-newwin" } }).unbind('click').click(function(){
         $("#maintenance-panel").dialog("open");
     });
 
-	$("button#apply-interval").button({	icons: {primary: "ui-icon-check" } }).unbind('click').click(function(){
-		$.post('socketmessage.php', {messageType: "interval", message: String($("select#interval").val())});
-	});
+    $("button#apply-interval").button({     icons: {primary: "ui-icon-check" } }).unbind('click').click(function(){
+        $.post('socketmessage.php', {messageType: "interval", message: String($("select#interval").val())});
+    });
 
     $("button.apply-profile-name").button({ icons: {primary: "ui-icon-check" } }).unbind('click').click(function(){
         $.post('socketmessage.php', {messageType: "profileName", message: $("input#profile-name").val()});
@@ -69,62 +70,62 @@ $(document).ready(function(){
         $.post('socketmessage.php', {messageType: "dateTimeFormatDisplay", message: $("#datetime-format-display").val()});
     });
 
-	$("#advanced-settings").find(".send-button").button({	icons: {primary: "ui-icon-check" } }).unbind('click').click(function(){
-		var jsonString;
+        $("#advanced-settings").find(".send-button").button({   icons: {primary: "ui-icon-check" } }).unbind('click').click(function(){
+                var jsonString;
         if($(this).parent().find("select").length){ // check for existance
-			jsonString = "{\"" + $(this).parent().find("select").attr("name") +
+                        jsonString = "{\"" + $(this).parent().find("select").attr("name") +
                             "\":\"" + $(this).parent().find("select").val() + "\"}";
-		}
-		else if($(this).parent().find("input").length){ // check for existance
-			jsonString = "{\"" + $(this).parent().find("input").attr("name") + "\":" + $(this).parent().find("input").val() + "}";
-		}
-		else{
-			return;
-		}
-		$.post('socketmessage.php', {messageType: "setParameters", message: jsonString});
-		if($(this).parent().find("select").attr("name") === "tempFormat"){
-			// if temperature format is updated, reload all settings in new format and update fields
-			reloadControlConstantsFromArduino();
-			reloadControlSettingsFromArduino();
-		}
-	});
+                }
+                else if($(this).parent().find("input").length){ // check for existance
+                        jsonString = "{\"" + $(this).parent().find("input").attr("name") + "\":" + $(this).parent().find("input").val() + "}";
+                }
+                else{
+                        return;
+                }
+                $.post('socketmessage.php', {messageType: "setParameters", message: jsonString});
+                if($(this).parent().find("select").attr("name") === "tempFormat"){
+                        // if temperature format is updated, reload all settings in new format and update fields
+                        reloadControlConstantsFromArduino();
+                        reloadControlSettingsFromArduino();
+                }
+        });
 
-    $("#advanced-settings").find(".reset-controller-button").button({	icons: {primary: "ui-icon-trash" } }).unbind('click').click(function(){
+    $("#advanced-settings").find(".reset-controller-button").button({   icons: {primary: "ui-icon-trash" } }).unbind('click').click(function(){
         $.post('socketmessage.php', {messageType: "resetController", message: ""});
         reloadControlConstantsFromArduino();
         reloadControlSettingsFromArduino();
     });
 
-	$(".cc.receive-from-script").button({	icons: {primary: "ui-icon-arrowthickstop-1-s" } })
-		.unbind('click').click(receiveControlConstants);
+        $(".cc.receive-from-script").button({   icons: {primary: "ui-icon-arrowthickstop-1-s" } })
+                .unbind('click').click(receiveControlConstants);
 
-	$(".cc.update-from-arduino").button({	icons: {primary: "ui-icon-refresh" } })
-		.unbind('click').click(reloadControlConstantsFromArduino);
+        $(".cc.update-from-arduino").button({   icons: {primary: "ui-icon-refresh" } })
+                .unbind('click').click(reloadControlConstantsFromArduino);
 
-	$(".cc.load-defaults").button({	icons: {primary: "ui-icon-trash" } })
-		.unbind('click').click(loadDefaultControlConstants);
+        $(".cc.load-defaults").button({ icons: {primary: "ui-icon-trash" } })
+                .unbind('click').click(loadDefaultControlConstants);
 
-	$(".cs.receive-from-script").button({	icons: {primary: "ui-icon-arrowthickstop-1-s" } })
-		.unbind('click').click(receiveControlSettings);
+        $(".cs.receive-from-script").button({   icons: {primary: "ui-icon-arrowthickstop-1-s" } })
+                .unbind('click').click(receiveControlSettings);
 
-	$(".cs.update-from-arduino").button({	icons: {primary: "ui-icon-refresh" } })
-		.unbind('click').click(reloadControlSettingsFromArduino);
+        $(".cs.update-from-arduino").button({   icons: {primary: "ui-icon-refresh" } })
+                .unbind('click').click(reloadControlSettingsFromArduino);
 
-	$(".cs.load-defaults").button({	icons: {primary: "ui-icon-trash" } })
-		.unbind('click').click(loadDefaultControlSettings);
+        $(".cs.load-defaults").button({ icons: {primary: "ui-icon-trash" } })
+                .unbind('click').click(loadDefaultControlSettings);
 
-	$(".cv.receive-from-script").button({	icons: {primary: "ui-icon-arrowthickstop-1-s" } })
-		.unbind('click').click(receiveControlVariables);
+        $(".cv.receive-from-script").button({   icons: {primary: "ui-icon-arrowthickstop-1-s" } })
+                .unbind('click').click(receiveControlVariables);
 
-	$(".cv.update-from-arduino").button({	icons: {primary: "ui-icon-refresh" } })
-		.unbind('click').click(reloadControlVariablesFromArduino);
+        $(".cv.update-from-arduino").button({   icons: {primary: "ui-icon-refresh" } })
+                .unbind('click').click(reloadControlVariablesFromArduino);
 
     // create refresh button
-    $("#refresh-logs").button({ icons: {primary: "ui-icon-refresh"}	}).unbind('click').click(function(){
+    $("#refresh-logs").button({ icons: {primary: "ui-icon-refresh"}     }).unbind('click').click(function(){
         refreshLogs(1, 1);
     });
 
-    $("button#auto-refresh-logs").button({ icons: {primary: "ui-icon-refresh"}	}).unbind('click').click(function(){
+    $("button#auto-refresh-logs").button({ icons: {primary: "ui-icon-refresh"} }).unbind('click').click(function(){
         startRefreshLogs(5000, 1, 1);
         if($(this).hasClass('ui-state-default')){
             $(this).removeClass("ui-state-default").addClass("ui-state-error");
@@ -136,7 +137,7 @@ $(document).ready(function(){
         }
     });
 
-    $("#erase-logs").button({ icons: {primary: "ui-icon-trash"}	}).unbind('click').click(function(){
+    $("#erase-logs").button({ icons: {primary: "ui-icon-trash"} }).unbind('click').click(function(){
         $.post('socketmessage.php', {messageType: "eraseLogs", message: ""});
         refreshLogs(1,1);
     });
@@ -145,8 +146,6 @@ $(document).ready(function(){
         startRefreshLogs(2000, 0, 1, '#reprogram-arduino'); // autorefresh stderr as long as the tab remains open
         $("#program-stderr-header").text("Programming... keep an eye on the output below to see the progress.");
     });
-
-
 });
 
 boardNames = { "core": "Core", "photon": "Photon", "leonardo": "Arduino", "uno": "Arduino" };
@@ -277,11 +276,11 @@ function programmingError(string){
 
 function programmingDone(){
     "use strict";
-    $("#program-stderr-header").text("Programming done!");
+    $("#program-stderr-header").text("Programming complete.");
 }
 
 function programmingFailed(){
     "use strict";
-    $("#program-stderr-header").text("Something went wrong! Please check the log for details!");
+    $("#program-stderr-header").text("Something went wrong. Please check the log for details.");
 }
 
