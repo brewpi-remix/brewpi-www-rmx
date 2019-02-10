@@ -32,25 +32,25 @@
 // load default settings from file
 $defaultSettings = file_get_contents('defaultSettings.json');
 if($defaultSettings == false){
-	die("Cannot open default settings file: defaultSettings.json");
+        die("Cannot open default settings file: defaultSettings.json");
 }
 $settingsArray = json_decode(prepareJSON($defaultSettings), true);
 if(is_null($settingsArray)){
-	die("Cannot decode defaultSettings.json");
+        die("Cannot decode defaultSettings.json");
 }
 // overwrite default settings with user settings
 if(file_exists('userSettings.json')){
-	$userSettings = file_get_contents('userSettings.json');
-	if($userSettings == false){
-		die("Error opening settings file userSettings.json");
-	}
-	$userSettingsArray = json_decode(prepareJSON($userSettings), true);
-	if(is_null($settingsArray)){
-		die("Cannot decode userSettings.json");
-	}
-	foreach ($userSettingsArray as $key => $value) {
-		$settingsArray[$key] = $userSettingsArray[$key];
-	}
+        $userSettings = file_get_contents('userSettings.json');
+        if($userSettings == false){
+                die("Error opening settings file userSettings.json");
+        }
+        $userSettingsArray = json_decode(prepareJSON($userSettings), true);
+        if(is_null($settingsArray)){
+                die("Cannot decode userSettings.json");
+        }
+        foreach ($userSettingsArray as $key => $value) {
+                $settingsArray[$key] = $userSettingsArray[$key];
+        }
 }
 
 $beerName = $settingsArray["beerName"];
@@ -71,56 +71,69 @@ function prepareJSON($input) {
     return $input;
 }
 
+// Read configuration name for multi-chamber
+if(file_exists('config.php')) {
+        require_once('config.php');
+        if(file_exists($scriptPath . "/settings/config.cfg")) {
+                $ini_array = parse_ini_file($scriptPath . "/settings/config.cfg");
+                $chamber=$ini_array['chamber'];
+        }
+}
+else {
+        die('ERROR: Unable to open required file (config.php).');
+}
+
 ?>
 <!DOCTYPE html >
 <html>
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<title>BrewPi Legacy Remix</title>
-		<link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
-		<link type="text/css" href="css/style.css" rel="stylesheet"/>
-		<link rel="apple-touch-icon" href="touch-icon-iphone.png">
+        <head>
+                <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+                <title><?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber);?></title>
+                <link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+                <link type="text/css" href="css/style.css" rel="stylesheet"/>
+                <link rel="apple-touch-icon" href="touch-icon-iphone.png">
         <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
         <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
         <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
         <meta name="apple-mobile-web-app-title" content="BrewPi">
-	</head>
-	<body>
-		<div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all">
-			<?php
-				include 'beer-panel.php';
-			?>
-		</div>
-		<div id="control-panel" style="display:none"> <!--// hide while loading -->
-			<?php
-				include 'control-panel.php';
-			?>
-		</div>
-		<div id="maintenance-panel" style="display:none"> <!--// hide while loading -->
-			<?php
-				include 'maintenance-panel.php';
-			?>
-		</div>
-		<!-- Load scripts after the body, so they don't block rendering of the page -->
-		<!-- <script type="text/javascript" src="js/jquery-1.11.0.js"></script> -->
-		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
-		<script type="text/javascript" src="js/spin.js"></script>
-		<script type="text/javascript" src="js/dygraph-combined.js"></script>
-		<script type="text/javascript">
-			// pass parameters to JavaScript
-			window.tempFormat = <?php echo "'$tempFormat'" ?>;
-			window.beerName = <?php echo "\"$beerName\""?>;
-			window.profileName = <?php echo "\"$profileName\""?>;
-			window.dateTimeFormat = <?php echo "\"$dateTimeFormat\""?>;
-			window.dateTimeFormatDisplay = <?php echo "\"$dateTimeFormatDisplay\""?>;
-		</script>
-		<script type="text/javascript" src="js/main.js"></script>
-		<script type="text/javascript" src="js/device-config.js"></script>
-		<script type="text/javascript" src="js/control-panel.js"></script>
-		<script type="text/javascript" src="js/maintenance-panel.js"></script>
-		<script type="text/javascript" src="js/beer-chart.js"></script>
-		<script type="text/javascript" src="js/profile-table.js"></script>
-	</body>
+        </head>
+        <body>
+                <div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all">
+                        <?php
+                                include 'beer-panel.php';
+                        ?>
+                </div>
+                <div id="control-panel" style="display:none"> <!--// hide while loading -->
+                        <?php
+                                include 'control-panel.php';
+                        ?>
+                </div>
+                <div id="maintenance-panel" style="display:none"> <!--// hide while loading -->
+                        <?php
+                                include 'maintenance-panel.php';
+                        ?>
+                </div>
+                <!-- Load scripts after the body, so they don't block rendering of the page -->
+                <!-- <script type="text/javascript" src="js/jquery-1.11.0.js"></script> -->
+                <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+                <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
+                <script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
+                <script type="text/javascript" src="js/spin.js"></script>
+                <script type="text/javascript" src="js/dygraph-combined.js"></script>
+                <script type="text/javascript">
+                        // pass parameters to JavaScript
+                        window.tempFormat = <?php echo "'$tempFormat'" ?>;
+                        window.beerName = <?php echo "\"$beerName\""?>;
+                        window.profileName = <?php echo "\"$profileName\""?>;
+                        window.dateTimeFormat = <?php echo "\"$dateTimeFormat\""?>;
+                        window.dateTimeFormatDisplay = <?php echo "\"$dateTimeFormatDisplay\""?>;
+                </script>
+                <script type="text/javascript" src="js/main.js"></script>
+                <script type="text/javascript" src="js/device-config.js"></script>
+                <script type="text/javascript" src="js/control-panel.js"></script>
+                <script type="text/javascript" src="js/maintenance-panel.js"></script>
+                <script type="text/javascript" src="js/beer-chart.js"></script>
+                <script type="text/javascript" src="js/profile-table.js"></script>
+        </body>
 </html>
+
