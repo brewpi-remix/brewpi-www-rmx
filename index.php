@@ -98,6 +98,17 @@ else {
         <meta name="apple-mobile-web-app-title" content="BrewPi">
         </head>
         <body>
+
+        <?php if (filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) && strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== false) { ?>
+            <div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">
+            <a href="https://support.apple.com/kb/DL999">
+            <img style="float: left;" src="bonjour.png" alt="Bonjour icon" width="45" />
+            </a>
+            <p>&nbsp;I see you are using an IP address to access your Brewpi.
+            Did you know you can use it's name instead?
+            Look into <a href="https://support.apple.com/kb/DL999">Bonjour from Apple</a>.
+        </div> <?php }?>
+
                 <div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all">
                         <?php
                                 include 'beer-panel.php';
