@@ -1,1 +1,0 @@
-/var/www/html/chamber1/multi-index/lcd.php
