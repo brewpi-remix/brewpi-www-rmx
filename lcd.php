@@ -88,17 +88,31 @@ else {
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber);?></title>
+<title><?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'LCD: ' . $chamber);?></title>
 <link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
 <link type="text/css" href="css/style.css" rel="stylesheet"/>
 <link rel="apple-touch-icon" href="touch-icon-iphone.png">
 <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
 <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
 <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
-<meta name="apple-mobile-web-app-title" content="BrewPi">
+<meta name="apple-mobile-web-app-title" content="<?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'LCD: ' . $chamber);?>">
+<base target="_parent">
 </head>
+<style>
+body {
+        width: 295px;
+        text-align: center;
+	background: #69A4D0;
+	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+	font-weight: bold;
+}
+a:link {
+	color: white;
+}
+</style>
 <body>
 
+<div>
 <div id="lcd" class="lcddisplay">
 <span class="lcd-text">
     <span class="lcd-line" id="lcd-line-0">Live LCD waiting</span>
@@ -106,6 +120,8 @@ else {
     <span class="lcd-line" id="lcd-line-2">script.</span>
     <span class="lcd-line" id="lcd-line-3"></span>
 </span>
+</div>
+<a href="<?php echo substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])); ?>">Open <?php echo $chamber; ?>'s Main Page</a>
 </div>
 
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
@@ -127,5 +143,6 @@ else {
 <script type="text/javascript" src="js/maintenance-panel.js"></script>
 <script type="text/javascript" src="js/beer-chart.js"></script>
 <script type="text/javascript" src="js/profile-table.js"></script>
+
 </body>
 </html>

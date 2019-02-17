@@ -69,23 +69,29 @@ function getFileList($dir, $recurse = FALSE, $depth = FALSE)
 
 $i = 0;
 // Establish the output variable
-$dyn_table = '<table border="0" cellpadding="0">';
+$dyn_table = '<table summary="Multi-Chamber Display">';
 $dirlist = getFileList("./", TRUE, 1);
 //sort($dirlist)
 foreach($dirlist as $file) {
     $id = $row["id"];
     $dyn_table .= ($i % $columns == 0 ? '<tr>' : ''); // Make a table up to $columns columns wide
-    $dyn_table .= '<td>' . '<iframe src="' . $file['name'] . '" scrolling="no" seamless="seamless">';
-    $dyn_table .= 'Your browser does not support iframes.</iframe><br />';
-    $dyn_table .= '<a href="' . dirname($file['name']) . '/">Open chamber page</a>';
+    $dyn_table .= '<td>' . '<iframe src="' . $file['name'] . '" scrolling="no" width="312" height="135" seamless>';
+    $dyn_table .= '<p>Your browser does not support iframes.</p></iframe>';
     $dyn_table .= '</td>';
     $i++;
     $dyn_table .= ($i % $columns == 0 ? '</tr>' : ''); // Close row
 }
 $dyn_table .= ($i % $columns == 0 ? '' : '</tr>'); // Close row if it's not been closed
 $dyn_table .= '</table>';
+
+//$tidy = new Tidy();
+//$options = array('indent' => true);
+//$tidy->parseString($dyn_table, $options);
+//$dyn_table = $tidy;
+
 ?>
 
+<!DOCTYPE html >
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />

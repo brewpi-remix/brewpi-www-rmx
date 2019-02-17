@@ -223,7 +223,7 @@ button#maintenance{
     border: ridge 5px #ADD6FF;
     padding: 10px 10px;
     overflow: auto;
-    font-family: "Courrier New", monospace;
+    font-family: "Courier New", monospace;
     float: left;
     width: 98%;
 }
