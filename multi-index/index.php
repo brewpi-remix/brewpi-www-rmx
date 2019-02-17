@@ -70,8 +70,10 @@ function getFileList($dir, $recurse = FALSE, $depth = FALSE)
 $i = 0;
 // Establish the output variable
 $dyn_table = '<table summary="Multi-Chamber Display">';
+// Get file list
 $dirlist = getFileList("./", TRUE, 1);
-//sort($dirlist)
+// Sort the array
+sort($dirlist);
 foreach($dirlist as $file) {
     $id = $row["id"];
     $dyn_table .= ($i % $columns == 0 ? '<tr>' : ''); // Make a table up to $columns columns wide
@@ -84,11 +86,12 @@ foreach($dirlist as $file) {
 $dyn_table .= ($i % $columns == 0 ? '' : '</tr>'); // Close row if it's not been closed
 $dyn_table .= '</table>';
 
-//$tidy = new Tidy();
-//$options = array('indent' => true);
-//$tidy->parseString($dyn_table, $options);
-//$dyn_table = $tidy;
-
+// DEBUG
+$tidy = new Tidy();
+$options = array('indent' => true,'show-body-only'=>true);
+$tidy->parseString($dyn_table, $options);
+$dyn_table = $tidy;
+// DEBUG
 ?>
 
 <!DOCTYPE html >
@@ -101,8 +104,6 @@ $dyn_table .= '</table>';
 <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
 <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
 <meta name="apple-mobile-web-app-title" content="BLR: Chamber Dashboard">
-<link rel="stylesheet" type="text/css" href="css/reset.css">
-<link rel="stylesheet" type="text/css" href="css/multi.css">
 </head>
 <body>
 
