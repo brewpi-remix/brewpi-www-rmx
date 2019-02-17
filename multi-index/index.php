@@ -71,6 +71,7 @@ $i = 0;
 // Establish the output variable
 $dyn_table = '<table border="0" cellpadding="0">';
 $dirlist = getFileList("./", TRUE, 1);
+//sort($dirlist)
 foreach($dirlist as $file) {
     $id = $row["id"];
     $dyn_table .= ($i % $columns == 0 ? '<tr>' : ''); // Make a table up to $columns columns wide
