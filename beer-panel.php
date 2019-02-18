@@ -40,7 +40,7 @@
         </span>
 	</div>
 	<div id="logo-container">
-		<img src="brewpi_logo.png">
+		<?php echo (file_exists('custom_logo.png') ? '<img src="custom_logo.png">' : '<img src="brewpi_logo.png">');?>
 		<div id=beer-name-container>
 			<span>Fermenting: </span><a href='#' id="beer-name"><?php echo urldecode($beerName);?></a><?php echo ($chamber=='' ? '' : ' in ' . $chamber);?>
 			<span class="data-logging-state"></span>

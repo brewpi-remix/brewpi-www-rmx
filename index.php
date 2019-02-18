@@ -86,18 +86,30 @@ else {
 ?>
 <!DOCTYPE html >
 <html>
-        <head>
-                <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-                <title><?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber);?></title>
-                <link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
-                <link type="text/css" href="css/style.css" rel="stylesheet"/>
-                <link rel="apple-touch-icon" href="touch-icon-iphone.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
-        <meta name="apple-mobile-web-app-title" content="BrewPi">
-        </head>
-        <body>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title><?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber);?></title>
+<link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+<link type="text/css" href="css/style.css" rel="stylesheet"/>
+<link rel="apple-touch-icon" href="touch-icon-iphone.png">
+<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
+<meta name="apple-mobile-web-app-title" content="<?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber);?>">
+<link rel="icon" type="image/png" href="favicon.ico">
+</head>
+<body>
+
+        <?php if (filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) && strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== false) { ?>
+            <div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">
+            <a href="https://support.apple.com/kb/DL999">
+            <img style="float: left;" src="bonjour.png" alt="Bonjour icon" width="45" />
+            </a>
+            <p>&nbsp;I see you are using an IP address to access your Brewpi.
+            Did you know you can use it's name instead?
+            Look into <a href="https://support.apple.com/kb/DL999">Bonjour from Apple</a>.
+        </div> <?php }?>
+
                 <div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all">
                         <?php
                                 include 'beer-panel.php';

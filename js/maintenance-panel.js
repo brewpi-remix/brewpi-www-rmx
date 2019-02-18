@@ -27,7 +27,7 @@
  *
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
- 
+
 /* jshint jquery:true */
 /* global reloadControlConstantsFromArduino, reloadControlSettingsFromArduino, reloadControlVariablesFromArduino,
           reloadControlSettings, reloadControlConstants, reloadControlVariables,
@@ -283,4 +283,3 @@ function programmingFailed(){
     "use strict";
     $("#program-stderr-header").text("Something went wrong. Please check the log for details.");
 }
-
