@@ -86,12 +86,6 @@ foreach($dirlist as $file) {
 $dyn_table .= ($i % $columns == 0 ? '' : '</tr>'); // Close row if it's not been closed
 $dyn_table .= '</table>';
 
-// DEBUG
-$tidy = new Tidy();
-$options = array('indent' => true,'show-body-only'=>true);
-$tidy->parseString($dyn_table, $options);
-$dyn_table = $tidy;
-// DEBUG
 ?>
 
 <!DOCTYPE html >
@@ -104,6 +98,7 @@ $dyn_table = $tidy;
 <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
 <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
 <meta name="apple-mobile-web-app-title" content="BLR: Chamber Dashboard">
+<link rel="icon" type="image/png" href="favicon.ico">
 </head>
 <body>
 

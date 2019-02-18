@@ -96,6 +96,7 @@ else {
 <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
 <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
 <meta name="apple-mobile-web-app-title" content="<?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber);?>">
+<link rel="icon" type="image/png" href="favicon.ico">
 </head>
 <body>
 
