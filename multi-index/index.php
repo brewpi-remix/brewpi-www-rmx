@@ -92,12 +92,12 @@ $dyn_table .= '</table>';
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>BLR: Chamber Dashboard</title>
+<title>BLR: Multi-Chamber Dash</title>
 <link rel="apple-touch-icon" href="touch-icon-iphone.png">
 <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
 <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
 <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
-<meta name="apple-mobile-web-app-title" content="BLR: Chamber Dashboard">
+<meta name="apple-mobile-web-app-title" content="BLR: Multi-Chamber Dash">
 <link rel="icon" type="image/png" href="favicon.ico">
 </head>
 <body>
