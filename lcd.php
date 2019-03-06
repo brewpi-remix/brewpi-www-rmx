@@ -31,26 +31,22 @@
 
 // load default settings from file
 $defaultSettings = file_get_contents('defaultSettings.json');
-if($defaultSettings == false){
-        die("Cannot open default settings file: defaultSettings.json");
-}
+if ($defaultSettings == false) die("Cannot open: defaultSettings.json");
+
 $settingsArray = json_decode(prepareJSON($defaultSettings), true);
-if(is_null($settingsArray)){
-        die("Cannot decode defaultSettings.json");
-}
+if (is_null($settingsArray)) die("Cannot decode: defaultSettings.json");
+
 // overwrite default settings with user settings
 if(file_exists('userSettings.json')){
-        $userSettings = file_get_contents('userSettings.json');
-        if($userSettings == false){
-                die("Error opening settings file userSettings.json");
-        }
-        $userSettingsArray = json_decode(prepareJSON($userSettings), true);
-        if(is_null($settingsArray)){
-                die("Cannot decode userSettings.json");
-        }
-        foreach ($userSettingsArray as $key => $value) {
-                $settingsArray[$key] = $userSettingsArray[$key];
-        }
+    $userSettings = file_get_contents('userSettings.json');
+    if($userSettings == false) die("Cannot open: userSettings.json");
+
+    $userSettingsArray = json_decode(prepareJSON($userSettings), true);
+    if(is_null($settingsArray)) die("Cannot decode: userSettings.json");
+
+    foreach ($userSettingsArray as $key => $value) {
+        $settingsArray[$key] = $userSettingsArray[$key];
+    }
 }
 
 $beerName = $settingsArray["beerName"];
@@ -64,44 +60,44 @@ function prepareJSON($input) {
     //Be careful with the third parameter (encoding detect list), because
     //if set wrong, some input encodings will get garbled (including UTF-8!)
     $input = mb_convert_encoding($input, 'UTF-8', 'ASCII,UTF-8,ISO-8859-1');
-
     //Remove UTF-8 BOM if present, json_decode() does not like it.
     if(substr($input, 0, 3) == pack("CCC", 0xEF, 0xBB, 0xBF)) $input = substr($input, 3);
-
     return $input;
 }
 
 // Read configuration name for multi-chamber
-if(file_exists('config.php')) {
-        require_once('config.php');
-        if(file_exists($scriptPath . "/settings/config.cfg")) {
-                $ini_array = parse_ini_file($scriptPath . "/settings/config.cfg");
-                $chamber=$ini_array['chamber'];
-        }
+if (file_exists('config.php')) {
+    require_once('config.php');
+    if(file_exists($scriptPath . "/settings/config.cfg")) {
+        $ini_array = parse_ini_file($scriptPath . "/settings/config.cfg");
+        $chamber=$ini_array['chamber'];
+    }
+} else {
+    die('ERROR: Unable to open required file (config.php).');
 }
-else {
-        die('ERROR: Unable to open required file (config.php).');
-}
+
+$rooturl = substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT']));
+$title = ($chamber=='' ? 'BrewPi Legacy Remix' : 'LCD: ' . $chamber)
 
 ?>
 <!DOCTYPE html >
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'LCD: ' . $chamber);?></title>
+<title><?php echo $title;?></title>
 <link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
 <link type="text/css" href="css/style.css" rel="stylesheet"/>
 <link rel="apple-touch-icon" href="touch-icon-iphone.png">
 <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
 <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
 <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
-<meta name="apple-mobile-web-app-title" content="<?php echo ($chamber=='' ? 'BrewPi Legacy Remix' : 'LCD: ' . $chamber);?>">
+<meta name="apple-mobile-web-app-title" content="<?php echo $title;?>">
 <base target="_parent">
 </head>
 <style>
 body {
-        width: 295px;
-        text-align: center;
+    width: 295px;
+    text-align: center;
 	background: #69A4D0;
 	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
 	font-weight: bold;
@@ -121,7 +117,7 @@ a:link {
     <span class="lcd-line" id="lcd-line-3"></span>
 </span>
 </div>
-<a href="<?php echo substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])); ?>">Open <?php echo $chamber; ?>'s Main Page</a>
+<a href="<?php echo $rooturl; ?>">Open <?php echo $chamber; ?>'s Main Page</a>
 </div>
 
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>

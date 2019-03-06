@@ -1,4 +1,4 @@
-/* Copyright (C) 2018  Lee C. Bussy (@LBussy)
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
  *
@@ -29,10 +29,12 @@
  * license and credits. */
 
 /* jshint jquery:true */
-/* global reloadControlConstantsFromArduino, reloadControlSettingsFromArduino, reloadControlVariablesFromArduino,
-          reloadControlSettings, reloadControlConstants, reloadControlVariables,
-          receiveControlConstants, receiveControlSettings, receiveControlVariables,
-          loadDefaultControlConstants, loadDefaultControlSettings, controllerVersion */
+/* global reloadControlConstantsFromArduino, reloadControlSettingsFromArduino,
+          reloadControlVariablesFromArduino, reloadControlSettings, 
+          reloadControlConstants, reloadControlVariables, receiveControlConstants,
+          receiveControlSettings, receiveControlVariables, 
+          loadDefaultControlConstants, loadDefaultControlSettings,
+          controllerVersion */
 
 var controllerVersion;
 
@@ -283,3 +285,4 @@ function programmingFailed(){
     "use strict";
     $("#program-stderr-header").text("Something went wrong. Please check the log for details.");
 }
+
