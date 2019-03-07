@@ -94,21 +94,9 @@ $title = ($chamber=='' ? 'BrewPi Legacy Remix' : 'LCD: ' . $chamber)
 <meta name="apple-mobile-web-app-title" content="<?php echo $title;?>">
 <base target="_parent">
 </head>
-<style>
-body {
-    width: 295px;
-    text-align: center;
-	background: #69A4D0;
-	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
-	font-weight: bold;
-}
-a:link {
-	color: white;
-}
-</style>
 <body>
 
-<div>
+<div id="lcd-panel" class="ui-widget ui-widget-content ui-corner-all">
 <div id="lcd" class="lcddisplay">
 <span class="lcd-text">
     <span class="lcd-line" id="lcd-line-0">Live LCD waiting</span>

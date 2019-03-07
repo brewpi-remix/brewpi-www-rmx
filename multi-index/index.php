@@ -31,6 +31,16 @@
 
 $columns = 3; // Number of columns in display table
 
+/* echo '$_SERVER["SCRIPT_NAME"] = ' . $_SERVER["SCRIPT_NAME"] . '<br />';
+
+echo 'linkinfo($_SERVER["SCRIPT_NAME"]) = ' . linkinfo($_SERVER["SCRIPT_NAME"]) . '<br />';
+
+if (is_link($_SERVER["SCRIPT_NAME"])) {
+    echo 'readlink($_SERVER["SCRIPT_NAME"]) = ' . (readlink($_SERVER["SCRIPT_NAME"])) . '<br />';
+} */
+
+$style = '';
+
 function getFileList($dir, $recurse = FALSE, $depth = FALSE)
 {
   $retval = [];
@@ -75,7 +85,7 @@ $dirlist = getFileList("./", TRUE, 1);
 // Sort the array
 sort($dirlist);
 foreach($dirlist as $file) {
-    $id = $row["id"];
+    //$id = $row["id"];
     $dyn_table .= ($i % $columns == 0 ? '<tr>' : ''); // Make a table up to $columns columns wide
     $dyn_table .= '<td>' . '<iframe src="' . $file['name'] . '" scrolling="no" width="312" height="135" seamless>';
     $dyn_table .= '<p>Your browser does not support iframes.</p></iframe>';
@@ -86,18 +96,21 @@ foreach($dirlist as $file) {
 $dyn_table .= ($i % $columns == 0 ? '' : '</tr>'); // Close row if it's not been closed
 $dyn_table .= '</table>';
 
+// <link type="text/css" href="<?php echo $style; style.css" rel="stylesheet"/>
+
 ?>
 
 <!DOCTYPE html >
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>BLR: Multi-Chamber Dash</title>
+<title>BLR: Chamber Dashboard</title>
+
 <link rel="apple-touch-icon" href="touch-icon-iphone.png">
 <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
 <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
 <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
-<meta name="apple-mobile-web-app-title" content="BLR: Multi-Chamber Dash">
+<meta name="apple-mobile-web-app-title" content="BLR: Chamber Dashboard">
 <link rel="icon" type="image/png" href="favicon.ico">
 </head>
 <body>

@@ -115,6 +115,12 @@ button#maintenance{
     float:left;
 }
 
+#lcd-panel{
+	width: 294px;
+    height: 125px;
+    text-align: center;
+}
+
 #top-bar{
 	width: 968px;
 	margin: 5px;
