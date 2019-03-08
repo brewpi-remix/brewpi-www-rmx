@@ -17,6 +17,11 @@ body {
 	margin:10px;
 }
 
+img.logo {
+    width: 200px;
+    height: 55px;
+}
+
 button.script-status{
 	width: 200px;
     float: right;
@@ -100,6 +105,15 @@ button#maintenance{
 	float: left;
 }
 
+.version-text-mono{
+	font-family: Courier, monospace;
+}
+
+.version-text-monoylw{
+	font-style: monospace;
+    color: yellow;
+}
+
 #version-bar-text{
 	margin: 0 2px;
 	width: 100%;
@@ -116,10 +130,61 @@ button#maintenance{
 }
 
 #lcd-panel{
+	width: 950px;
+    margin-top: 10px;
+}
+
+#lcd-version-panel{
+	width: 950px;
+    height: 28px;
+    margin-top: 10px;
+	margin-bottom: 10px;
+    float:left;
+}
+
+#lcd-bottom-bar{
+	width: 938px;
+	margin: 5px;
+    float:left;
+}
+
+.lcd-title{
+    color: #FFFFFF;
+    padding: 12px;
+    font-size: large;
+}
+
+#lcd-top-bar{
+	width: 938px;
+	margin: 5px;
+    float:left;
+}
+
+#lcd-logo-container div#lcd-name-container{
+	float: left;
+	display: block;
+    width: 940px;
+	margin: 5px;
+	line-height: 0.5em;
+	color: #000;
+}
+
+#lcd-logo-panel{
+	width: 950px;
+    height: 78px;
+    margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#lcd-portal{
 	width: 294px;
     height: 125px;
     text-align: center;
 }
+
+iframe {
+    border: 0;
+} 
 
 #top-bar{
 	width: 968px;
@@ -192,7 +257,6 @@ button#maintenance{
     font-weight: normal;
     font-style: normal;
 }
-
 
 .lcddisplay {
 	width: 280px;

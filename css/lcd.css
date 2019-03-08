@@ -1,0 +1,11 @@
+body {background-color:black}
+.lcd-line2{
+    float:left;
+    clear:left;
+    font-size: 64px;
+    font-weight: normal;
+    font-style: normal;
+    font-family: '5x8LCDHD44780UA02Regular', monospace;
+    color: #FFFF00;
+    white-space: pre;
+}

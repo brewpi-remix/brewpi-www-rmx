@@ -80,9 +80,20 @@ if (file_exists('config.php')) {
 $version = shell_exec('git describe --tags $(git rev-list --tags --max-count=1)');
 $branch = shell_exec('git branch | grep \* | cut -d " " -f2');
 $commit = shell_exec('git -C . log --oneline -n1');
-$gitinfo = $version . ' (' . $branch . ') [ ' . $commit . ' ]';
+$arr = explode(' ',trim($commit));
+$commit='';
+foreach ($arr as $key => $word) {
+    if ($key == 0) {
+        $commit .= '<span class="version-text-monoylw">' . $word . '</span> ';
+    } else {
+        $commit .= $word . ' ';
+    }
+}
+$commit = rtrim($commit) . '</span>';
+$gitinfo = $version . ' (<span class="version-text-mono">' . rtrim($branch) . '</span>) ';
+$gitinfo .= '[<span class="version-text-mono">' . rtrim($commit) . '</span>]';
 
-// See if we are using an IP to access page, and/or if user is on Windows
+ // See if we are using an IP to access page, and/or if user is on Windows
 $ipurl = (filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) ? true : false);
 $windows = (preg_match('/windows|win32/i', $_SERVER['HTTP_USER_AGENT']) ? true : false);
 // Form URL with host name

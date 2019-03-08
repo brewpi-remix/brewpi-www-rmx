@@ -46,7 +46,7 @@
         // Get logo name (use custom if it exists)
         $logo = (file_exists('custom_logo.png') ? 'custom_logo.png' : 'brewpi_logo.png');
         // Use link on logo if we are multi-chamber
-        $logo = ($chamber=='' ? '<img src="'.$logo.'">' : '<a href="'.$root.'"><img src="'.$logo.'"></a>');
+        $logo = ($chamber=='' ? '<img class="logo" src="'.$logo.'">' : '<a href="'.$root.'"><img class="logo" src="'.$logo.'"></a>');
         echo $logo;
         ?>
 		<div id=beer-name-container>
