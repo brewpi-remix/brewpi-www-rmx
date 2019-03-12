@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2018,2019 Lee C. Bussy (@LBussy)
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
  *
@@ -89,10 +89,11 @@ $dyn_table .= '</table>' . "\n";
 // Get correct logo
 list($scriptPath) = get_included_files();
 $docloc = str_replace($_SERVER['DOCUMENT_ROOT'],'',dirname($scriptPath));
-$custom = $docloc . '/custom_logo.png';
-$stock = $docloc . '/brewpi_logo.png';
+$imgloc = $docloc . '/images';
+$custom = $imgloc . '/custom_logo.png';
+$stock = $imgloc . '/brewpi_logo.png';
 $css = $docloc . '/css'; // Get css location
-$logo = (file_exists($_SERVER['DOCUMENT_ROOT'] . $docloc . '/custom_logo.png') ? $custom : $stock);
+$logo = (file_exists($_SERVER['DOCUMENT_ROOT'] . $custom) ? $custom : $stock);
 $logo = '<img class="logo" src="' . $logo . '">';
 
 // Git information for footer
@@ -125,12 +126,12 @@ $title = 'BLR: Chamber Dashboard';
 <title><?php echo $title; ?></title>
 <link type="text/css" href="<?php echo $css ?>/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="<?php echo $css ?>/style.css" />
-<link rel="apple-touch-icon" href="<?php echo $docloc . '/'; ?>touch-icon-iphone.png">
-<link rel="apple-touch-icon" sizes="76x76" href="<?php echo $docloc . '/'; ?>touch-icon-ipad.png">
-<link rel="apple-touch-icon" sizes="120x120" href="<?php echo $docloc . '/'; ?>touch-icon-iphone-retina.png">
-<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $docloc . '/'; ?>touch-icon-ipad-retina.png">
+<link rel="apple-touch-icon" href="<?php echo $imgloc . '/'; ?>touch-icon-iphone.png">
+<link rel="apple-touch-icon" sizes="76x76" href="<?php echo $imgloc . '/'; ?>touch-icon-ipad.png">
+<link rel="apple-touch-icon" sizes="120x120" href="<?php echo $imgloc . '/'; ?>touch-icon-iphone-retina.png">
+<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $imgloc . '/'; ?>touch-icon-ipad-retina.png">
 <meta name="apple-mobile-web-app-title" content="<?php echo $title; ?>">
-<link rel="icon" type="image/png" href="<?php echo $docloc . '/'; ?>favicon.ico">
+<link rel="icon" type="image/png" href="<?php echo $imgloc . '/'; ?>favicon.ico">
 </head>
 <body>
 

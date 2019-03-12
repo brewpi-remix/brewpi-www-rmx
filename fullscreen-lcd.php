@@ -78,13 +78,13 @@ $title = 'Brewpi Legacy Remix LCD';
 <link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
 <link type="text/css" href="css/style.css" rel="stylesheet"/>
 <link type="text/css" href="css/lcd.css" rel="stylesheet"/>
-<link rel="apple-touch-icon" href="touch-icon-iphone.png">
-<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
-<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
-<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
+<link rel="apple-touch-icon" href="images/touch-icon-iphone.png">
+<link rel="apple-touch-icon" sizes="76x76" href="images/touch-icon-ipad.png">
+<link rel="apple-touch-icon" sizes="120x120" href="images/touch-icon-iphone-retina.png">
+<link rel="apple-touch-icon" sizes="152x152" href="images/touch-icon-ipad-retina.png">
+<link rel="icon" type="image/png" href="images/favicon.ico">
 <meta name="apple-mobile-web-app-title" content="BrewPi">
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="apple-touch-startup-image" href="splash.png" />
 <meta name="apple-mobile-web-app-title" content="<?php echo $title; ?>">
 </head>
 <body>	

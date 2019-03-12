@@ -103,7 +103,7 @@ if ($ipurl && $windows) {
     $bjprompt = '<div id="bonjour-panel" class="ui-widget ui-widget-content ui-corner-all">';
     $bjprompt .= '<div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">';
     $bjprompt .= '<a href="https://support.apple.com/kb/DL999">';
-    $bjprompt .= '<img style="float: left;" src="bonjour.png" alt="Bonjour icon" width="43" /></a>';
+    $bjprompt .= '<img style="float: left;" src="images/bonjour.png" alt="Bonjour icon" width="43" /></a>';
     $bjprompt .= '<p>&nbsp;I see you are using an IP address to access your BrewPi.';
     $bjprompt .= 'Did you know you can use <a href="' . $named_url . '">it\'s name</a> instead?';
     $bjprompt .= 'Look into <a href="https://support.apple.com/kb/DL999">Bonjour from Apple</a>.';
@@ -120,12 +120,12 @@ $title = ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber)
 <title><?php echo $title;?></title>
 <link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
 <link type="text/css" href="css/style.css" rel="stylesheet"/>
-<link rel="apple-touch-icon" href="touch-icon-iphone.png">
-<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
-<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
-<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
+<link rel="apple-touch-icon" href="images/touch-icon-iphone.png">
+<link rel="apple-touch-icon" sizes="76x76" href="images/touch-icon-ipad.png">
+<link rel="apple-touch-icon" sizes="120x120" href="images/touch-icon-iphone-retina.png">
+<link rel="apple-touch-icon" sizes="152x152" href="images/touch-icon-ipad-retina.png">
 <meta name="apple-mobile-web-app-title" content="<?php echo $title; ?>">
-<link rel="icon" type="image/png" href="favicon.ico">
+<link rel="icon" type="image/png" href="images/favicon.ico">
 </head>
 <body>
 
