@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2018  Lee C. Bussy (@LBussy)
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
  *
@@ -28,8 +28,8 @@
  *
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
-
 ?>
+
 <div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">
 	<div id="lcd" class="lcddisplay">
         <span class="lcd-text">
@@ -40,9 +40,23 @@
         </span>
 	</div>
 	<div id="logo-container">
-		<?php echo (file_exists('custom_logo.png') ? '<img src="custom_logo.png">' : '<img src="brewpi_logo.png">');?>
+        <?php
+        // Get site root url
+        $root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+        // Get logo name (use custom if it exists)
+        $logo = (file_exists('images/custom_logo.png') ? 'images/custom_logo.png' : 'images/brewpi_logo.png');
+        // Use link on logo if we are multi-chamber
+        $logo = ($chamber=='' ? '<img class="logo" src="'.$logo.'">' : '<a href="'.$root.'"><img class="logo" src="'.$logo.'"></a>');
+        echo $logo;
+        ?>
 		<div id=beer-name-container>
-			<span>Fermenting: </span><a href='#' id="beer-name"><?php echo urldecode($beerName);?></a><?php echo ($chamber=='' ? '' : ' in ' . $chamber);?>
+			<span>Fermenting: </span>
+            <a href='#' id="beer-name"><?php echo urldecode($beerName);?></a>
+            <?php
+            // If we are in multi-chamber, print ' in {chamber name}' after
+            // the batch name
+            echo ($chamber=='' ? '' : ' in ' . $chamber);
+            ?>
 			<span class="data-logging-state"></span>
 		</div>
 	</div>
