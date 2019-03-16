@@ -105,7 +105,7 @@ if ($ipurl && $windows) {
     $bjprompt .= '<a href="https://support.apple.com/kb/DL999">';
     $bjprompt .= '<img style="float: left;" src="images/bonjour.png" alt="Bonjour icon" width="43" /></a>';
     $bjprompt .= '<p>&nbsp;I see you are using an IP address to access your BrewPi.';
-    $bjprompt .= 'Did you know you can use <a href="' . $named_url . '">it\'s name</a> instead?';
+    $bjprompt .= 'Did you know you can use <a href="' . $named_url . '">its name</a> instead? ';
     $bjprompt .= 'Look into <a href="https://support.apple.com/kb/DL999">Bonjour from Apple</a>.';
     $bjprompt .= '</div></div>';
 }

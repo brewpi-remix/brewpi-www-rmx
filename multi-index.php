@@ -82,7 +82,7 @@ foreach($dirlist as $file) {
     $i++;
     $dyn_table .= ($i % $columns == 0 ? '</tr>' . "\n" : ''); // Close row after $columns
 }
-$dyn_table .= ($i % $columns == 0 ? '' : '</tr>' . "\n"); // Close row if it's not been closed
+$dyn_table .= ($i % $columns == 0 ? '' : '</tr>' . "\n"); // Close row if it has not been closed
 $dyn_table .= '<tr><td></td></tr>' . "\n"; // Hack to pad the bottom of lcd-panel to allow dynamic height
 $dyn_table .= '</table>' . "\n";
 
