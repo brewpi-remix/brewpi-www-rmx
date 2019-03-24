@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2018  Lee C. Bussy (@LBussy)
+/* Copyright (C) 2018,2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
  *
@@ -80,6 +80,7 @@ $rooturl = substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT']));
 $title = ($chamber=='' ? 'BrewPi Legacy Remix' : 'LCD: ' . $chamber)
 
 ?>
+
 <!DOCTYPE html >
 <html>
 <head>

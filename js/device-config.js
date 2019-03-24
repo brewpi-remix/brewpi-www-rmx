@@ -1,3 +1,33 @@
+/* Copyright (C) 2018,2019 Lee C. Bussy (@LBussy)
+ *
+ * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
+ *
+ * BrewPi WWW RMX is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * BrewPi WWW RMX is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * These scripts were originally a part of brewpi-www, a part of
+ * the BrewPi project. Legacy support (for the very popular Arduino
+ * controller) seems to have been discontinued in favor of new hardware.
+ *
+ * All credit for the original brewpi-www goes to @elcojacobs,
+ * @lukepower, @m-mcgowan, @vanosg, @GregAtkinson and I'm sure
+ * many more contributors around the world. My apologies if I have
+ * missed anyone; those were the names listed as contributors on the
+ * Legacy branch.
+ *
+ * See: 'original-license.md' for notes about the original project's
+ * license and credits. */
+
 /* global console, alert, Spinner */
 
 function initDeviceConfiguration(){
@@ -119,7 +149,7 @@ function refreshDeviceList(){
 function addNewDevice(){
     "use strict";
     var device = {'c': 0, 'b': 0, 'd': 0, 'f': 0, 'i': -1, 'h': 1, 'p': -1, 't': 0, 'x': 0, 'nr':$("div.device-list div.device-container").length};
-    addDeviceToDeviceList(device, pinList,true);
+    addDeviceToDeviceList(device, pinList, true);
     //refreshDeviceList();
     console.log(deviceList);
 }
@@ -167,8 +197,6 @@ function addDeviceToDeviceList(device, pinList, addManual){
     $applyButton.click(function(){
         applyDeviceSettings(device.nr);
     });
-
-
 
     var $settings = $("<div class='device-all-settings'><div>");
     $settings.appendTo($newDevice);
@@ -231,7 +259,8 @@ function addDeviceToDeviceList(device, pinList, addManual){
             "controller-pin",
             generateSelect(getLimitedPinList(pinList, ['free']))));
     }
-    else{
+    else
+    {
         if((typeof device.p !== "undefined") ){
         pinSpec = findPinInList(pinList, device.p);
         if(pinSpec !== -1){ // if pin exists in pin list
@@ -445,6 +474,7 @@ function getDeviceBeerList(){
     }
     return list;
 }
+
 /*
 function getDeviceCalibrateList(){
     "use strict";

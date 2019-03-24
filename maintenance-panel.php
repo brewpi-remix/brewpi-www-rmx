@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2018  Lee C. Bussy (@LBussy)
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
  *
@@ -68,7 +68,6 @@ function echoRotarySelect($optionName){
         echo "<option value=1> Half step</option>";
         echo "</select>";
 }
-
 ?>
 
 <ul>
@@ -97,14 +96,8 @@ function echoRotarySelect($optionName){
                                 <div class="program-option">
                                         <label for="boardType"> Board type:</label>
                                         <select name="boardType" class="boardType">
-                                                <option value="leonardo">Leonardo</option>
-                                                <option value="uno">Uno</option>
+                                                <option selected value="uno">Uno</option>
                                                 <option value="atmega328">ATmega328 based</option>
-                                                <option value="diecimila">Atmega168 based</option>
-                                                <option value="mega2560">Mega 2560</option>
-                                                <option value="mega">Mega 1280</option>
-                                                <option value="core">Spark Core</option>
-                                                <option value="photon">Particle Photon</option>
                                         </select>
                                 </div>
                                 <div class="program-option">
@@ -486,4 +479,3 @@ function echoRotarySelect($optionName){
         <h3>stdout:</h3>
         <div class="stdout console-box"></div>
 </div>
-
