@@ -443,6 +443,10 @@ function drawBeerChart(beerToDraw, div){
                 idx++;
             }
         });
+        // Refresh chart every 120 seconds
+        setTimeout(function(){
+            drawBeerChart(window.beerName, 'curr-beer-chart');
+        }, 120000);
     });
 }
 
