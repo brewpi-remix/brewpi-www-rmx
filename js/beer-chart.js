@@ -417,6 +417,8 @@ function formatForChartLegend(v) {
 function formatForChartLegendSG(v) {
   "use strict";
   var val = parseFloat(v);
+  var ts = new Date();
+  console.log(ts.toISOString() + " DEBUG: formatForChartLegendSG received " + val)
   if (!isNaN(val)) {
     return val.toFixed(3);
   }
