@@ -32,12 +32,29 @@ var colorHeatingMinTime = "rgba(255, 0, 0, 0.6)";
 var colorCoolingMinTime = "rgba(0, 0, 255, 0.6)";
 var colorWaitingPeakDetect = "rgba(0, 0, 0, 0.2)";
 
+//Modification: Brewometer line names and legend
 var lineNames = {
     beerTemp: 'Beer temperature',
     beerSet: 'Beer setting',
     fridgeTemp: 'Fridge temperature',
     fridgeSet: 'Fridge setting',
-    roomTemp: 'Room temp.'};
+    roomTemp: 'Room temp.',
+    redTemp: 'Red BO Temp.',
+    redSG: 'Red BO SG',
+    greenTemp: 'Green BO Temp.',
+    greenSG: 'Green BO SG',
+    blackTemp: 'Black BO Temp.',
+    blackSG: 'Black BO SG',
+    purpleTemp: 'Purple BO Temp.',
+    purpleSG: 'Purple BO SG',
+    orangeTemp: 'Orange BO Temp.',
+    orangeSG: 'Orange BO SG',
+    blueTemp: 'Blue BO Temp.',
+    blueSG: 'Blue BO SG',
+    yellowTemp: 'Yellow BO Temp.',
+    yellowSG: 'Yellow BO SG',
+    pinkTemp: 'Pink BO Temp.',
+    pinkSG: 'Pink BO SG'};
 var legendStorageKeyPrefix = "legendLine_";
 
 var TIME_COLUMN = 0;        // time is the first column of data
@@ -280,13 +297,22 @@ function paintBackgroundImpl(canvas, area, g) {
         startX = endX;
     }
 }
-
-var chartColors = [ 'rgb(41,170,41)', 'rgb(240, 100, 100)', 'rgb(89, 184, 255)',  'rgb(255, 161, 76)', '#AAAAAA', 'rgb(153,0,153)' ];
+//Modification: Brewometer colours
+var chartColors = [ 'rgb(41,170,41)', 'rgb(240, 100, 100)', 'rgb(89, 184, 255)',  'rgb(255, 161, 76)', '#AAAAAA', 'rgb(153,0,153)', 'red', 'red', 'lime', 'lime', 'black', 'black', 'purple', 'purple', 'orange', 'orange', 'darkblue', 'darkblue', 'yellow', 'yellow', 'orchid', 'orchid' ];
 function formatForChartLegend(v) {
     "use strict";
     var val = parseFloat(v);
     if ( !isNaN(val) ) {
         return val.toFixed(2) + "\u00B0" + window.tempFormat;
+    }
+    return "--";
+}
+function formatForChartLegendSG(v) {
+    "use strict";
+    var val = parseFloat(v);
+    if ( !isNaN(val) ) {
+        return val.toFixed(3);
+        
     }
     return "--";
 }
@@ -299,6 +325,22 @@ function showChartLegend(e, x, pts, row, g) {
     $('#curr-beer-chart-legend .beer-chart-legend-row.fridgeTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 3)) );
     $('#curr-beer-chart-legend .beer-chart-legend-row.fridgeSet .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 4)) );
     $('#curr-beer-chart-legend .beer-chart-legend-row.roomTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 5)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.redTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 7)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.redSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 8)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.greenTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 9)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.greenSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 10)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.blackTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 11)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.blackSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 12)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.purpleTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 13)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.purpleSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 14)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.orangeTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 15)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.orangeSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 16)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.blueTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 17)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.blueSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 18)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.yellowTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 19)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.yellowSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 20)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.pinkTemp .beer-chart-legend-value').text( formatForChartLegend(currentDataSet.getValue(row, 21)) );
+    $('#curr-beer-chart-legend .beer-chart-legend-row.pinkSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 22)) );
     var state = parseInt(currentDataSet.getValue(row, STATE_COLUMN));
     if ( !isNaN(state) ) {
         $('#curr-beer-chart-legend .beer-chart-legend-row.state .beer-chart-legend-label').text(STATES[state].text);
@@ -362,6 +404,10 @@ function drawBeerChart(beerToDraw, div){
         var tempFormat = function(y) {
             return parseFloat(y).toFixed(2) + "\u00B0 " + window.tempFormat;
         };
+        
+        var gravityFormat = function(y) {
+            return parseFloat(y).toFixed(3);
+        };
         var beerChart = new Dygraph(document.getElementById(div),
                 beerData.values, {
                 labels: beerData.labels,
@@ -373,10 +419,52 @@ function drawBeerChart(beerToDraw, div){
                 labelsDiv: document.getElementById(div+"-label"),
                 displayAnnotations:true,
                 displayAnnotationsFilter:true,
-                //showRangeSelector: true,
+                showRangeSelector: false,
                 strokeWidth: 1,
+                series: {
+                    'redSG' : {
+                        axis: 'y2',
+                        strokePattern: [7, 3]
+                    },
+                    'greenSG' : {
+                        axis: 'y2',
+                        strokePattern: [7, 3]
+                    },
+                    'purpleSG' : {
+                        axis: 'y2',
+                        strokePattern: [7, 3]
+                    },
+                    'blackSG' : {
+                        axis: 'y2',
+                        strokePattern: [7, 3]
+                    },
+                    'orangeSG' : {
+                        axis: 'y2',
+                        strokePattern: [7, 3]
+                    },
+                    'blueSG' : {
+                        axis: 'y2',
+                        strokePattern: [7, 3]
+                    },
+                    'yellowSG' : {
+                        axis: 'y2',
+                        strokePattern: [7, 3]
+                    },
+                    'pinkSG' : {
+                        axis: 'y2',
+                        strokePattern: [7, 3]
+                    }
+                },
+                ylabel: 'Temperature (' + window.tempFormat + ")",
+                y2label: 'Gravity (SG)',
+                yAxisLabelWidth: 50,
                 axes: {
-                    y : { valueFormatter: tempFormat }
+                    y : { valueFormatter: tempFormat },
+                    y2 : { 
+                        valueFormatter: gravityFormat,
+                        axisLabelFormatter: gravityFormat,
+                        valueRange: [0.990, null]
+                    }
                 },
                 highlightCircleSize: 2,
                 highlightSeriesOpts: {
