@@ -493,7 +493,6 @@ function drawBeerChart(beerToDraw, div) {
   }, function (answer) {
     var combinedJson = {};
     try {
-      console.log(answer)
       combinedJson = $.parseJSON(answer);
     } catch (e) {
       var $errorMessage = $("<span class='chart-error-text'>Could not parse data for this brew.<br>" +
