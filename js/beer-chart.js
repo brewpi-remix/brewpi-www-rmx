@@ -415,7 +415,7 @@ function formatForChartLegend(v) {
 }
 
 function formatForChartLegendSG(v, debug="") {
-  "use strict";
+  //"use strict";
   var val = parseFloat(v);
   var ts = new Date();
   console.log(ts.toISOString() + " DEBUG: formatForChartLegendSG received " + debug + " " + val)

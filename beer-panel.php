@@ -97,13 +97,13 @@
 	    	</div>
 	    	<div class="beer-chart-legend-row fridgeTemp">
 				<div class="toggle fridgeTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Fridge Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Chamber Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 	    	<div class="beer-chart-legend-row fridgeSet">
 				<div class="toggle fridgeSet" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Fridge Setting</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Chamber Setting</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
@@ -116,97 +116,97 @@
             <!-- Brewometer lines -->
 			<div class="beer-chart-legend-row redTemp">
 				<div class="toggle redTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red BO Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 			<div class="beer-chart-legend-row redSG">
 				<div class="toggle redSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red BO SG</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt SG</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
             <div class="beer-chart-legend-row greenTemp">
 				<div class="toggle greenTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Green BO Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Green Tilt Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 			<div class="beer-chart-legend-row greenSG">
 				<div class="toggle greenSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Green BO SG</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Green Tilt SG</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
             <div class="beer-chart-legend-row blackTemp">
 				<div class="toggle blackTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Black BO Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Black Tilt Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 			<div class="beer-chart-legend-row blackSG">
 				<div class="toggle blackSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Black BO SG</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Black Tilt SG</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
             <div class="beer-chart-legend-row purpleTemp">
 				<div class="toggle purpleTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Purple BO Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Purple Tilt Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 			<div class="beer-chart-legend-row purpleSG">
 				<div class="toggle purpleSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Purple BO SG</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Purple Tilt SG</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
             <div class="beer-chart-legend-row orangeTemp">
 				<div class="toggle orangeTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange BO Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange Tilt Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 			<div class="beer-chart-legend-row orangeSG">
 				<div class="toggle orangeSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange BO SG</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange Tilt SG</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
             <div class="beer-chart-legend-row blueTemp">
 				<div class="toggle blueTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Blue BO Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Blue Tilt Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 			<div class="beer-chart-legend-row blueSG">
 				<div class="toggle blueSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Blue BO SG</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Blue Tilt SG</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
             <div class="beer-chart-legend-row yellowTemp">
 				<div class="toggle yellowTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow BO Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow Tilt Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 			<div class="beer-chart-legend-row yellowSG">
 				<div class="toggle yellowSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow BO SG</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow Tilt SG</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
             <div class="beer-chart-legend-row pinkTemp">
 				<div class="toggle pinkTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Pink BO Temp</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Pink Tilt Temp</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
 			<div class="beer-chart-legend-row pinkSG">
 				<div class="toggle pinkSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Pink BO SG</div>
+	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Pink Tilt SG</div>
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
