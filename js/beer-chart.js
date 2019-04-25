@@ -43,12 +43,39 @@ var colorHeatingMinTime = "rgba(255, 0, 0, 0.6)";
 var colorCoolingMinTime = "rgba(0, 0, 255, 0.6)";
 var colorWaitingPeakDetect = "rgba(0, 0, 0, 0.2)";
 
+var colorTilt;
+
+// Determine Tilt color from json field name
+function findTiltByColor(field) {
+  "use strict";
+  for (var color in tiltColors) {
+    if (tiltColors.hasOwnProperty(color)) {
+      if (color === field) {
+        return tiltColors[color];
+      }
+    }
+  }
+  return null;
+}
+
+// Array to pick Tilt color based on json field passed
+var tiltColors = {
+  RedSG: "Red",
+  GreenSG: "Green",
+  BlackSG: "Black",
+  PurpleSG: "Purple",
+  OrangeSG: "Orange",
+  BlueSG: "Blue",
+  YellowSG: "Yellow",
+  PinkSG: "Pink"
+};
+
 //Modification: Tilt line names and legend
 var lineNames = {
   beerTemp: "Beer Temp",
   beerSet: "Beer Set",
-  fridgeTemp: "Fridge Temp",
-  fridgeSet: "Fridge Set",
+  fridgeTemp: "Chamber Temp",
+  fridgeSet: "Chamber Set",
   roomTemp: "Room Temp.",
   redTemp: "Red Tilt Temp.",
   redSG: "Red Tilt SG",
@@ -228,6 +255,11 @@ function toDygraphArray(jsonData) {
 
   // set up handlers for each variable based on cols, use id as Dygraph label
   for (i = 0; i < cols.length; i++) {
+    // Get Tilt color
+    var _tempColor = findTiltByColor(cols[i].id);
+    if( _tempColor != null ) {
+      colorTilt = _tempColor
+    }
     if (cols[i].type === "number") {
       handlers.push(numberHandler);
       // use id as label, but with lowercase first letter
@@ -414,11 +446,9 @@ function formatForChartLegend(v) {
   return "--";
 }
 
-function formatForChartLegendSG(v, debug="") {
-  //"use strict";
+function formatForChartLegendSG(v) {
+  "use strict";
   var val = parseFloat(v);
-  var ts = new Date();
-  console.log(ts.toISOString() + " DEBUG: formatForChartLegendSG received " + debug + " " + val)
   if (!isNaN(val)) {
     return val.toFixed(3);
   }
@@ -434,22 +464,43 @@ function showChartLegend(e, x, pts, row, g) {
   $("#curr-beer-chart-legend .beer-chart-legend-row.fridgeTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 3)));
   $("#curr-beer-chart-legend .beer-chart-legend-row.fridgeSet .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 4)));
   $("#curr-beer-chart-legend .beer-chart-legend-row.roomTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 5)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.redTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.redSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8), "redSG"));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.greenTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 9)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.greenSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 10), "grnSG"));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.blackTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 11)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.blackSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 12), "blkSG"));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.purpleTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 13)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.purpleSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 14), "prpSG"));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.orangeTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 15)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.orangeSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 16), "orgSG"));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.blueTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 17)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.blueSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 18), "bluSG"));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.yellowTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 19)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.yellowSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 20), "ylwSG"));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.pinkTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 21)));
-  $("#curr-beer-chart-legend .beer-chart-legend-row.pinkSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 22), "pnkSG"));
+
+  // Populate Tilt SG and Temp for proper color
+  switch (colorTilt) {
+    case "Red":
+      $("#curr-beer-chart-legend .beer-chart-legend-row.redTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
+      $("#curr-beer-chart-legend .beer-chart-legend-row.redSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
+      break;
+    case "Green":
+      $("#curr-beer-chart-legend .beer-chart-legend-row.greenTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
+      $("#curr-beer-chart-legend .beer-chart-legend-row.greenSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
+      break;
+    case "Black":
+      $("#curr-beer-chart-legend .beer-chart-legend-row.blackTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
+      $("#curr-beer-chart-legend .beer-chart-legend-row.blackSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
+      break;
+    case "Purple":
+      $("#curr-beer-chart-legend .beer-chart-legend-row.purpleTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
+      $("#curr-beer-chart-legend .beer-chart-legend-row.purpleSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
+      break;
+    case "Orange":
+      $("#curr-beer-chart-legend .beer-chart-legend-row.orangeTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
+      $("#curr-beer-chart-legend .beer-chart-legend-row.orangeSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
+      break;
+    case "Blue":
+      $("#curr-beer-chart-legend .beer-chart-legend-row.blueTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
+      $("#curr-beer-chart-legend .beer-chart-legend-row.blueSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
+      break;
+    case "Yellow":
+      $("#curr-beer-chart-legend .beer-chart-legend-row.yellowTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
+      $("#curr-beer-chart-legend .beer-chart-legend-row.yellowSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
+      break; 
+    case "Pink":
+      $("#curr-beer-chart-legend .beer-chart-legend-row.pinkTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
+      $("#curr-beer-chart-legend .beer-chart-legend-row.pinkSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
+      break; 
+  }
+
   var state = parseInt(currentDataSet.getValue(row, STATE_COLUMN));
   if (!isNaN(state)) {
     $("#curr-beer-chart-legend .beer-chart-legend-row.state .beer-chart-legend-label").text(STATES[state].text);
