@@ -141,26 +141,26 @@ function applySettings(){
     var activeTab = $("#control-panel").tabs("option", "active");
     switch(activeTab){
         case 0: // profile
-        $.post('socketmessage.php', {messageType: "setActiveProfile", message: window.profileName}, function(answer){
-            if(answer !==''){
-                statusMessage("highlight", answer);
-            }
-        });
-        break;
+            $.post('socketmessage.php', {messageType: "setActiveProfile", message: window.profileName}, function(answer){
+                if(answer !==''){
+                    statusMessage("highlight", answer);
+                }
+            });
+            break;
         case 1: // beer constant
-        var $beerTemp = $("#beer-temp").find("input.temperature");
-        $.post('socketmessage.php', {messageType: "setBeer", message: $beerTemp.val()}, function(){});
-        statusMessage("highlight","Mode set to beer constant");
-        break;
+            var $beerTemp = $("#beer-temp").find("input.temperature");
+            $.post('socketmessage.php', {messageType: "setBeer", message: $beerTemp.val()}, function(){});
+            statusMessage("highlight","Mode set to beer constant");
+            break;
         case 2: // fridge constant
-        var $fridgeTemp = $("#fridge-temp").find("input.temperature");
-        $.post('socketmessage.php', {messageType: "setFridge", message: $fridgeTemp.val()}, function(){});
-        statusMessage("highlight","Mode set to fridge constant");
-        break;
+            var $fridgeTemp = $("#fridge-temp").find("input.temperature");
+            $.post('socketmessage.php', {messageType: "setFridge", message: $fridgeTemp.val()}, function(){});
+            statusMessage("highlight","Mode set to fridge constant");
+            break;
         case 3: // off
-        $.post('socketmessage.php', {messageType: "setOff", message: ""}, function(){});
-        statusMessage("highlight","Temperature control disabled");
-        break;
+            $.post('socketmessage.php', {messageType: "setOff", message: ""}, function(){});
+            statusMessage("highlight","Temperature control disabled");
+            break;
     }
     setTimeout(loadControlPanel,5000);
 }

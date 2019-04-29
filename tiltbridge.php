@@ -17,9 +17,12 @@
  * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
  */
 
-# curl -d 'data' http://brewpi.local/tiltbridge/index.php
+# curl -d 'data' http://brewpi.local/tiltbridge.php
 # {"mdns_id":"tiltbridge","tilts":{"Purple":{"color":"Purple","gravity":"1.088","gsheets_name":"","temp":70}}}
 
-file_put_contents('test.json', file_get_contents("php://input"), FILE_APPEND);
+$json = file_get_contents('php://input')
+$array = json_decode($json, true);
+file_put_contents('tiltbridge.json', $json, FILE_APPEND);
+print('Ok');
 
 ?>
