@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
@@ -17,11 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
  */
- 
-$jsonString = file_get_contents("php://input");
-$myFile = "tiltbridge.json";
-file_put_contents($myFile,$jsonString);
 
-echo '{ "Success": true }';
+# curl -d 'data' http://brewpi.local/tiltbridge/index.php
+# {"mdns_id":"tiltbridge","tilts":{"Purple":{"color":"Purple","gravity":"1.088","gsheets_name":"","temp":70}}}
+
+file_put_contents('test.json', file_get_contents("php://input"), FILE_APPEND);
 
 ?>
