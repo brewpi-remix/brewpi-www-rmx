@@ -97,7 +97,7 @@ if($sock !== false){
 				break;
 		}
 	}
-	else{
+	else {
 		// message without a data argument
 		switch($messageType){
 		case "checkScript":

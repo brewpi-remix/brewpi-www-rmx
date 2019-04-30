@@ -1,0 +1,28 @@
+<?php
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
+ *
+ * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
+ *
+ * BrewPi WWW RMX is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * BrewPi WWW RMX is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+# curl -d 'data' http://brewpi.local/tiltbridge.php
+# {"mdns_id":"tiltbridge","tilts":{"Purple":{"color":"Purple","gravity":"1.088","gsheets_name":"","temp":70}}}
+
+$json = file_get_contents('php://input')
+$array = json_decode($json, true);
+file_put_contents('tiltbridge.json', $json, FILE_APPEND);
+print('Ok');
+
+?>
