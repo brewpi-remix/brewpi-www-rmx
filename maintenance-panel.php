@@ -375,11 +375,6 @@ function echoRotarySelect($optionName){
                         <input type="text" name="coolTargetL" class="cc coolingTargetL">
                         <button class="send-button">Send to <span class="boardMoniker">Arduino</span></button>
                 </div>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
                 <div class="setting-container">
                         <span class="setting-name">Maximum time in seconds for heating overshoot estimator</span>
                         <span class="explanation">The time the fridge has been heating is used to estimate overshoot. This is the maximum time that is taken into account.</span>
