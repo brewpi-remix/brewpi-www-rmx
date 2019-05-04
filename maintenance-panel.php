@@ -79,6 +79,7 @@ function echoRotarySelect($optionName){
         <li><a href="#device-config"><span>Device Configuration</span></a></li>
         <li><a href="#advanced-settings"><span>Advanced Settings</span></a></li>
         <li><a href="#reprogram-arduino"><span>Reprogram <span class="boardMoniker">controller</span></span></a></li>
+        <li><a href="#brewpi-addons"><span>BrewPi Add-Ons</span></a></li>
         <!--kinda dirty to have buttons in the ul, but the ul is styled as a nice header by jQuery UI -->
 </ul>
 
@@ -478,4 +479,12 @@ function echoRotarySelect($optionName){
         <div class="stderr console-box"></div>
         <h3>stdout:</h3>
         <div class="stdout console-box"></div>
+</div>
+
+<div id="brewpi-addons">
+        <div class="settings-container">
+                <div class="setting-container">
+                        <span class="setting-name">Coming soon</span>
+                </div>
+        </div>
 </div>
