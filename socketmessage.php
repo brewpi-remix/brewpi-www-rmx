@@ -44,8 +44,7 @@ else {
 	die('ERROR: Unable to open required file (config.php)');
 }
 
-function startsWith($haystack, $needle)
-{
+function startsWith($haystack, $needle){
 	return !strncmp($haystack, $needle, strlen($needle));
 }
 

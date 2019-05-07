@@ -127,6 +127,7 @@ function loadDefaultControlConstants(){
 		receiveControlConstants();
 	});
 }
+
 function reloadControlConstantsFromArduino(){
 	"use strict";
 	$.post('socketmessage.php', {messageType: "refreshControlConstants", message: ""}, function(){
