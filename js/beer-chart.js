@@ -45,6 +45,23 @@ var colorWaitingPeakDetect = "rgba(0, 0, 0, 0.2)";
 
 var colorTilt;
 
+// Determine if we are in a frame or in the LCD.php page
+function inIframe() {
+  try {
+      return window.self !== window.top;
+  } catch (e) {
+      return true;
+  }
+}
+function isLCD() {
+  var path = window.location.pathname;
+  var pageName = path.split("/").pop();
+  // if (typeof pageName !== 'undefined') {var pageName = "index.php"}
+  if (pageName == "lcd.php" || pageName == "fullscreen-lcd.php" || inIframe()) {
+      return true;
+  }
+}
+
 // Determine Tilt color from json field name
 function findTiltByColor(field) {
   "use strict";
@@ -414,30 +431,30 @@ function paintBackgroundImpl(canvas, area, g) {
 }
 
 //Modification: Tilt colors
-var chartColors = [
-  "rgb(41,170,41)",
-  "rgb(240, 100, 100)",
-  "rgb(89, 184, 255)",
-  "rgb(255, 161, 76)",
-  "#AAAAAA",
-  "rgb(153,0,153)",
-  "red",
-  "red",
-  "lime",
-  "lime",
-  "black",
-  "black",
-  "purple",
-  "purple",
-  "orange",
-  "orange",
-  "darkblue",
-  "darkblue",
-  "yellow",
-  "yellow",
-  "orchid",
-  "orchid"
-];
+// var chartColors = [
+//   "rgb(41,170,41)",
+//   "rgb(240, 100, 100)",
+//   "rgb(89, 184, 255)",
+//   "rgb(255, 161, 76)",
+//   "#AAAAAA",
+//   "rgb(153,0,153)",
+//   "red",
+//   "red",
+//   "lime",
+//   "lime",
+//   "black",
+//   "black",
+//   "purple",
+//   "purple",
+//   "orange",
+//   "orange",
+//   "darkblue",
+//   "darkblue",
+//   "yellow",
+//   "yellow",
+//   "orchid",
+//   "orchid"
+// ];
 
 function formatForChartLegend(v) {
   "use strict";
@@ -535,7 +552,7 @@ function findLineByName(name) {
 /* Give name of the beer to display and div to draw the graph in */
 function drawBeerChart(beerToDraw, div) {
   "use strict";
-  if (pageName == "lcd.php") {return;} // Skip all this if we are on the LCD page
+  if (isLCD()) {return;} // Skip all this if we are on the LCD page
   var $chartDiv = $("#" + div);
   $chartDiv.empty();
   if (beerToDraw === "None") {
@@ -578,6 +595,20 @@ function drawBeerChart(beerToDraw, div) {
     var gravityFormat = function (y) {
       return parseFloat(y).toFixed(3);
     };
+
+    //Modification: Tilt colors
+    var chartColors = [
+      "rgb(41,170,41)",
+      "rgb(240, 100, 100)",
+      "rgb(89, 184, 255)",
+      "rgb(255, 161, 76)",
+      "#AAAAAA",
+      "rgb(153,0,153)",
+      colorTilt.toLowerCase(),
+      colorTilt.toLowerCase()
+    ];
+
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
 
     var beerChart = new Dygraph(document.getElementById(div), beerData.values, {
       labels: beerData.labels,

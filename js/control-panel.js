@@ -33,10 +33,22 @@
 var beerTemp = defaultTemp();
 var fridgeTemp = defaultTemp();
 
-// Hack to get current calling page name
-var path = window.location.pathname;
-var pageName = path.split("/").pop();
-//console.log("Page name: " + pageName);
+// Determine if we are in a frame or in the LCD.php page
+function inIframe() {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+function isLCD() {
+    var path = window.location.pathname;
+    var pageName = path.split("/").pop();
+    // if (typeof pageName !== 'undefined') {var pageName = "index.php"}
+    if (pageName == "lcd.php" || pageName == "fullscreen-lcd.php" || inIframe()) {
+        return true;
+    }
+}
 
 function statusMessage(messageType, messageText){
     "use strict";
@@ -63,6 +75,7 @@ function statusMessage(messageType, messageText){
 
 function loadControlPanel(){
     "use strict";
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     if ( window.profileName !== '' ) {
         loadProfile(window.profileName, renderProfile);
     }
@@ -108,10 +121,10 @@ function loadControlPanel(){
 function defaultTemp(){
     "use strict";
     //if(typeof(window.tempFormat) === 'F'){
-    if(window.tempFormat == 'F'){
+    if (window.tempFormat == 'F'){
         return 68.0;
     }
-    else{
+    else {
         return 20.0;
     }
 }
@@ -186,7 +199,7 @@ function renderProfile(beerProfile) {
 
 function drawSelectPreviewChart(beerProfile) {
     "use strict";
-
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     // display temporary loading message
     $("#profileSelectChartDiv").html("<span class='chart-loading chart-placeholder'>Loading profile...</span>");
 
@@ -212,8 +225,7 @@ function drawEditPreviewChart() {
     $("#profileEditChartDiv span.chart-loading").text("Error drawing profile chart!");
 }
 
-// More hackery - avoid errors on LCD page
-if (! pageName == "lcd.php" || typeof pageName !== 'undefined') {
+if (!isLCD()) {
     // lets hack a little shall we ?
     Dygraph.EVERY2DAYS = -1;
     Dygraph.EVERY3DAYS = -2;
@@ -258,19 +270,19 @@ function drawProfileChart(divId, profileObj) {
         var startTime = g.getValue(0,0);
         var endTime = g.getValue(g.numRows()-1,0);
 
-        if(nowTime < startTime){
+        if(nowTime < startTime) {
             // all profile dates in the future, show in bottom left corner
             canvas.textAlign = "start";
             canvas.font = "14px Arial";
             canvas.fillText("<< Current time", area.x + 10, area.h - 10);
         }
-        else if(nowTime > endTime){
+        else if(nowTime > endTime) {
             // all profile dates in the future, show in bottom right corner
             canvas.textAlign = "end";
             canvas.font = "14px Arial";
             canvas.fillText("Current time >>", area.x + area.w - 10, area.h - 10);
         }
-        else{
+        else {
             // draw line at current time
             var xCoordinate = g.toDomXCoord(nowTime);
             canvas.fillRect(xCoordinate, area.y+17, 1, area.h-17);
@@ -296,7 +308,7 @@ function drawProfileChart(divId, profileObj) {
                 }
                 canvas.fillText(temperature, xCoordinate + 5, yCoordinate);
             }
-            else{
+            else {
                 if(previousTemperature >= parseFloat(temperature)){
                     yCoordinate += 20; // lower so it won't overlap with the chart
                 }
@@ -347,7 +359,7 @@ function drawProfileChart(divId, profileObj) {
 function loadProfile(profile, onProfileLoaded) {
     "use strict";
     $.post("get_beer_profile.php", { "name": profile }, function(beerProfile) {
-        if (pageName == "lcd.php") {return;}
+        if (isLCD()) {return;} // Skip all this if we are on the LCD page
         try {
             if ( typeof( onProfileLoaded ) !== "undefined" ) {
                 onProfileLoaded(beerProfile);
@@ -429,6 +441,7 @@ function promptToApplyProfile(profName) {
 
 function showProfileEditDialog(editableName, dialogTitle, isSaveAs) {
     "use strict";
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     $('#profileSaveError').hide();
     var profileNames = [];
     $.post("get_beer_profiles.php", {}, function(resp) {
@@ -563,7 +576,7 @@ function profTableGlobalClickHandler() {
 
 $(document).ready(function(){
     "use strict";
-    if (pageName == "lcd.php") {return;}
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
 
 	//Control Panel
     profileEdit = new BeerProfileTable('profileEditControls', {
