@@ -213,7 +213,7 @@ function drawEditPreviewChart() {
 }
 
 // More hackery - avoid errors on LCD page
-if (! pageName == "lcd.php") {
+if (! pageName == "lcd.php" || typeof pageName !== 'undefined') {
     // lets hack a little shall we ?
     Dygraph.EVERY2DAYS = -1;
     Dygraph.EVERY3DAYS = -2;
