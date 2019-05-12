@@ -564,6 +564,7 @@ function profTableGlobalClickHandler() {
 $(document).ready(function(){
     "use strict";
     if (pageName == "lcd.php") {return;}
+
 	//Control Panel
     profileEdit = new BeerProfileTable('profileEditControls', {
         tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",

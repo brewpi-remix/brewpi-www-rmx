@@ -535,7 +535,7 @@ function findLineByName(name) {
 /* Give name of the beer to display and div to draw the graph in */
 function drawBeerChart(beerToDraw, div) {
   "use strict";
-  if (pageName == "lcd.php") {return;}
+  if (pageName == "lcd.php") {return;} // Skip all this if we are on the LCD page
   var $chartDiv = $("#" + div);
   $chartDiv.empty();
   if (beerToDraw === "None") {
@@ -583,49 +583,49 @@ function drawBeerChart(beerToDraw, div) {
       labels: beerData.labels,
       colors: chartColors,
       axisLabelFontSize: 12,
-      animatedZooms: true,
+      animatedZooms: false,
       gridLineColor: "#ccc",
       gridLineWidth: "0.1px",
       labelsDiv: document.getElementById(div + "-label"),
       displayAnnotations: true,
       displayAnnotationsFilter: true,
-      showRangeSelector: false,
+      showRangeSelector: true,
       strokeWidth: 1,
       series: {
         redSG: {
           axis: "y2",
-          strokePattern: [7, 3]
+          strokePattern: [3, 1]
         },
         greenSG: {
           axis: "y2",
-          strokePattern: [7, 3]
+          strokePattern: [3, 1]
         },
         purpleSG: {
           axis: "y2",
-          strokePattern: [7, 3]
+          strokePattern: [3, 1]
         },
         blackSG: {
           axis: "y2",
-          strokePattern: [7, 3]
+          strokePattern: [3, 1]
         },
         orangeSG: {
           axis: "y2",
-          strokePattern: [7, 3]
+          strokePattern: [3, 1]
         },
         blueSG: {
           axis: "y2",
-          strokePattern: [7, 3]
+          strokePattern: [3, 1]
         },
         yellowSG: {
           axis: "y2",
-          strokePattern: [7, 3]
+          strokePattern: [3, 1]
         },
         pinkSG: {
           axis: "y2",
-          strokePattern: [7, 3]
+          strokePattern: [3, 1]
         }
       },
-      ylabel: "Temperature (" + window.tempFormat + ")",
+      ylabel: "Temperature (\u00B0" + window.tempFormat + ")",
       y2label: "Gravity (SG)",
       yAxisLabelWidth: 50,
       axes: {
@@ -659,6 +659,7 @@ function drawBeerChart(beerToDraw, div) {
         }
       }
     });
+    
     beerChart.setVisibility(beerChart.indexFromSetName("state") - 1, 0); // turn off state line
     var $chartContainer = $chartDiv.parent();
     $chartContainer.find(".beer-chart-controls").show();
@@ -693,7 +694,9 @@ function drawBeerChart(beerToDraw, div) {
         }
       }
     }
+
     var idx = 0;
+    
     $("#curr-beer-chart-legend .beer-chart-legend-row").each(function () {
       if (!$(this).hasClass("time") && !$(this).is(":hidden")) {
         $(this).addClass(
@@ -703,6 +706,7 @@ function drawBeerChart(beerToDraw, div) {
         idx++;
       }
     });
+    
     // Refresh chart every 120 seconds
     setTimeout(function () {
       drawBeerChart(window.beerName, "curr-beer-chart");
