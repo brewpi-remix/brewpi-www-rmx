@@ -33,6 +33,11 @@
 var beerTemp = defaultTemp();
 var fridgeTemp = defaultTemp();
 
+// Hack to get current calling page name
+var path = window.location.pathname;
+var pageName = path.split("/").pop();
+//console.log("Page name: " + pageName);
+
 function statusMessage(messageType, messageText){
     "use strict";
     var $statusMessage = $("#status-message");
@@ -207,14 +212,17 @@ function drawEditPreviewChart() {
     $("#profileEditChartDiv span.chart-loading").text("Error drawing profile chart!");
 }
 
-// lets hack a little shall we ?
-Dygraph.EVERY2DAYS = -1;
-Dygraph.EVERY3DAYS = -2;
-Dygraph.EVERY4DAYS = -3;
-var _1DAY = 1000 * 86400;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY2DAYS]    = 2 * _1DAY;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY3DAYS]    = 3 * _1DAY;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY4DAYS]    = 4 * _1DAY;
+// More hackery - avoid errors on LCD page
+if (! pageName == "lcd.php") {
+    // lets hack a little shall we ?
+    Dygraph.EVERY2DAYS = -1;
+    Dygraph.EVERY3DAYS = -2;
+    Dygraph.EVERY4DAYS = -3;
+    var _1DAY = 1000 * 86400;
+    Dygraph.SHORT_SPACINGS[Dygraph.EVERY2DAYS]    = 2 * _1DAY;
+    Dygraph.SHORT_SPACINGS[Dygraph.EVERY3DAYS]    = 3 * _1DAY;
+    Dygraph.SHORT_SPACINGS[Dygraph.EVERY4DAYS]    = 4 * _1DAY;
+}
 
 function drawProfileChart(divId, profileObj) {
     "use strict";
@@ -339,6 +347,7 @@ function drawProfileChart(divId, profileObj) {
 function loadProfile(profile, onProfileLoaded) {
     "use strict";
     $.post("get_beer_profile.php", { "name": profile }, function(beerProfile) {
+        if (pageName == "lcd.php") {return;}
         try {
             if ( typeof( onProfileLoaded ) !== "undefined" ) {
                 onProfileLoaded(beerProfile);
@@ -395,6 +404,7 @@ function showProfileSelectDialog() {
         width: 960
     });
 }
+
 function promptToApplyProfile(profName) {
     "use strict";
     $("<div>You are editing the current profile: " + decodeURIComponent(profName) + ".  Would you like to apply it now?</div>").dialog( {
@@ -416,6 +426,7 @@ function promptToApplyProfile(profName) {
         ]
     });
 }
+
 function showProfileEditDialog(editableName, dialogTitle, isSaveAs) {
     "use strict";
     $('#profileSaveError').hide();
@@ -544,13 +555,15 @@ function profTableContextMenuHandler(shown) {
         $('html').unbind('click', profTableGlobalClickHandler );
     }
 }
+
 function profTableGlobalClickHandler() {
     "use strict";
     profileEdit.closeContextMenu();
 }
 
 $(document).ready(function(){
-	"use strict";
+    "use strict";
+    if (pageName == "lcd.php") {return;}
 	//Control Panel
     profileEdit = new BeerProfileTable('profileEditControls', {
         tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",
@@ -559,11 +572,13 @@ $(document).ready(function(){
         contextMenuCssClass: 'profileTableMenu', contextMenuDisplayHandler: profTableContextMenuHandler,
         chartUpdateCallBack: drawEditPreviewChart
     });
+
     profileTable = new BeerProfileTable('profileTableDiv', {
         tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",
         editable: false, startDateFieldSelector: '#profileTableStartDate',
         dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay
     });
+
     profileSelect = new BeerProfileTable('profileSelectTableDiv', {
         editable: false,
         dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay
@@ -643,6 +658,7 @@ $(document).ready(function(){
                 window.fridgeTemp=parseFloat(temp);
             }
         });
+
         $(this).keyup(function(event) {
             if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
                 if (event.which === 38){ // arrow up
@@ -661,6 +677,7 @@ $(document).ready(function(){
                 }
             }
         });
+
         $(this).keydown(function(event) {
             if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
                 if (event.which === 38){ // arrow up
@@ -705,7 +722,8 @@ $(document).ready(function(){
 		mousedown: startFridgeTempDownInterval,
 		mouseup: clearFridgeTempDownInterval,
 		mouseleave: clearFridgeTempDownInterval
-	});
+    });
+    
     $('#control-panel').tabs();
     // unhide after loading
     $("#control-panel").show();

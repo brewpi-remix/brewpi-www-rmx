@@ -94,6 +94,7 @@ var lineNames = {
   pinkTemp: "Pink Tilt Temp.",
   pinkSG: "Pink Tilt SG"
 };
+
 var legendStorageKeyPrefix = "legendLine_";
 
 var TIME_COLUMN = 0; // time is the first column of data
@@ -411,6 +412,7 @@ function paintBackgroundImpl(canvas, area, g) {
     startX = endX;
   }
 }
+
 //Modification: Tilt colors
 var chartColors = [
   "rgb(41,170,41)",
@@ -529,9 +531,11 @@ function findLineByName(name) {
   }
   return null;
 }
+
 /* Give name of the beer to display and div to draw the graph in */
 function drawBeerChart(beerToDraw, div) {
   "use strict";
+  if (pageName == "lcd.php") {return;}
   var $chartDiv = $("#" + div);
   $chartDiv.empty();
   if (beerToDraw === "None") {
@@ -574,6 +578,7 @@ function drawBeerChart(beerToDraw, div) {
     var gravityFormat = function (y) {
       return parseFloat(y).toFixed(3);
     };
+
     var beerChart = new Dygraph(document.getElementById(div), beerData.values, {
       labels: beerData.labels,
       colors: chartColors,
