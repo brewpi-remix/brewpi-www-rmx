@@ -84,16 +84,22 @@ function echoRotarySelect($optionName){
 </ul>
 
 <div id="reprogram-arduino">
-        <p>Here you can upload a <span class="programFileType">firmware</span> file which will be uploaded to the <span class="boardMoniker">controller</span> by the Python script.
+        <div class="settings-container">
+                <div class="setting-container">
+                        <p><span class="setting-name">Disabled</span></p>
+                        <p>This function has been disabled for now.  Please use the script updateFirmware.py in the brewpi/utils folder.</p>
+                </div>
+        </div>
+        <!--<p>Here you can upload a <span class="programFileType">firmware</span> file which will be uploaded to the <span class="boardMoniker">controller</span> by the Python script.
                 The script will automatically restart itself after programming.</p>
-        <div id = "program-container">
+         -->
                 <!-- This form has a hidden iFrame as target, so the full page is not refreshed -->
-                <form action="program_arduino.php" method="post" enctype="multipart/form-data" target="upload-target">
+                <!--<form action="program_arduino.php" method="post" enctype="multipart/form-data" target="upload-target">
                         <div id="program-options">
                                 <div class="program-option">
                                         <label for="file"><span class="programFileType">HEX</span> file:</label>
-                                        <input type="file" name="file" id="file" /> <!-- add max file size?-->
-                                </div>
+                                        <input type="file" name="file" id="file" /> --> <!-- add max file size? -->
+                                <!-- </div>
                                 <div class="program-option">
                                         <label for="boardType"> Board type:</label>
                                         <select name="boardType" class="boardType">
@@ -116,9 +122,9 @@ function echoRotarySelect($optionName){
                 </form>
 
                 <h3 id="program-stderr-header">Script output will auto-refresh while programming if you keep this tab open.</h3>
-                <div class="stdout console-box"></div>
-                <iframe id="upload-target" name="upload-target" src="about:blank" style="width:0;height:0;border:0px solid #fff;"></iframe>
-        </div>
+                <div class="stderr console-box"></div>
+                <iframe id="upload-target" name="upload-target" src="about:blank" style="width:0;height:0;border:0px solid #fff;"></iframe> 
+        </div> -->
 </div>
 
 <div id="settings">
