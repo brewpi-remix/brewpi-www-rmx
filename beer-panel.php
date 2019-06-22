@@ -113,7 +113,7 @@
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
-            <!-- Brewometer lines -->
+            <!-- Tilt lines -->
 			<div class="beer-chart-legend-row redTemp">
 				<div class="toggle redTemp" onClick="toggleLine(this)"></div>
 	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt Temp</div>
@@ -210,7 +210,7 @@
 	    		<div class="beer-chart-legend-value">--</div>
 	    		<br class="crystal" />
 	    	</div>
-            <!-- Brewometer lines END-->
+            <!-- Tilt lines END-->
 	    	<div class="beer-chart-legend-row state">
 				<div class="state-indicator"></div>
 	    		<div class="beer-chart-legend-label"></div>
