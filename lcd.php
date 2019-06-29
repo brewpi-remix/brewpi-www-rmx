@@ -77,7 +77,7 @@ if (file_exists('config.php')) {
 }
 
 $rooturl = substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT']));
-$title = ($chamber=='' ? 'BrewPi Legacy Remix' : 'LCD: ' . $chamber)
+$title = ($chamber=='' ? 'BrewPi Remix' : 'LCD: ' . $chamber)
 
 ?>
 

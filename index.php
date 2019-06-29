@@ -110,7 +110,7 @@ if ($ipurl && $windows) {
     $bjprompt .= '</div></div>';
 }
 
-$title = ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber)
+$title = ($chamber=='' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
 
 ?>
 <!DOCTYPE html >
@@ -168,7 +168,7 @@ $title = ($chamber=='' ? 'BrewPi Legacy Remix' : 'BLR: ' . $chamber)
     <div id="bottom-bar" class="ui-widget ui-widget-header ui-corner-all">
         <div id="version-bar-text">
             <div id="version-text">
-                <span>BrewPi Legacy Remix version: <?php echo $gitinfo; ?></span>
+                <span>BrewPi Remix version: <?php echo $gitinfo; ?></span>
             </div>
         </div
     </div>

@@ -67,7 +67,7 @@ function prepareJSON($input) {
     return $input;
 }
 
-$title = 'Brewpi Legacy Remix LCD';
+$title = 'BrewPi Remix LCD';
 
 ?>
 <!DOCTYPE html >
