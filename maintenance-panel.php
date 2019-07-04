@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2018  Lee C. Bussy (@LBussy)
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
  *
@@ -68,7 +68,6 @@ function echoRotarySelect($optionName){
         echo "<option value=1> Half step</option>";
         echo "</select>";
 }
-
 ?>
 
 <ul>
@@ -80,31 +79,32 @@ function echoRotarySelect($optionName){
         <li><a href="#device-config"><span>Device Configuration</span></a></li>
         <li><a href="#advanced-settings"><span>Advanced Settings</span></a></li>
         <li><a href="#reprogram-arduino"><span>Reprogram <span class="boardMoniker">controller</span></span></a></li>
+        <li><a href="#brewpi-addons"><span>BrewPi Add-Ons</span></a></li>
         <!--kinda dirty to have buttons in the ul, but the ul is styled as a nice header by jQuery UI -->
 </ul>
 
 <div id="reprogram-arduino">
-        <p>Here you can upload a <span class="programFileType">firmware</span> file which will be uploaded to the <span class="boardMoniker">controller</span> by the Python script.
+        <div class="settings-container">
+                <div class="setting-container">
+                        <p><span class="setting-name">Disabled</span></p>
+                        <p>This function has been disabled for now.  Please use the script updateFirmware.py in the brewpi/utils folder.</p>
+                </div>
+        </div>
+        <!--<p>Here you can upload a <span class="programFileType">firmware</span> file which will be uploaded to the <span class="boardMoniker">controller</span> by the Python script.
                 The script will automatically restart itself after programming.</p>
-        <div id = "program-container">
+         -->
                 <!-- This form has a hidden iFrame as target, so the full page is not refreshed -->
-                <form action="program_arduino.php" method="post" enctype="multipart/form-data" target="upload-target">
+                <!--<form action="program_arduino.php" method="post" enctype="multipart/form-data" target="upload-target">
                         <div id="program-options">
                                 <div class="program-option">
                                         <label for="file"><span class="programFileType">HEX</span> file:</label>
-                                        <input type="file" name="file" id="file" /> <!-- add max file size?-->
-                                </div>
+                                        <input type="file" name="file" id="file" /> --> <!-- add max file size? -->
+                                <!-- </div>
                                 <div class="program-option">
                                         <label for="boardType"> Board type:</label>
                                         <select name="boardType" class="boardType">
-                                                <option value="leonardo">Leonardo</option>
-                                                <option value="uno">Uno</option>
+                                                <option selected value="uno">Uno</option>
                                                 <option value="atmega328">ATmega328 based</option>
-                                                <option value="diecimila">Atmega168 based</option>
-                                                <option value="mega2560">Mega 2560</option>
-                                                <option value="mega">Mega 1280</option>
-                                                <option value="core">Spark Core</option>
-                                                <option value="photon">Particle Photon</option>
                                         </select>
                                 </div>
                                 <div class="program-option">
@@ -122,9 +122,9 @@ function echoRotarySelect($optionName){
                 </form>
 
                 <h3 id="program-stderr-header">Script output will auto-refresh while programming if you keep this tab open.</h3>
-                <div class="stdout console-box"></div>
-                <iframe id="upload-target" name="upload-target" src="about:blank" style="width:0;height:0;border:0px solid #fff;"></iframe>
-        </div>
+                <div class="stderr console-box"></div>
+                <iframe id="upload-target" name="upload-target" src="about:blank" style="width:0;height:0;border:0px solid #fff;"></iframe> 
+        </div> -->
 </div>
 
 <div id="settings">
@@ -145,7 +145,7 @@ function echoRotarySelect($optionName){
                 </div>
                 <div class="setting-container">
                         <span class="setting-name">Profile name:</span>
-                        <input id="profile-name" value="<?php echo urldecode($profileName) ?>" size=30 type="text" />
+                        <input id="profile-name" value="<?php echo urldecode($profileName) ?>" size=30 type="text">
                         <button class="apply-profile-name apply-button">Apply</button>
                 </div>
                 <div class="setting-container">
@@ -381,11 +381,6 @@ function echoRotarySelect($optionName){
                         <input type="text" name="coolTargetL" class="cc coolingTargetL">
                         <button class="send-button">Send to <span class="boardMoniker">Arduino</span></button>
                 </div>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
-            <button class="send-button">Send to <span class="boardMoniker">controller</span></button>
                 <div class="setting-container">
                         <span class="setting-name">Maximum time in seconds for heating overshoot estimator</span>
                         <span class="explanation">The time the fridge has been heating is used to estimate overshoot. This is the maximum time that is taken into account.</span>
@@ -487,3 +482,10 @@ function echoRotarySelect($optionName){
         <div class="stdout console-box"></div>
 </div>
 
+<div id="brewpi-addons">
+        <div class="settings-container">
+                <div class="setting-container">
+                        <span class="setting-name">Coming soon</span>
+                </div>
+        </div>
+</div>

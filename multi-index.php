@@ -153,7 +153,7 @@ $title = 'BLR: Chamber Dashboard';
 <div id="lcd-version-panel" class="ui-widget ui-widget-content ui-corner-all">
     <div id="lcd-bottom-bar" class="ui-widget ui-widget-header ui-corner-all">
         <div id="version-text">
-            <span>BrewPi Legacy Remix version: <?php echo $gitinfo; ?></span>
+            <span>BrewPi Remix version: <?php echo $gitinfo; ?></span>
         </div>
     </div>
 </div>

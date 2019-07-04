@@ -1,24 +1,54 @@
-/* Copyright 2012 BrewPi/Elco Jacobs.
- * This file is part of BrewPi.
-
- * BrewPi is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
-
- * BrewPi is distributed in the hope that it will be useful,
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
+ *
+ * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
+ *
+ * BrewPi WWW RMX is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * BrewPi WWW RMX is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
  * You should have received a copy of the GNU General Public License
- * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
- */
+ * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * These scripts were originally a part of brewpi-www, a part of
+ * the BrewPi project. Legacy support (for the very popular Arduino
+ * controller) seems to have been discontinued in favor of new hardware.
+ *
+ * All credit for the original brewpi-www goes to @elcojacobs,
+ * @lukepower, @m-mcgowan, @vanosg, @GregAtkinson and I'm sure
+ * many more contributors around the world. My apologies if I have
+ * missed anyone; those were the names listed as contributors on the
+ * Legacy branch.
+ *
+ * See: 'original-license.md' for notes about the original project's
+ * license and credits. */
 
  /* global Dygraph, BeerProfileTable, receiveControlSettings, window.googleDocsKey, controlSettings, controlVariables, console */
 
 var beerTemp = defaultTemp();
 var fridgeTemp = defaultTemp();
+
+// Determine if we are in a frame or in the LCD.php page
+function inIframe() {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+function isLCD() {
+    var path = window.location.pathname;
+    var pageName = path.split("/").pop();
+    // if (typeof pageName !== 'undefined') {var pageName = "index.php"}
+    if (pageName == "lcd.php" || pageName == "fullscreen-lcd.php" || inIframe()) {
+        return true;
+    }
+}
 
 function statusMessage(messageType, messageText){
     "use strict";
@@ -45,6 +75,7 @@ function statusMessage(messageType, messageText){
 
 function loadControlPanel(){
     "use strict";
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     if ( window.profileName !== '' ) {
         loadProfile(window.profileName, renderProfile);
     }
@@ -89,10 +120,11 @@ function loadControlPanel(){
 
 function defaultTemp(){
     "use strict";
-    if(typeof(window.tempFormat) === 'F'){
+    //if(typeof(window.tempFormat) === 'F'){
+    if (window.tempFormat == 'F'){
         return 68.0;
     }
-    else{
+    else {
         return 20.0;
     }
 }
@@ -127,26 +159,26 @@ function applySettings(){
     var activeTab = $("#control-panel").tabs("option", "active");
     switch(activeTab){
         case 0: // profile
-        $.post('socketmessage.php', {messageType: "setActiveProfile", message: window.profileName}, function(answer){
-            if(answer !==''){
-                statusMessage("highlight", answer);
-            }
-        });
-        break;
+            $.post('socketmessage.php', {messageType: "setActiveProfile", message: window.profileName}, function(answer){
+                if(answer !==''){
+                    statusMessage("highlight", answer);
+                }
+            });
+            break;
         case 1: // beer constant
-        var $beerTemp = $("#beer-temp").find("input.temperature");
-        $.post('socketmessage.php', {messageType: "setBeer", message: $beerTemp.val()}, function(){});
-        statusMessage("highlight","Mode set to beer constant");
-        break;
+            var $beerTemp = $("#beer-temp").find("input.temperature");
+            $.post('socketmessage.php', {messageType: "setBeer", message: $beerTemp.val()}, function(){});
+            statusMessage("highlight","Mode set to beer constant");
+            break;
         case 2: // fridge constant
-        var $fridgeTemp = $("#fridge-temp").find("input.temperature");
-        $.post('socketmessage.php', {messageType: "setFridge", message: $fridgeTemp.val()}, function(){});
-        statusMessage("highlight","Mode set to fridge constant");
-        break;
+            var $fridgeTemp = $("#fridge-temp").find("input.temperature");
+            $.post('socketmessage.php', {messageType: "setFridge", message: $fridgeTemp.val()}, function(){});
+            statusMessage("highlight","Mode set to fridge constant");
+            break;
         case 3: // off
-        $.post('socketmessage.php', {messageType: "setOff", message: ""}, function(){});
-        statusMessage("highlight","Temperature control disabled");
-        break;
+            $.post('socketmessage.php', {messageType: "setOff", message: ""}, function(){});
+            statusMessage("highlight","Temperature control disabled");
+            break;
     }
     setTimeout(loadControlPanel,5000);
 }
@@ -167,7 +199,7 @@ function renderProfile(beerProfile) {
 
 function drawSelectPreviewChart(beerProfile) {
     "use strict";
-
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     // display temporary loading message
     $("#profileSelectChartDiv").html("<span class='chart-loading chart-placeholder'>Loading profile...</span>");
 
@@ -193,21 +225,24 @@ function drawEditPreviewChart() {
     $("#profileEditChartDiv span.chart-loading").text("Error drawing profile chart!");
 }
 
-// lets hack a little shall we ?
-Dygraph.EVERY2DAYS = -1;
-Dygraph.EVERY3DAYS = -2;
-Dygraph.EVERY4DAYS = -3;
-var _1DAY = 1000 * 86400;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY2DAYS]    = 2 * _1DAY;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY3DAYS]    = 3 * _1DAY;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY4DAYS]    = 4 * _1DAY;
+if (!isLCD()) {
+    // lets hack a little shall we ?
+    Dygraph.EVERY2DAYS = -1;
+    Dygraph.EVERY3DAYS = -2;
+    Dygraph.EVERY4DAYS = -3;
+    var _1DAY = 1000 * 86400;
+    Dygraph.SHORT_SPACINGS[Dygraph.EVERY2DAYS]    = 2 * _1DAY;
+    Dygraph.SHORT_SPACINGS[Dygraph.EVERY3DAYS]    = 3 * _1DAY;
+    Dygraph.SHORT_SPACINGS[Dygraph.EVERY4DAYS]    = 4 * _1DAY;
+}
 
 function drawProfileChart(divId, profileObj) {
     "use strict";
 
     var temperatureFormatter = function(y) {
-        return parseFloat(y).toFixed(2) + "\u00B0 " + window.tempFormat;
+        return parseFloat(y).toFixed(2) + "\u00B0" + window.tempFormat;
     };
+
     var dateTimeFormatter = function (x) {
         return profileTable.formatDate(x).display;
     };
@@ -235,19 +270,19 @@ function drawProfileChart(divId, profileObj) {
         var startTime = g.getValue(0,0);
         var endTime = g.getValue(g.numRows()-1,0);
 
-        if(nowTime < startTime){
+        if(nowTime < startTime) {
             // all profile dates in the future, show in bottom left corner
             canvas.textAlign = "start";
             canvas.font = "14px Arial";
             canvas.fillText("<< Current time", area.x + 10, area.h - 10);
         }
-        else if(nowTime > endTime){
+        else if(nowTime > endTime) {
             // all profile dates in the future, show in bottom right corner
             canvas.textAlign = "end";
             canvas.font = "14px Arial";
             canvas.fillText("Current time >>", area.x + area.w - 10, area.h - 10);
         }
-        else{
+        else {
             // draw line at current time
             var xCoordinate = g.toDomXCoord(nowTime);
             canvas.fillRect(xCoordinate, area.y+17, 1, area.h-17);
@@ -273,7 +308,7 @@ function drawProfileChart(divId, profileObj) {
                 }
                 canvas.fillText(temperature, xCoordinate + 5, yCoordinate);
             }
-            else{
+            else {
                 if(previousTemperature >= parseFloat(temperature)){
                     yCoordinate += 20; // lower so it won't overlap with the chart
                 }
@@ -324,6 +359,7 @@ function drawProfileChart(divId, profileObj) {
 function loadProfile(profile, onProfileLoaded) {
     "use strict";
     $.post("get_beer_profile.php", { "name": profile }, function(beerProfile) {
+        if (isLCD()) {return;} // Skip all this if we are on the LCD page
         try {
             if ( typeof( onProfileLoaded ) !== "undefined" ) {
                 onProfileLoaded(beerProfile);
@@ -380,6 +416,7 @@ function showProfileSelectDialog() {
         width: 960
     });
 }
+
 function promptToApplyProfile(profName) {
     "use strict";
     $("<div>You are editing the current profile: " + decodeURIComponent(profName) + ".  Would you like to apply it now?</div>").dialog( {
@@ -401,8 +438,10 @@ function promptToApplyProfile(profName) {
         ]
     });
 }
+
 function showProfileEditDialog(editableName, dialogTitle, isSaveAs) {
     "use strict";
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     $('#profileSaveError').hide();
     var profileNames = [];
     $.post("get_beer_profiles.php", {}, function(resp) {
@@ -529,13 +568,16 @@ function profTableContextMenuHandler(shown) {
         $('html').unbind('click', profTableGlobalClickHandler );
     }
 }
+
 function profTableGlobalClickHandler() {
     "use strict";
     profileEdit.closeContextMenu();
 }
 
 $(document).ready(function(){
-	"use strict";
+    "use strict";
+    if (isLCD()) {return;} // Skip all this if we are on the LCD page
+
 	//Control Panel
     profileEdit = new BeerProfileTable('profileEditControls', {
         tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",
@@ -544,11 +586,13 @@ $(document).ready(function(){
         contextMenuCssClass: 'profileTableMenu', contextMenuDisplayHandler: profTableContextMenuHandler,
         chartUpdateCallBack: drawEditPreviewChart
     });
+
     profileTable = new BeerProfileTable('profileTableDiv', {
         tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",
         editable: false, startDateFieldSelector: '#profileTableStartDate',
         dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay
     });
+
     profileSelect = new BeerProfileTable('profileSelectTableDiv', {
         editable: false,
         dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay
@@ -628,6 +672,7 @@ $(document).ready(function(){
                 window.fridgeTemp=parseFloat(temp);
             }
         });
+
         $(this).keyup(function(event) {
             if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
                 if (event.which === 38){ // arrow up
@@ -646,6 +691,7 @@ $(document).ready(function(){
                 }
             }
         });
+
         $(this).keydown(function(event) {
             if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
                 if (event.which === 38){ // arrow up
@@ -690,7 +736,8 @@ $(document).ready(function(){
 		mousedown: startFridgeTempDownInterval,
 		mouseup: clearFridgeTempDownInterval,
 		mouseleave: clearFridgeTempDownInterval
-	});
+    });
+    
     $('#control-panel').tabs();
     // unhide after loading
     $("#control-panel").show();

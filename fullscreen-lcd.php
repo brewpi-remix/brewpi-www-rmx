@@ -67,7 +67,7 @@ function prepareJSON($input) {
     return $input;
 }
 
-$title = 'Brewpi Legacy Remix LCD';
+$title = 'BrewPi Remix LCD';
 
 ?>
 <!DOCTYPE html >
@@ -89,7 +89,7 @@ $title = 'Brewpi Legacy Remix LCD';
 </head>
 <body>	
 <div id="lcd" class="lcd-display"><span class="lcd-text">
-    <span class="lcd-line2" id="lcd-line-4"><?php echo wordwrap(urldecode($beerName), 21);?></span>
+    <span class="lcd-line2" id="lcd-line-4">Tracking: <?php echo wordwrap(urldecode($beerName), 21);?></span>
     <span class="lcd-line2" id="lcd-line-0">Live LCD waiting</span>
     <span class="lcd-line2" id="lcd-line-1">for update from</span>
     <span class="lcd-line2" id="lcd-line-2">script.</span>

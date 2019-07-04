@@ -150,8 +150,8 @@ $(document).ready(function(){
     });
 });
 
-boardNames = { "core": "Core", "photon": "Photon", "leonardo": "Arduino", "uno": "Arduino" };
-programFileType = { "core": "BIN", "photon": "BIN", "leonardo": "HEX", "uno": "HEX" };
+boardNames = { "uno": "Arduino" };
+programFileType = { "uno": "HEX" };
 
 function setBoard(board) {
     $("#reprogram-arduino .boardType").val(board);

@@ -127,6 +127,7 @@ function loadDefaultControlConstants(){
 		receiveControlConstants();
 	});
 }
+
 function reloadControlConstantsFromArduino(){
 	"use strict";
 	$.post('socketmessage.php', {messageType: "refreshControlConstants", message: ""}, function(){
@@ -315,7 +316,8 @@ function beerNameDialogNew($body, $backButton){
     "use strict";
     $body.empty();
     $body.append($("<span  class='dialog-intro'>Please enter a name for your new brew. Your current brew will be stopped and BrewPi will start logging data for your new brew.</span>"));
-    $body.append($("<input id='new-beer-name' type='text' size='30' placeholder='Enter new beer name..'> </input>"));
+    $body.append($("<input id='new-beer-name' type='text' size='30' placeholder='Enter new beer name..' autofocus> </input>"));
+    document.getElementById('new-beer-name').focus(); 
     var $buttons = $("<div class='beer-name-buttons'></div>");
     $buttons.append($("<button>Start new brew</button>").button({	icons: {primary: "ui-icon-check" } }).click(function(){
         $.post('socketmessage.php', {messageType: "startNewBrew", message: encodeURIComponent($("input#new-beer-name").val())}, function(reply){
@@ -389,6 +391,7 @@ function beerNameDialogResult($body, $backButton, result){
     }
     if(result.status === 0){
         $body.append($("<span  class='dialog-result-success'>Success!</span>"));
+        $backButton.hide();
     }
     else{
         $body.append($("<span  class='dialog-result-error'>Error:</span>"));
@@ -410,4 +413,3 @@ $(document).ready(function(){
 	receiveControlVariables();
 	refreshLcd(); //will call refreshLcd and alternate between the two
 });
-
