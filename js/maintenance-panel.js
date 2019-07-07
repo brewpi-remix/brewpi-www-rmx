@@ -286,3 +286,14 @@ function programmingFailed(){
     $("#program-stderr-header").text("Something went wrong. Please check the log for details.");
 }
 
+function fileValidation(){
+    var fileInput = document.getElementById('file');
+    var filePath = fileInput.value;
+    //var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    var allowedExtensions = /(\.hex)$/i;
+    if(!allowedExtensions.exec(filePath)){
+        alert('Please upload *.hex file only.');
+        fileInput.value = '';
+        return false;
+    }
+}
