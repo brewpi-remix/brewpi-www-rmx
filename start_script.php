@@ -33,4 +33,7 @@
 $instanceRoot = getcwd();
 
 # Remove do not run file. Daemon will start the script within a few seconds
-unlink("$instanceRoot/do_not_run_brewpi");
+$filename = "$instanceRoot/do_not_run_brewpi";
+if (file_exists($filename)) {
+    unlink($filename);
+}
