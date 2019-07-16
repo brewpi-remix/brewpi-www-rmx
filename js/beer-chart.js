@@ -603,10 +603,12 @@ function drawBeerChart(beerToDraw, div) {
       "rgb(89, 184, 255)",
       "rgb(255, 161, 76)",
       "#AAAAAA",
-      "rgb(153,0,153)",
-      colorTilt.toLowerCase(),
-      colorTilt.toLowerCase()
+      "rgb(153,0,153)"
     ];
+    if (typeof colorTilt !== 'undefined') {
+        chartColors.push(colorTilt.toLowerCase());
+        chartColors.push(colorTilt.toLowerCase());
+    }
 
     if (isLCD()) {return;} // Skip all this if we are on the LCD page
 
