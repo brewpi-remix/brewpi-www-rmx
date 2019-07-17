@@ -123,9 +123,9 @@ $title = ($chamber=='' ? 'BrewPi Remix' : 'LCD: ' . $chamber)
 </script>
 <script type="text/javascript" src="js/main.js"></script><!--  Need this for LCD -->
 <!-- <script type="text/javascript" src="js/device-config.js"></script> -->
-<script type="text/javascript" src="js/control-panel.js"></script><!-- Need this for LCD -->
+<!-- <script type="text/javascript" src="js/control-panel.js"></script> --> <!-- Need this for LCD -->
 <!-- <script type="text/javascript" src="js/maintenance-panel.js"></script> -->
-<script type="text/javascript" src="js/beer-chart.js"></script><!-- Need this for LCD -->
+<!-- <script type="text/javascript" src="js/beer-chart.js"></script> --> <!-- Need this for LCD -->
 <!-- <script type="text/javascript" src="js/profile-table.js"></script> -->
 </body>
 </html>
