@@ -29,8 +29,6 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
-require_once('configuration.php');
-
 function open_socket()
 {
     $isWindows = defined('PHP_WINDOWS_VERSION_MAJOR');

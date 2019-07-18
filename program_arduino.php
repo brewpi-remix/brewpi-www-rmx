@@ -29,13 +29,13 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
+include 'settings.php'; // Get default and custom settings
+
 // This file is loaded into a hidden iFrame. The javascript functions are defined in maintenance-panel.js
 require_once('socket_open.php');
 
 // Set instance root
 $instanceRoot = str_replace("\\", "/", getcwd());
-
-include 'settings.php'; // Get default and custom settings
 
 error_reporting(E_ALL);
 

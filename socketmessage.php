@@ -34,9 +34,8 @@ To make sockets work on windows, uncomment extension=php_sockets.dll
 in php.ini 
 */
 
-require_once('socket_open.php');
-
 include 'settings.php'; // Get default and custom settings
+require_once('socket_open.php');
 
 function startsWith($haystack, $needle){
 	return !strncmp($haystack, $needle, strlen($needle));
