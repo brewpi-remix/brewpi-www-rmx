@@ -29,23 +29,13 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
-// This file is loaded into a hidden iFrame. the javascript functions are defined in maintenance-panel.js
+// This file is loaded into a hidden iFrame. The javascript functions are defined in maintenance-panel.js
 require_once('socket_open.php');
 
 // Set instance root
 $instanceRoot = str_replace("\\", "/", getcwd());
 
-// Read config settings
-if(file_exists('config.php')) {
-	require_once('config.php');
-}
-else {
-	$error = "Unable to open required file (config.php)";
-	?>
-	<script type="text/javascript">window.top.window.programmingError(<?php echo "\"$error\"" ?>)</script>
-	<?php
-	die($error);
-}
+include 'settings.php'; // Get default and custom settings
 
 error_reporting(E_ALL);
 
@@ -96,13 +86,13 @@ $newFileName = "$instanceRoot/uploads/" . $fileName;
 if(move_uploaded_file($tempFileName, $newFileName)){
 	// Success
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-		 // set permissions to allow reading by anyone, when apache is running
-		 // as system service, file will not be readable by script
-		 chmod($newFileName, '0777');
+		 // Set permissions to allow reading by anyone. When Apache is running
+		 // as system service, file will not be readable by script otherwise.
+		 chmod($newFileName, '0666');
 	}	
 }
 else{
-	$error = "cannot move uploaded file";
+	$error = "Cannot move uploaded file.";
 	?>
 	<script type="text/javascript">window.top.window.programmingError(<?php echo "\"$error\"" ?>)</script>
 	<?php

@@ -29,7 +29,22 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
-function getConfig($key, $defaultValue)
-{
-    return isset($GLOBALS[$key]) ? $GLOBALS[$key] : $defaultValue;
-}
+$header = '';
+$header .= '<!DOCTYPE html >';
+$header .= '<html>';
+$header .= '<head>';
+$header .= '<meta http-equiv="content-type" content="text/html; charset=utf-8" />';
+$header .= '<title>' . $title . '</title>';
+$header .= '<link rel="stylesheet" type="text/css" href="' . $css . '/redmond/jquery-ui-1.10.3.custom.css" />';
+$header .= '<link rel="stylesheet" type="text/css" href="' . $css . '/style.css" />';
+$header .= $lcdcss;
+$header .= '<link rel="apple-touch-icon" href="' . $imgloc . '/touch-icon-iphone.png">';
+$header .= '<link rel="apple-touch-icon" sizes="76x76" href="' . $imgloc . '/touch-icon-ipad.png">';
+$header .= '<link rel="apple-touch-icon" sizes="120x120" href="' . $imgloc . '/touch-icon-iphone-retina.png">';
+$header .= '<link rel="apple-touch-icon" sizes="152x152" href="' . $imgloc . '/touch-icon-ipad-retina.png">';
+$header .= '<meta name="apple-mobile-web-app-capable" content="yes" />';
+$header .= '<meta name="apple-mobile-web-app-title" content="' . $title . '">';
+$header .= '<link rel="icon" type="image/png" href="' . $imgloc . '/favicon.ico">';
+$header .= '<base target="_parent">';
+$header .= '</head>';
+$header .= '<body>';

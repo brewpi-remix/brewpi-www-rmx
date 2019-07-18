@@ -29,108 +29,14 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
-// load default settings from file
-$defaultSettings = file_get_contents('defaultSettings.json');
-if ($defaultSettings == false) die("Cannot open: defaultSettings.json");
+include 'settings.php'; // Get default and custom settings
+include 'top-bottom.php'; // Get bonjour header and version footer
+include 'paths.php'; // Get correct paths
+$title = ($chamber=='' ? 'BrewPi Remix' : 'BLR: ' . $chamber);
+include 'html-head.php'; // Get HTML header
 
-$settingsArray = json_decode(prepareJSON($defaultSettings), true);
-if (is_null($settingsArray)) die("Cannot decode: defaultSettings.json");
-
-// overwrite default settings with user settings
-if(file_exists('userSettings.json')){
-    $userSettings = file_get_contents('userSettings.json');
-    if($userSettings == false) die("Cannot open: userSettings.json");
-
-    $userSettingsArray = json_decode(prepareJSON($userSettings), true);
-    if(is_null($settingsArray)) die("Cannot decode: userSettings.json");
-
-    foreach ($userSettingsArray as $key => $value) {
-        $settingsArray[$key] = $userSettingsArray[$key];
-    }
-}
-
-$beerName = $settingsArray["beerName"];
-$tempFormat = $settingsArray["tempFormat"];
-$profileName = $settingsArray["profileName"];
-$dateTimeFormat = $settingsArray["dateTimeFormat"];
-$dateTimeFormatDisplay = $settingsArray["dateTimeFormatDisplay"];
-
-function prepareJSON($input) {
-    //This will convert ASCII/ISO-8859-1 to UTF-8.
-    //Be careful with the third parameter (encoding detect list), because
-    //if set wrong, some input encodings will get garbled (including UTF-8!)
-    $input = mb_convert_encoding($input, 'UTF-8', 'ASCII,UTF-8,ISO-8859-1');
-    //Remove UTF-8 BOM if present, json_decode() does not like it.
-    if(substr($input, 0, 3) == pack("CCC", 0xEF, 0xBB, 0xBF)) $input = substr($input, 3);
-    return $input;
-}
-
-// Read configuration name for multi-chamber
-$chamber = '';
-if (file_exists('config.php')) {
-    require_once('config.php');
-    if(file_exists($scriptPath . "/settings/config.cfg")) {
-        $ini_array = parse_ini_file($scriptPath . "/settings/config.cfg");
-        $chamber=$ini_array['chamber'];
-    }
-} else {
-    die('ERROR: Unable to open required file (config.php).');
-}
-
-// Git information for footer
-$version = shell_exec('git describe --tags $(git rev-list --tags --max-count=1)');
-$branch = shell_exec('git branch | grep \* | cut -d " " -f2');
-$commit = shell_exec('git -C . log --oneline -n1');
-$arr = explode(' ',trim($commit));
-$commit='';
-foreach ($arr as $key => $word) {
-    if ($key == 0) {
-        $commit .= '<span class="version-text-monoylw">' . $word . '</span> ';
-    } else {
-        $commit .= $word . ' ';
-    }
-}
-$commit = rtrim($commit) . '</span>';
-$gitinfo = $version . ' (<span class="version-text-mono">' . rtrim($branch) . '</span>) ';
-$gitinfo .= '[<span class="version-text-mono">' . rtrim($commit) . '</span>]';
-
- // See if we are using an IP to access page, and/or if user is on Windows
-$ipurl = (filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) ? true : false);
-$windows = (preg_match('/windows|win32/i', $_SERVER['HTTP_USER_AGENT']) ? true : false);
-// Form URL with host name
-$named_url = 'http://' . gethostname() . '.local' . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-// Bonjour prompt
-$bjprompt = '';
-if ($ipurl && $windows) {
-    $bjprompt .= '<div id="bonjour-panel" class="ui-widget ui-widget-content ui-corner-all">';
-    $bjprompt .= '<div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">';
-    $bjprompt .= '<a href="https://support.apple.com/kb/DL999">';
-    $bjprompt .= '<img style="float: left;" src="images/bonjour.png" alt="Bonjour icon" width="43" /></a>';
-    $bjprompt .= '<p>&nbsp;I see you are using an IP address to access your BrewPi.';
-    $bjprompt .= 'Did you know you can use <a href="' . $named_url . '">its name</a> instead? ';
-    $bjprompt .= 'Look into <a href="https://support.apple.com/kb/DL999">Bonjour from Apple</a>.';
-    $bjprompt .= '</div></div>';
-}
-
-$title = ($chamber=='' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
-
+echo $header; // HTML Header
 ?>
-<!DOCTYPE html >
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php echo $title;?></title>
-<link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
-<link type="text/css" href="css/style.css" rel="stylesheet"/>
-<link type="text/css" href="css/tilt.css" rel="stylesheet"/>
-<link rel="apple-touch-icon" href="images/touch-icon-iphone.png">
-<link rel="apple-touch-icon" sizes="76x76" href="images/touch-icon-ipad.png">
-<link rel="apple-touch-icon" sizes="120x120" href="images/touch-icon-iphone-retina.png">
-<link rel="apple-touch-icon" sizes="152x152" href="images/touch-icon-ipad-retina.png">
-<meta name="apple-mobile-web-app-title" content="<?php echo $title; ?>">
-<link rel="icon" type="image/png" href="images/favicon.ico">
-</head>
 <body>
 
 <?php echo $bjprompt; ?><!-- Bonjour prompt -->
@@ -167,14 +73,7 @@ $title = ($chamber=='' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
 <script type="text/javascript" src="js/beer-chart.js"></script>
 <script type="text/javascript" src="js/profile-table.js"></script>
 
-<div id="version-panel" class="ui-widget ui-widget-content ui-corner-all">
-    <div id="bottom-bar" class="ui-widget ui-widget-header ui-corner-all">
-        <div id="version-bar-text">
-            <div id="version-text">
-                <span>BrewPi Remix version: <?php echo $gitinfo; ?></span>
-            </div>
-        </div
-    </div>
-</div>
+<?= $gitinfo ?> <!-- Git info footer -->
+
 </body>
 </html>

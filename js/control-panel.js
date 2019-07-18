@@ -32,7 +32,18 @@
 
 var beerTemp = defaultTemp();
 var fridgeTemp = defaultTemp();
+var profileTable;
+var profileEdit;
+var profileSelect;
 
+// Lets hack a little shall we ?
+Dygraph.EVERY2DAYS = -1;
+Dygraph.EVERY3DAYS = -2;
+Dygraph.EVERY4DAYS = -3;
+var _1DAY = 1000 * 86400;
+Dygraph.SHORT_SPACINGS[Dygraph.EVERY2DAYS]    = 2 * _1DAY;
+Dygraph.SHORT_SPACINGS[Dygraph.EVERY3DAYS]    = 3 * _1DAY;
+Dygraph.SHORT_SPACINGS[Dygraph.EVERY4DAYS]    = 4 * _1DAY;
 
 function statusMessage(messageType, messageText){
     "use strict";
@@ -166,10 +177,6 @@ function applySettings(){
     setTimeout(loadControlPanel,5000);
 }
 
-var profileTable;
-var profileEdit;
-var profileSelect;
-
 function renderProfile(beerProfile) {
     "use strict";
     window.profileName = beerProfile.name;
@@ -207,16 +214,6 @@ function drawEditPreviewChart() {
     $("#profileEditChartDiv span.chart-loading").text("Error drawing profile chart!");
 }
 
-// lets hack a little shall we ?
-Dygraph.EVERY2DAYS = -1;
-Dygraph.EVERY3DAYS = -2;
-Dygraph.EVERY4DAYS = -3;
-var _1DAY = 1000 * 86400;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY2DAYS]    = 2 * _1DAY;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY3DAYS]    = 3 * _1DAY;
-Dygraph.SHORT_SPACINGS[Dygraph.EVERY4DAYS]    = 4 * _1DAY;
-
-
 function drawProfileChart(divId, profileObj) {
     "use strict";
 
@@ -242,7 +239,7 @@ function drawProfileChart(divId, profileObj) {
 
     var updateCurrentDateLine = function(canvas, area, g) {
         if(g.numRows() < 1){
-            return; // when the chart has no data points, return.
+            return; // When the chart has no data points, return.
         }
 
         canvas.fillStyle = "rgba(255, 100, 100, 1.0)";
@@ -252,26 +249,26 @@ function drawProfileChart(divId, profileObj) {
         var endTime = g.getValue(g.numRows()-1,0);
 
         if(nowTime < startTime) {
-            // all profile dates in the future, show in bottom left corner
+            // All profile dates in the future, show in bottom left corner
             canvas.textAlign = "start";
             canvas.font = "14px Arial";
             canvas.fillText("<< Current time", area.x + 10, area.h - 10);
         }
         else if(nowTime > endTime) {
-            // all profile dates in the future, show in bottom right corner
+            // All profile dates in the future, show in bottom right corner
             canvas.textAlign = "end";
             canvas.font = "14px Arial";
             canvas.fillText("Current time >>", area.x + area.w - 10, area.h - 10);
         }
         else {
-            // draw line at current time
+            // Draw line at current time
             var xCoordinate = g.toDomXCoord(nowTime);
             canvas.fillRect(xCoordinate, area.y+17, 1, area.h-17);
 
-            // display interpolated temperature
+            // Display interpolated temperature
             for( var i=0; i< g.numRows(); i++ ) {
                 if (g.getValue(i,0) > nowTime) {
-                    break; // found surrounding temperature points
+                    break; // Found surrounding temperature points
                 }
             }
             var previousTemperature = parseFloat(g.getValue(i-1,1));
@@ -285,13 +282,13 @@ function drawProfileChart(divId, profileObj) {
             if(xCoordinate < 0.5 * area.w){
                 canvas.textAlign = "start";
                 if(nextTemperature >= parseFloat(temperature)){
-                    yCoordinate += 20; // lower so it won't overlap with the chart
+                    yCoordinate += 20; // Lower so it won't overlap with the chart
                 }
                 canvas.fillText(temperature, xCoordinate + 5, yCoordinate);
             }
             else {
                 if(previousTemperature >= parseFloat(temperature)){
-                    yCoordinate += 20; // lower so it won't overlap with the chart
+                    yCoordinate += 20; // Lower so it won't overlap with the chart
                 }
                 canvas.textAlign = "end";
                 canvas.fillText(temperature, xCoordinate - 5, yCoordinate);
@@ -538,8 +535,8 @@ function showProfileHelpDialog() {
     });
 }
 
-// profile table context menu global click handlers
 function profTableContextMenuHandler(shown) {
+    // Profile table context menu global click handlers
     "use strict";
     if (shown) {
         $('html').bind('click', profTableGlobalClickHandler );
@@ -552,174 +549,6 @@ function profTableGlobalClickHandler() {
     "use strict";
     profileEdit.closeContextMenu();
 }
-
-$(document).ready(function(){
-    "use strict";
-
-	//Control Panel
-    profileEdit = new BeerProfileTable('profileEditControls', {
-        tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",
-        editable: true, startDateFieldSelector: '#profileEditStartDate',
-        dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay,
-        contextMenuCssClass: 'profileTableMenu', contextMenuDisplayHandler: profTableContextMenuHandler,
-        chartUpdateCallBack: drawEditPreviewChart
-    });
-
-    profileTable = new BeerProfileTable('profileTableDiv', {
-        tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",
-        editable: false, startDateFieldSelector: '#profileTableStartDate',
-        dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay
-    });
-
-    profileSelect = new BeerProfileTable('profileSelectTableDiv', {
-        editable: false,
-        dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay
-    });
-
-	$("button#refresh-controls").button({icons: {primary: "ui-icon-arrowrefresh-1-e"} }).click(function(){
-        if ( window.profileName !== '' ) {
-            loadProfile(window.profileName, renderProfile);
-        }
-	});
-
-    $("button#load-controls").button({  icons: {primary: "ui-icon-folder-open" } }).click(function() {
-        showProfileSelectDialog();
-    });
-
-    $("button#new-controls").button({  icons: {primary: "ui-icon-plus" } }).click(function() {
-        $("#profileEditName").val('');
-        $("#profileEditStartDate").val('');
-        profileEdit.render( { name: '', profile: [] } );
-        showProfileEditDialog(true, "New Temperature Profile");
-    });
-
-    $("button#edit-controls").button({  icons: {primary: "ui-icon-wrench" } }).click(function() {
-        $("#profileEditName").val(decodeURIComponent(profileTable.profileName));
-        profileEdit.render( profileTable.toJSON() );
-        showProfileEditDialog(false, "Edit Temperature Profile");
-    }).hide();
-
-    $("button#saveas-controls").button({  icons: {primary: "ui-icon-copy" } }).click(function() {
-        $("#profileEditName").val("copy of " + decodeURIComponent(profileTable.profileName));
-        profileEdit.render( profileTable.toJSON() );
-        showProfileEditDialog(true, "Save Temperature Profile As", true);
-    }).hide();
-
-    $("button#help-profile").button({  icons: {primary: "ui-icon-help" } }).click(function() {
-        showProfileHelpDialog();
-    });
-
-    $("#profileEditStartDate").datetimepicker({ dateFormat: window.dateTimeFormatDisplay, timeFormat: "HH:mm:ss", onSelect: function() {
-        profileEdit.updateDisplay();
-    }});
-
-    $("button#profileEditAddCurrentButton").button().click(function() {
-        profileEdit.insertRowNow();
-    });
-
-    $("button#profileEditNowButton").button().click(function() {
-        $("#profileEditStartDate").datetimepicker('setDate', (new Date()) );
-        profileEdit.updateDisplay();
-    });
-
-    $("button#apply-settings").button({ icons: {primary: "ui-icon-check"} }).click(function() {
-        applySettings();
-    });
-
-	// set functions to validate and mask temperature input
-	$("input.temperature").each( function(){
-        $(this).blur(function(){
-            // validate input when leaving field
-            var temp = parseFloat($(this).val());
-            if(temp < window.controlConstants.tempSetMin){
-                temp = window.controlConstants.tempSetMin;
-                $(this).val(temp);
-            }
-            if(temp > window.controlConstants.tempSetMax){
-                temp = window.controlConstants.tempSetMax;
-                $(this).val(temp);
-            }
-            if(isNaN(temp)){
-                temp = defaultTemp();
-            }
-            $(this).val(temp.toFixed(1));
-            if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
-                window.beerTemp=parseFloat(temp);
-            }
-            if($(this).parent().attr('id').localeCompare("fridge-temp") === 0){
-                window.fridgeTemp=parseFloat(temp);
-            }
-        });
-
-        $(this).keyup(function(event) {
-            if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
-                if (event.which === 38){ // arrow up
-                    clearBeerTempUpInterval();
-                }
-                else if (event.which === 40){
-                    clearBeerTempDownInterval();
-                }
-            }
-            if($(this).parent().attr('id').localeCompare("fridge-temp") === 0){
-                if (event.which === 38){ // arrow up
-                    clearFridgeTempUpInterval();
-                }
-                else if (event.which === 40){
-                    clearFridgeTempDownInterval();
-                }
-            }
-        });
-
-        $(this).keydown(function(event) {
-            if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
-                if (event.which === 38){ // arrow up
-                    startBeerTempUpInterval();
-                }
-                else if (event.which === 40){
-                    startBeerTempDownInterval();
-                }
-            }
-            if($(this).parent().attr('id').localeCompare("fridge-temp") === 0){
-                if (event.which === 38){ // arrow up
-                    startFridgeTempUpInterval();
-                }
-                else if (event.which === 40){
-                    startFridgeTempDownInterval();
-                }
-            }
-        });
-    });
-
-	//Constant temperature control buttons
-	$("button#beer-temp-up").button({icons: {primary: "ui-icon-triangle-1-n"} }).bind({
-		mousedown: startBeerTempUpInterval,
-		mouseup: clearBeerTempUpInterval,
-		mouseleave: clearBeerTempUpInterval
-	});
-
-	$("button#beer-temp-down").button({icons: {primary: "ui-icon-triangle-1-s"} }).bind({
-		mousedown: startBeerTempDownInterval,
-		mouseup: clearBeerTempDownInterval,
-		mouseleave: clearBeerTempDownInterval
-	});
-
-	//Constant fridge temperature control buttons
-	$("button#fridge-temp-up").button({icons: {primary: "ui-icon-triangle-1-n"}	}).bind({
-		mousedown: startFridgeTempUpInterval,
-		mouseup: clearFridgeTempUpInterval,
-		mouseleave: clearFridgeTempUpInterval
-	});
-
-	$("button#fridge-temp-down").button({icons: {primary: "ui-icon-triangle-1-s"}	}).bind({
-		mousedown: startFridgeTempDownInterval,
-		mouseup: clearFridgeTempDownInterval,
-		mouseleave: clearFridgeTempDownInterval
-    });
-    
-    $('#control-panel').tabs();
-    // unhide after loading
-    $("#control-panel").show();
-});
 
 function startFridgeTempUpInterval(){
     "use strict";
@@ -816,3 +645,171 @@ function clearBeerTempDownInterval(){
         clearInterval(window.beerTempDownTimeOut);
     }
 }
+
+$(document).ready(function(){
+    "use strict";
+
+	//Control Panel
+    profileEdit = new BeerProfileTable('profileEditControls', {
+        tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",
+        editable: true, startDateFieldSelector: '#profileEditStartDate',
+        dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay,
+        contextMenuCssClass: 'profileTableMenu', contextMenuDisplayHandler: profTableContextMenuHandler,
+        chartUpdateCallBack: drawEditPreviewChart
+    });
+
+    profileTable = new BeerProfileTable('profileTableDiv', {
+        tableClass: "profileTableEdit ui-widget", theadClass: "ui-widget-header", tbodyClass: "ui-widget-content",
+        editable: false, startDateFieldSelector: '#profileTableStartDate',
+        dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay
+    });
+
+    profileSelect = new BeerProfileTable('profileSelectTableDiv', {
+        editable: false,
+        dateFormat: window.dateTimeFormat, dateFormatDisplay: window.dateTimeFormatDisplay
+    });
+
+	$("button#refresh-controls").button({icons: {primary: "ui-icon-arrowrefresh-1-e"} }).click(function(){
+        if ( window.profileName !== '' ) {
+            loadProfile(window.profileName, renderProfile);
+        }
+	});
+
+    $("button#load-controls").button({  icons: {primary: "ui-icon-folder-open" } }).click(function() {
+        showProfileSelectDialog();
+    });
+
+    $("button#new-controls").button({  icons: {primary: "ui-icon-plus" } }).click(function() {
+        $("#profileEditName").val('');
+        $("#profileEditStartDate").val('');
+        profileEdit.render( { name: '', profile: [] } );
+        showProfileEditDialog(true, "New Temperature Profile");
+    });
+
+    $("button#edit-controls").button({  icons: {primary: "ui-icon-wrench" } }).click(function() {
+        $("#profileEditName").val(decodeURIComponent(profileTable.profileName));
+        profileEdit.render( profileTable.toJSON() );
+        showProfileEditDialog(false, "Edit Temperature Profile");
+    }).hide();
+
+    $("button#saveas-controls").button({  icons: {primary: "ui-icon-copy" } }).click(function() {
+        $("#profileEditName").val("copy of " + decodeURIComponent(profileTable.profileName));
+        profileEdit.render( profileTable.toJSON() );
+        showProfileEditDialog(true, "Save Temperature Profile As", true);
+    }).hide();
+
+    $("button#help-profile").button({  icons: {primary: "ui-icon-help" } }).click(function() {
+        showProfileHelpDialog();
+    });
+
+    $("#profileEditStartDate").datetimepicker({ dateFormat: window.dateTimeFormatDisplay, timeFormat: "HH:mm:ss", onSelect: function() {
+        profileEdit.updateDisplay();
+    }});
+
+    $("button#profileEditAddCurrentButton").button().click(function() {
+        profileEdit.insertRowNow();
+    });
+
+    $("button#profileEditNowButton").button().click(function() {
+        $("#profileEditStartDate").datetimepicker('setDate', (new Date()) );
+        profileEdit.updateDisplay();
+    });
+
+    $("button#apply-settings").button({ icons: {primary: "ui-icon-check"} }).click(function() {
+        applySettings();
+    });
+
+	// Set functions to validate and mask temperature input
+	$("input.temperature").each( function(){
+        $(this).blur(function(){
+            // Validate input when leaving field
+            var temp = parseFloat($(this).val());
+            if(temp < window.controlConstants.tempSetMin){
+                temp = window.controlConstants.tempSetMin;
+                $(this).val(temp);
+            }
+            if(temp > window.controlConstants.tempSetMax){
+                temp = window.controlConstants.tempSetMax;
+                $(this).val(temp);
+            }
+            if(isNaN(temp)){
+                temp = defaultTemp();
+            }
+            $(this).val(temp.toFixed(1));
+            if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
+                window.beerTemp=parseFloat(temp);
+            }
+            if($(this).parent().attr('id').localeCompare("fridge-temp") === 0){
+                window.fridgeTemp=parseFloat(temp);
+            }
+        });
+
+        $(this).keyup(function(event) {
+            if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
+                if (event.which === 38){ // Arrow up
+                    clearBeerTempUpInterval();
+                }
+                else if (event.which === 40){
+                    clearBeerTempDownInterval();
+                }
+            }
+            if($(this).parent().attr('id').localeCompare("fridge-temp") === 0){
+                if (event.which === 38){ // Arrow up
+                    clearFridgeTempUpInterval();
+                }
+                else if (event.which === 40){
+                    clearFridgeTempDownInterval();
+                }
+            }
+        });
+
+        $(this).keydown(function(event) {
+            if($(this).parent().attr('id').localeCompare("beer-temp") === 0){
+                if (event.which === 38){ // Arrow up
+                    startBeerTempUpInterval();
+                }
+                else if (event.which === 40){
+                    startBeerTempDownInterval();
+                }
+            }
+            if($(this).parent().attr('id').localeCompare("fridge-temp") === 0){
+                if (event.which === 38){ // Arrow up
+                    startFridgeTempUpInterval();
+                }
+                else if (event.which === 40){
+                    startFridgeTempDownInterval();
+                }
+            }
+        });
+    });
+
+	// Constant temperature control buttons
+	$("button#beer-temp-up").button({icons: {primary: "ui-icon-triangle-1-n"} }).bind({
+		mousedown: startBeerTempUpInterval,
+		mouseup: clearBeerTempUpInterval,
+		mouseleave: clearBeerTempUpInterval
+	});
+
+	$("button#beer-temp-down").button({icons: {primary: "ui-icon-triangle-1-s"} }).bind({
+		mousedown: startBeerTempDownInterval,
+		mouseup: clearBeerTempDownInterval,
+		mouseleave: clearBeerTempDownInterval
+	});
+
+	// Constant fridge temperature control buttons
+	$("button#fridge-temp-up").button({icons: {primary: "ui-icon-triangle-1-n"}	}).bind({
+		mousedown: startFridgeTempUpInterval,
+		mouseup: clearFridgeTempUpInterval,
+		mouseleave: clearFridgeTempUpInterval
+	});
+
+	$("button#fridge-temp-down").button({icons: {primary: "ui-icon-triangle-1-s"}	}).bind({
+		mousedown: startFridgeTempDownInterval,
+		mouseup: clearFridgeTempDownInterval,
+		mouseleave: clearFridgeTempDownInterval
+    });
+    
+    $('#control-panel').tabs();
+    // Unhide after loading
+    $("#control-panel").show();
+});

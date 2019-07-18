@@ -31,63 +31,15 @@
  license and credits.
  */
 
-// load default settings from file
-$defaultSettings = file_get_contents('defaultSettings.json');
-if ($defaultSettings == false) die("Cannot open: defaultSettings.json");
-
-$settingsArray = json_decode(prepareJSON($defaultSettings), true);
-if (is_null($settingsArray)) die("Cannot decode: defaultSettings.json");
-
-// overwrite default settings with user settings
-if(file_exists('userSettings.json')){
-    $userSettings = file_get_contents('userSettings.json');
-    if($userSettings == false) die("Cannot open: userSettings.json");
-
-    $userSettingsArray = json_decode(prepareJSON($userSettings), true);
-    if(is_null($settingsArray)) die("Cannot decode: userSettings.json");
-
-    foreach ($userSettingsArray as $key => $value) {
-        $settingsArray[$key] = $userSettingsArray[$key];
-    }
-}
-
-$beerName = $settingsArray["beerName"];
-$tempFormat = $settingsArray["tempFormat"];
-$profileName = $settingsArray["profileName"];
-$dateTimeFormat = $settingsArray["dateTimeFormat"];
-$dateTimeFormatDisplay = $settingsArray["dateTimeFormatDisplay"];
-
-function prepareJSON($input) {
-    //This will convert ASCII/ISO-8859-1 to UTF-8.
-    //Be careful with the third parameter (encoding detect list), because
-    //if set wrong, some input encodings will get garbled (including UTF-8!)
-    $input = mb_convert_encoding($input, 'UTF-8', 'ASCII,UTF-8,ISO-8859-1');
-    //Remove UTF-8 BOM if present, json_decode() does not like it.
-    if(substr($input, 0, 3) == pack("CCC", 0xEF, 0xBB, 0xBF)) $input = substr($input, 3);
-    return $input;
-}
-
+include 'settings.php'; // Get default and custom settings
+include 'top-bottom.php'; // Get bonjour header and version footer
+include 'paths.php'; // Get correct paths
 $title = 'BrewPi Remix LCD';
+include 'html-head.php'; // Get HTML header
 
+echo $header; // HTML Header
 ?>
-<!DOCTYPE html >
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title><?php echo $title; ?></title>
-<link type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
-<link type="text/css" href="css/style.css" rel="stylesheet"/>
-<link type="text/css" href="css/lcd.css" rel="stylesheet"/>
-<link rel="apple-touch-icon" href="images/touch-icon-iphone.png">
-<link rel="apple-touch-icon" sizes="76x76" href="images/touch-icon-ipad.png">
-<link rel="apple-touch-icon" sizes="120x120" href="images/touch-icon-iphone-retina.png">
-<link rel="apple-touch-icon" sizes="152x152" href="images/touch-icon-ipad-retina.png">
-<link rel="icon" type="image/png" href="images/favicon.ico">
-<meta name="apple-mobile-web-app-title" content="BrewPi">
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-title" content="<?php echo $title; ?>">
-</head>
-<body>	
+
 <div id="lcd" class="lcd-display"><span class="lcd-text">
     <span class="lcd-line2" id="lcd-line-4">Tracking: <?php echo wordwrap(urldecode($beerName), 21);?></span>
     <span class="lcd-line2" id="lcd-line-0">Live LCD waiting</span>
@@ -95,8 +47,8 @@ $title = 'BrewPi Remix LCD';
     <span class="lcd-line2" id="lcd-line-2">script.</span>
     <span class="lcd-line2" id="lcd-line-3"></span>
 </div>
-<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script><!-- Need this for LCD -->
-<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script><!-- Need this for LCD -->
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script> --> <!-- Need this for LCD -->
+<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script> --> <!-- Need this for LCD -->
 <!-- <script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script> -->
 <!-- <script type="text/javascript" src="js/spin.js"></script> -->
 <!-- <script type="text/javascript" src="js/dygraph-combined.js"></script> -->

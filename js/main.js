@@ -35,25 +35,23 @@ var controlConstants = {};
 var controlSettings = {};
 var controlVariables = {};
 
-
 // Determine if we are in a frame or on an LCD page
-function inIframe() {
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
-  }
-  function isLCD() {
+function isLCD() {
     var path = window.location.pathname;
     var pageName = path.split("/").pop();
     // if (typeof pageName !== 'undefined') {var pageName = "index.php"}
     if (pageName == "lcd.php" || pageName == "fullscreen-lcd.php" || inIframe()) {
         return true;
     }
-  }
+}
+function inIframe() {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
   
-
 function receiveControlConstants(){
 	"use strict";
 	$.ajax({
@@ -432,7 +430,7 @@ function beerNameDialogResult($body, $backButton, result){
 
 $(document).ready(function(){
     "use strict";
-	$(".script-status").button({	icons: {primary: "ui-icon-alert" } });
+	$(".script-status").button({icon: {primary: "ui-icon-alert"} });
 	$(".script-status span.ui-button-text").text("Checking script..");
     $("#beer-name").click(beerNameDialogInit);
 

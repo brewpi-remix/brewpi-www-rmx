@@ -40,15 +40,7 @@
         </span>
 	</div>
 	<div id="logo-container">
-        <?php
-        // Get site root url
-        $root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
-        // Get logo name (use custom if it exists)
-        $logo = (file_exists('images/custom_logo.png') ? 'images/custom_logo.png' : 'images/brewpi_logo.png');
-        // Use link on logo if we are multi-chamber
-        $logo = ($chamber=='' ? '<img class="logo" src="'.$logo.'">' : '<a href="'.$root.'"><img class="logo" src="'.$logo.'"></a>');
-        echo $logo;
-        ?>
+		<?= $logo; ?> <!-- Logo -->
 		<div id=beer-name-container>
 			<span>Tracking: </span>
             <a href='#' id="beer-name"><?php echo urldecode($beerName);?></a>
