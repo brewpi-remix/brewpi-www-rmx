@@ -29,30 +29,22 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
-function open_socket()
-{
-    $isWindows = defined('PHP_WINDOWS_VERSION_MAJOR');
-    $useInetSocket = getConfig("useInetSocket", $isWindows);
-    if ($useInetSocket)
-        $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-    else
-        $sock = socket_create(AF_UNIX, SOCK_STREAM, 0);
-
-    if (!($sock === false))
-    {
-        if(
-            ((!$useInetSocket) && socket_connect($sock, "$GLOBALS[scriptPath]/BEERSOCKET"))
-            || (($useInetSocket) && socket_connect($sock, getConfig("scriptAddress", "localhost"),
-            getConfig("scriptPort",6332)))
-            )
-        {
-            socket_set_option($sock, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 15, 'usec' => 0));
-        }
-        else{
-            socket_close($sock);
-            if (getConfig('debug', false))
-				echo "Socket connection failed: " . socket_strerror(socket_last_error($sock));
-		}
-	}
-	return $sock;
-}
+$header = '';
+$header .= '<!DOCTYPE html >';
+$header .= '<html>';
+$header .= '<head>';
+$header .= '<meta http-equiv="content-type" content="text/html; charset=utf-8" />';
+$header .= '<title>' . $title . '</title>';
+$header .= '<link rel="stylesheet" type="text/css" href="' . $css . '/redmond/jquery-ui-1.10.3.custom.css" />';
+$header .= '<link rel="stylesheet" type="text/css" href="' . $css . '/style.css" />';
+$header .= $lcdcss;
+$header .= '<link rel="apple-touch-icon" href="' . $imgloc . '/touch-icon-iphone.png">';
+$header .= '<link rel="apple-touch-icon" sizes="76x76" href="' . $imgloc . '/touch-icon-ipad.png">';
+$header .= '<link rel="apple-touch-icon" sizes="120x120" href="' . $imgloc . '/touch-icon-iphone-retina.png">';
+$header .= '<link rel="apple-touch-icon" sizes="152x152" href="' . $imgloc . '/touch-icon-ipad-retina.png">';
+$header .= '<meta name="apple-mobile-web-app-capable" content="yes" />';
+$header .= '<meta name="apple-mobile-web-app-title" content="' . $title . '">';
+$header .= '<link rel="icon" type="image/png" href="' . $imgloc . '/favicon.ico">';
+$header .= '<base target="_parent">';
+$header .= '</head>';
+$header .= '<body>';

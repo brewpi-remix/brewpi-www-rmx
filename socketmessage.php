@@ -34,15 +34,8 @@ To make sockets work on windows, uncomment extension=php_sockets.dll
 in php.ini 
 */
 
+include 'settings.php'; // Get default and custom settings
 require_once('socket_open.php');
-
-// Read config settings
-if(file_exists('config.php')) {
-	require_once('config.php');
-}
-else {
-	die('ERROR: Unable to open required file (config.php)');
-}
 
 function startsWith($haystack, $needle){
 	return !strncmp($haystack, $needle, strlen($needle));
@@ -74,7 +67,7 @@ if(isset($_POST['messageType'])){
 	$messageType = $_POST['messageType'];
 }
 else{
-	die("messageType not set");
+	die("messageType not set.");
 }
 
 if(isset($_POST['message'])){
@@ -112,14 +105,14 @@ if($sock !== false){
 		case "lcd":
 			writeToSocket($sock, "lcd");
 			$lcdText = readFromSocket($sock);
-			echo str_replace(chr(0xB0), "&deg;", $lcdText); // replace degree sign with &Deg
+			echo str_replace(chr(0xB0), "&deg;", $lcdText); // Replace degree sign with &Deg
 			break;
 		default:
-			// just pass the command to the socket and read the answer if needed
+			// Just pass the command to the socket and read the answer if needed
 			writeToSocket($sock, $messageType);
 			if(startsWith($messageType, "get") or $messageType == "stopLogging" or
 				$messageType == "pauseLogging" or $messageType == "resumeLogging"){
-				// return data expected, read from socket
+				// Return expected data, read from socket
 				echo readFromSocket($sock);
 			}
 		}
@@ -127,5 +120,5 @@ if($sock !== false){
 	socket_close($sock);
 }
 else{
-    die("Cannot open socket to script");
+    die("Cannot open socket to script.");
 }

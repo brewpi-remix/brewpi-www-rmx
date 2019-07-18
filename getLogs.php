@@ -29,13 +29,7 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
-// Read config settings
-if(file_exists('config.php')) {
-        require_once('config.php');
-}
-else {
-        die('ERROR: Unable to open required file (config.php).');
-}
+include 'settings.php'; // Get default and custom settings
 
 $response = array();
 if(isset($_GET['stdout'])){

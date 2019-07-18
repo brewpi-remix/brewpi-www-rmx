@@ -1,28 +1,57 @@
-/* Copyright 2012 BrewPi/Elco Jacobs.
- * This file is part of BrewPi.
-
- * BrewPi is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
-
- * BrewPi is distributed in the hope that it will be useful,
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
+ *
+ * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
+ *
+ * BrewPi WWW RMX is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * BrewPi WWW RMX is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
  * You should have received a copy of the GNU General Public License
- * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
- */
+ * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * These scripts were originally a part of brewpi-www, a part of
+ * the BrewPi project. Legacy support (for the very popular Arduino
+ * controller) seems to have been discontinued in favor of new hardware.
+ *
+ * All credit for the original brewpi-www goes to @elcojacobs,
+ * @lukepower, @m-mcgowan, @vanosg, @GregAtkinson and I'm sure
+ * many more contributors around the world. My apologies if I have
+ * missed anyone; those were the names listed as contributors on the
+ * Legacy branch.
+ *
+ * See: 'original-license.md' for notes about the original project's
+ * license and credits. */
 
 /* global google, loadControlPanel, drawBeerChart */
 
 var prevScriptStatus=-1;
-
 var controlConstants = {};
 var controlSettings = {};
 var controlVariables = {};
 
+// Determine if we are in a frame or on an LCD page
+function isLCD() {
+    var path = window.location.pathname;
+    var pageName = path.split("/").pop();
+    // if (typeof pageName !== 'undefined') {var pageName = "index.php"}
+    if (pageName == "lcd.php" || pageName == "fullscreen-lcd.php" || inIframe()) {
+        return true;
+    }
+}
+function inIframe() {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+  
 function receiveControlConstants(){
 	"use strict";
 	$.ajax({
@@ -400,16 +429,18 @@ function beerNameDialogResult($body, $backButton, result){
 }
 
 $(document).ready(function(){
-	"use strict";
-	$(".script-status").button({	icons: {primary: "ui-icon-alert" } });
+    "use strict";
+	$(".script-status").button({icon: {primary: "ui-icon-alert"} });
 	$(".script-status span.ui-button-text").text("Checking script..");
     $("#beer-name").click(beerNameDialogInit);
 
-	loadControlPanel();
-	drawBeerChart(window.beerName, 'curr-beer-chart');
+    if (! isLCD()) { // Skip all this if we are on the LCD page
+        loadControlPanel();
+        drawBeerChart(window.beerName, 'curr-beer-chart');
+        receiveControlConstants();
+        receiveControlSettings();
+        receiveControlVariables();
+    }
 
-	receiveControlConstants();
-	receiveControlSettings();
-	receiveControlVariables();
 	refreshLcd(); //will call refreshLcd and alternate between the two
 });
