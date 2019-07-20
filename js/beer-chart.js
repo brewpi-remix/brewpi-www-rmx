@@ -29,10 +29,12 @@
  * license and credits. */
 
 /* jshint jquery:true */
-/* global alert, console, controlSettings, tempFormat, beername, Dygraph, google, CanvasRenderingContext2D */
+/* global alert, console, controlSettings, tempFormat, beername, Dygraph, 
+ * google, CanvasRenderingContext2D */
 
 var currBeerChart;
 var prevBeerChart;
+var colorTilt = "";
 
 var colorIdle = "white";
 var colorCool = "rgba(0, 0, 255, 0.4)";
@@ -42,28 +44,16 @@ var colorWaitingCool = "rgba(0, 0, 255, 0.2)";
 var colorHeatingMinTime = "rgba(255, 0, 0, 0.6)";
 var colorCoolingMinTime = "rgba(0, 0, 255, 0.6)";
 var colorWaitingPeakDetect = "rgba(0, 0, 0, 0.2)";
+var legendStorageKeyPrefix = "legendLine_";
 
-var colorTilt;
+var currentDataSet = null;
 
-// Determine if we are in a frame or in the LCD.php page
-function inIframe() {
-  try {
-      return window.self !== window.top;
-  } catch (e) {
-      return true;
-  }
-}
-function isLCD() {
-  var path = window.location.pathname;
-  var pageName = path.split("/").pop();
-  // if (typeof pageName !== 'undefined') {var pageName = "index.php"}
-  if (pageName == "lcd.php" || pageName == "fullscreen-lcd.php" || inIframe()) {
-      return true;
-  }
-}
+var TIME_COLUMN = 0; // Time is the first column of data
+var STATE_COLUMN = 6; // State is currently the 6th column of data.
+var STATE_LINE_WIDTH = 15;
 
-// Determine Tilt color from json field name
-function findTiltByColor(field) {
+
+function findTiltByColor(field) { // Determine Tilt color from json field name
   "use strict";
   for (var color in tiltColors) {
     if (tiltColors.hasOwnProperty(color)) {
@@ -75,8 +65,8 @@ function findTiltByColor(field) {
   return null;
 }
 
-// Array to pick Tilt color based on json field passed
-var tiltColors = {
+
+var tiltColors = { // Array to pick Tilt color based on json field passed
   RedSG: "Red",
   GreenSG: "Green",
   BlackSG: "Black",
@@ -87,8 +77,7 @@ var tiltColors = {
   PinkSG: "Pink"
 };
 
-//Modification: Tilt line names and legend
-var lineNames = {
+var lineNames = { // Tilt line names and legend
   beerTemp: "Beer Temp",
   beerSet: "Beer Set",
   fridgeTemp: "Chamber Temp",
@@ -111,12 +100,6 @@ var lineNames = {
   pinkTemp: "Pink Tilt Temp.",
   pinkSG: "Pink Tilt SG"
 };
-
-var legendStorageKeyPrefix = "legendLine_";
-
-var TIME_COLUMN = 0; // time is the first column of data
-var STATE_COLUMN = 6; // state is currently the 6th column of data.
-var STATE_LINE_WIDTH = 15;
 
 /**
  * The states of the temp controller algorithm, and their presentation attributes.
@@ -262,6 +245,7 @@ function toDygraphArray(jsonData) {
       if (!val) {
         return;
       }
+      // console.log(concat('%s %s %s %s', labelsArray[index * 2 / 3], date.getTime(), String.fromCharCode(65 + annotationsArray.length % 26), val.v)); // DEBUG
       annotationsArray.push({
         series: labelsArray[index * 2 / 3],
         x: date.getTime(),
@@ -271,8 +255,7 @@ function toDygraphArray(jsonData) {
       });
     };
 
-  // set up handlers for each variable based on cols, use id as Dygraph label
-  for (i = 0; i < cols.length; i++) {
+  for (i = 0; i < cols.length; i++) { // Set up handlers for each variable based on cols, use id as Dygraph label
     // Get Tilt color
     var _tempColor = findTiltByColor(cols[i].id);
     if( _tempColor != null ) {
@@ -280,7 +263,7 @@ function toDygraphArray(jsonData) {
     }
     if (cols[i].type === "number") {
       handlers.push(numberHandler);
-      // use id as label, but with lowercase first letter
+      // Use id as label, but with lowercase first letter
       labelsArray.push(cols[i].id.substr(0, 1).toLowerCase() + cols[i].id.substr(1));
     } else if (cols[i].type === "datetime") {
       handlers.push(datetimeHandler);
@@ -340,7 +323,7 @@ function findStateBlocks(g, start, end) {
  * (or closest.)
  * @param g {Dygraph}   The dygraph containing the data
  * @param time {number} The time target to find the corresponding row for
- * @returns {number}    The row containing the time nearest to 
+ * @returns {number}    The row containing the time nearest to
  *                      <code>time</code>}
  *
  * Since the time data is assumed sorted, the implementation uses a binary
@@ -368,8 +351,6 @@ function findDataRow(g, time) {
   }
   return low;
 }
-
-var currentDataSet = null;
 
 function paintBackground(canvas, area, g) {
   "use strict";
@@ -484,8 +465,7 @@ function showChartLegend(e, x, pts, row, g) {
   $("#curr-beer-chart-legend .beer-chart-legend-row.fridgeSet .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 4)));
   $("#curr-beer-chart-legend .beer-chart-legend-row.roomTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 5)));
 
-  // Populate Tilt SG and Temp for proper color
-  switch (colorTilt) {
+  switch (colorTilt) { // Populate Tilt SG and Temp for proper color
     case "Red":
       $("#curr-beer-chart-legend .beer-chart-legend-row.redTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
       $("#curr-beer-chart-legend .beer-chart-legend-row.redSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
@@ -513,11 +493,11 @@ function showChartLegend(e, x, pts, row, g) {
     case "Yellow":
       $("#curr-beer-chart-legend .beer-chart-legend-row.yellowTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
       $("#curr-beer-chart-legend .beer-chart-legend-row.yellowSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
-      break; 
+      break;
     case "Pink":
       $("#curr-beer-chart-legend .beer-chart-legend-row.pinkTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 7)));
       $("#curr-beer-chart-legend .beer-chart-legend-row.pinkSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 8)));
-      break; 
+      break;
   }
 
   var state = parseInt(currentDataSet.getValue(row, STATE_COLUMN));
@@ -549,14 +529,12 @@ function findLineByName(name) {
   return null;
 }
 
-/* Give name of the beer to display and div to draw the graph in */
-function drawBeerChart(beerToDraw, div) {
+function drawBeerChart(beerToDraw, div) { // Give name of the beer to display and div in which to draw the graph
   "use strict";
-  if (isLCD()) {return;} // Skip all this if we are on the LCD page
   var $chartDiv = $("#" + div);
   $chartDiv.empty();
   if (beerToDraw === "None") {
-    var $errorMessage = $("<span class='chart-error-text'>" + "BrewPi is currently not logging data. Start a new brew to resume logging.<br>" + "You can find your previous beers under Maintenance Panel -> Previous Beers</span>");
+    var $errorMessage = $("<span class='chart-error-text'>" + "BrewPi is currently not logging data. Start a new brew to resume logging.<br />" + "You can find your previous beers under Maintenance Panel -> Previous Beers</span>");
     $chartDiv.addClass("chart-error");
     $chartDiv.append($errorMessage);
     return;
@@ -569,9 +547,7 @@ function drawBeerChart(beerToDraw, div) {
     try {
       combinedJson = $.parseJSON(answer);
     } catch (e) {
-      var $errorMessage = $("<span class='chart-error-text'>Could not parse data for this brew.<br>" +
-                            "If you just started this brew, click the refresh button after a few minutes.<br> " +
-                            "A chart will appear after the first data point is logged.</span>");
+      var $errorMessage = $("<span class='chart-error-text'>Could not parse data for this brew.<br />" + "If you just started this brew, click the refresh button after a few minutes.<br /> " + "A chart will appear after the first data point is logged.</span>");
       var $refreshButton = $("<button class='chart-error-refresh'>Refresh</button>");
       $refreshButton.button({
         icons: {
@@ -587,6 +563,12 @@ function drawBeerChart(beerToDraw, div) {
       return;
     }
     var beerData = toDygraphArray(combinedJson);
+    // console.log("answer:"); // DEBUG
+    // console.log(answer.toString()); // DEBUG
+    // console.log("combinedJson:"); // DEBUG
+    // console.log(combinedJson.toString()); // DEBUG
+    // console.log("beerData:"); // DEBUG
+    // console.log(beerData.toString()); // DEBUG
 
     var tempFormat = function (y) {
       return parseFloat(y).toFixed(2) + "\u00B0 " + window.tempFormat;
@@ -603,12 +585,13 @@ function drawBeerChart(beerToDraw, div) {
       "rgb(89, 184, 255)",
       "rgb(255, 161, 76)",
       "#AAAAAA",
-      "rgb(153,0,153)",
-      colorTilt.toLowerCase(),
-      colorTilt.toLowerCase()
+      "rgb(153,0,153)"
     ];
 
-    if (isLCD()) {return;} // Skip all this if we are on the LCD page
+    if (colorTilt !== "") {
+      chartColors.push(colorTilt.toLowerCase());
+      chartColors.push(colorTilt.toLowerCase());
+    }
 
     var beerChart = new Dygraph(document.getElementById(div), beerData.values, {
       labels: beerData.labels,
@@ -619,7 +602,6 @@ function drawBeerChart(beerToDraw, div) {
       gridLineWidth: "0.1px",
       labelsDiv: document.getElementById(div + "-label"),
       displayAnnotations: true,
-      displayAnnotationsFilter: true,
       showRangeSelector: true,
       strokeWidth: 1,
       series: {
@@ -691,7 +673,7 @@ function drawBeerChart(beerToDraw, div) {
       }
     });
     
-    beerChart.setVisibility(beerChart.indexFromSetName("state") - 1, 0); // turn off state line
+    beerChart.setVisibility(beerChart.indexFromSetName("state") - 1, 0); // Turn off state line
     var $chartContainer = $chartDiv.parent();
     $chartContainer.find(".beer-chart-controls").show();
 
@@ -701,8 +683,7 @@ function drawBeerChart(beerToDraw, div) {
       prevBeerChart = beerChart;
     }
 
-    // hide buttons for lines that are not in the chart
-    for (var key in lineNames) {
+    for (var key in lineNames) { // Hide buttons for lines that are not in the chart
       if (lineNames.hasOwnProperty(key)) {
         var $row = $chartContainer.find(".beer-chart-legend-row." + key);
         var series = beerChart.getPropertiesForSeries(key);
@@ -738,8 +719,7 @@ function drawBeerChart(beerToDraw, div) {
       }
     });
     
-    // Refresh chart every 120 seconds
-    setTimeout(function () {
+    setTimeout(function () { // Refresh chart every 120 seconds
       drawBeerChart(window.beerName, "curr-beer-chart");
     }, 120000);
   });
@@ -747,7 +727,7 @@ function drawBeerChart(beerToDraw, div) {
 
 function isDataEmpty(chart, column, rowStart, rowEnd) {
   "use strict";
-  // start with last element, because when a sensor is just connected it should show up
+  // Start with last element, because when a sensor is just connected it should show up
   for (var row = rowEnd; row > rowStart; row--) {
     if (chart.getValue(row, column) !== null) {
       return false;
@@ -810,6 +790,23 @@ function applyStateColors() {
   $(".state-color.state-idle").css("background-color", colorIdle);
 }
 
+function toggleAnnotations(el) {
+  "use strict";
+  var $el = $(el);
+  if ($el.hasClass("beer-chart-legend-label")) {
+    $el = $el.prev();
+  }
+  $el.toggleClass("inactive");
+  var $chart = $el.closest(".chart-container").find(".beer-chart");
+  var chartId = $chart.attr("id");
+
+  if ($($el).hasClass("inactive")) {
+    $chart.find(".dygraphDefaultAnnotation").css("visibility", "hidden");
+  } else {
+    $chart.find(".dygraphDefaultAnnotation").css("visibility", "visible");
+  }
+}
+
 $(document).ready(function () {
   "use strict";
   $("button.refresh-curr-beer-chart").button({
@@ -833,20 +830,3 @@ $(document).ready(function () {
   });
   applyStateColors();
 });
-
-function toggleAnnotations(el) {
-  "use strict";
-  var $el = $(el);
-  if ($el.hasClass("beer-chart-legend-label")) {
-    $el = $el.prev();
-  }
-  $el.toggleClass("inactive");
-  var $chart = $el.closest(".chart-container").find(".beer-chart");
-  var chartId = $chart.attr("id");
-
-  if ($($el).hasClass("inactive")) {
-    $chart.find(".dygraphDefaultAnnotation").css("visibility", "hidden");
-  } else {
-    $chart.find(".dygraphDefaultAnnotation").css("visibility", "visible");
-  }
-}

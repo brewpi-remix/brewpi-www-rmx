@@ -72,6 +72,7 @@ function echoRotarySelect($optionName){
 
 <ul>
         <button class="script-status"></button>
+        <!-- The ul is styled as a nice header by jQuery UI -->
         <li><a href="#settings"><span class="setting-name">Settings</span></a></li>
         <li><a href="#view-logs"><span>View logs</span></a></li>
         <li><a href="previous_beers.php"><span>Previous Beers</span></a></li>
@@ -80,26 +81,20 @@ function echoRotarySelect($optionName){
         <li><a href="#advanced-settings"><span>Advanced Settings</span></a></li>
         <li><a href="#reprogram-arduino"><span>Reprogram <span class="boardMoniker">controller</span></span></a></li>
         <li><a href="#brewpi-addons"><span>BrewPi Add-Ons</span></a></li>
-        <!--kinda dirty to have buttons in the ul, but the ul is styled as a nice header by jQuery UI -->
 </ul>
 
 <div id="reprogram-arduino">
-        <div class="settings-container">
-                <div class="setting-container">
-                        <p><span class="setting-name">Disabled</span></p>
-                        <p>This function has been disabled for now.  Please use the script updateFirmware.py in the brewpi/utils folder.</p>
-                </div>
-        </div>
-        <!--<p>Here you can upload a <span class="programFileType">firmware</span> file which will be uploaded to the <span class="boardMoniker">controller</span> by the Python script.
+        <p>Here you can upload a <span class="programFileType">firmware</span> file which will be uploaded to the <span class="boardMoniker">controller</span> by the Python script.
                 The script will automatically restart itself after programming.</p>
-         -->
+
                 <!-- This form has a hidden iFrame as target, so the full page is not refreshed -->
-                <!--<form action="program_arduino.php" method="post" enctype="multipart/form-data" target="upload-target">
+                <form action="" method="post" enctype="multipart/form-data" target="upload-target">
+                <!-- <form action="program_arduino.php" method="post" enctype="multipart/form-data" target="upload-target"> -->
                         <div id="program-options">
                                 <div class="program-option">
                                         <label for="file"><span class="programFileType">HEX</span> file:</label>
-                                        <input type="file" name="file" id="file" /> --> <!-- add max file size? -->
-                                <!-- </div>
+                                        <input type="file" name="file" id="file" accept=".hex" onchange="return fileValidation()" />
+                                </div>
                                 <div class="program-option">
                                         <label for="boardType"> Board type:</label>
                                         <select name="boardType" class="boardType">
@@ -124,7 +119,6 @@ function echoRotarySelect($optionName){
                 <h3 id="program-stderr-header">Script output will auto-refresh while programming if you keep this tab open.</h3>
                 <div class="stderr console-box"></div>
                 <iframe id="upload-target" name="upload-target" src="about:blank" style="width:0;height:0;border:0px solid #fff;"></iframe> 
-        </div> -->
 </div>
 
 <div id="settings">

@@ -131,11 +131,11 @@ button#maintenance{
 }
 
 #lcd-panel{
-	width: 950px;
+	width: 980px;
     margin-top: 10px;
 }
 
-#lcd-version-panel{
+#lcd-version-panel{ /* Not used anymore */
 	width: 950px;
     height: 28px;
     margin-top: 10px;
@@ -143,7 +143,7 @@ button#maintenance{
     float:left;
 }
 
-#lcd-bottom-bar{
+#lcd-bottom-bar{ /* Not used anymore */
 	width: 938px;
 	margin: 5px;
     float:left;
@@ -156,7 +156,7 @@ button#maintenance{
 }
 
 #lcd-top-bar{
-	width: 938px;
+	width: 968px;
 	margin: 5px;
     float:left;
 }
@@ -171,7 +171,7 @@ button#maintenance{
 }
 
 #lcd-logo-panel{
-	width: 950px;
+	width: 980px;
     height: 78px;
     margin-top: 10px;
 	margin-bottom: 10px;
@@ -860,10 +860,8 @@ button.chart-error-refresh{
 #profileNameDate div { float:left; clear: left; width:100%;}
 #profileNameDate .profileTableLabel { display: block; float: left; font-weight: bold; margin-left: 5px}
 #profileNameDate .profileTableValue { display: block; float: right; margin-right:5px; }
-
-#profileChartDiv { width: 430px; height: 280px; float: left; }
-
-#profileTableDiv { width: 375px; height: 280px; float: right; overflow: auto; }
+#profileChartDiv { width: 400px; height: 280px; float: left; }
+#profileTableDiv { width: 350px; height: 280px; float: right; overflow: auto; }
 #profileTableDiv table {
     border-collapse:separate; border-spacing: 0;
 }

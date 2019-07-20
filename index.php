@@ -66,6 +66,7 @@ function prepareJSON($input) {
 }
 
 // Read configuration name for multi-chamber
+$chamber = '';
 if (file_exists('config.php')) {
     require_once('config.php');
     if(file_exists($scriptPath . "/settings/config.cfg")) {
@@ -77,37 +78,49 @@ if (file_exists('config.php')) {
 }
 
 // Git information for footer
-$version = shell_exec('git describe --tags $(git rev-list --tags --max-count=1)');
-$branch = shell_exec('git branch | grep \* | cut -d " " -f2');
-$commit = shell_exec('git -C . log --oneline -n1');
-$arr = explode(' ',trim($commit));
-$commit='';
+$docloc = str_replace($_SERVER['DOCUMENT_ROOT'],'',dirname($scriptPath));
+$tbwd = getcwd();
+chdir($_SERVER['DOCUMENT_ROOT'] . $GLOBALS['docloc']);
+$version = trim(shell_exec('git describe --tags $(git rev-list --tags --max-count=1)'));
+$branch = trim(shell_exec('git branch | grep \* | cut -d " " -f2'));
+$commit = trim(shell_exec('git -C . log --oneline -n1'));
+chdir($tbwd);
+$arr = explode(' ', trim($commit));
+$commit = "[ <span class=\"version-text-mono\">";
+$loop = '';
 foreach ($arr as $key => $word) {
-    if ($key == 0) {
-        $commit .= '<span class="version-text-monoylw">' . $word . '</span> ';
+    if ($key == 0) { // Make commit hash yellow
+        $loop = "<span class=\"version-text-monoylw\">" . $word . "</span> - ";
     } else {
-        $commit .= $word . ' ';
+        $loop .= $word . " ";
     }
 }
-$commit = rtrim($commit) . '</span>';
-$gitinfo = $version . ' (<span class="version-text-mono">' . rtrim($branch) . '</span>) ';
-$gitinfo .= '[<span class="version-text-mono">' . rtrim($commit) . '</span>]';
+$commit .= trim($loop) . "</span> ]";
+$division .= "<div id=\"version-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
+$division .= "<div id=\"bottom-bar\" class=\"ui-widget ui-widget-header ui-corner-all\">\r\n";
+$division .= "<div id=\"version-text\">\r\n";
+$division .= "<span>BrewPi Remix version: " . trim($version) . " (" . trim($branch) . ")</span>\r\n";
+$division .= trim($commit) . "\r\n";
+$division .= "</div>\r\n</div>\r\n</div>";
+$gitinfo = $division;
 
- // See if we are using an IP to access page, and/or if user is on Windows
+// See if we are using an IP to access page, and/or if user is on Windows
 $ipurl = (filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) ? true : false);
 $windows = (preg_match('/windows|win32/i', $_SERVER['HTTP_USER_AGENT']) ? true : false);
 // Form URL with host name
 $named_url = 'http://' . gethostname() . '.local' . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// Bonjour prompt
+$bjprompt = '';
 if ($ipurl && $windows) {
-    $bjprompt = '<div id="bonjour-panel" class="ui-widget ui-widget-content ui-corner-all">';
-    $bjprompt .= '<div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">';
-    $bjprompt .= '<a href="https://support.apple.com/kb/DL999">';
-    $bjprompt .= '<img style="float: left;" src="images/bonjour.png" alt="Bonjour icon" width="43" /></a>';
-    $bjprompt .= '<p>&nbsp;I see you are using an IP address to access your BrewPi.';
-    $bjprompt .= 'Did you know you can use <a href="' . $named_url . '">its name</a> instead? ';
-    $bjprompt .= 'Look into <a href="https://support.apple.com/kb/DL999">Bonjour from Apple</a>.';
-    $bjprompt .= '</div></div>';
+    $bjprompt .= "<div id=\"bonjour-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
+    $bjprompt .= "<div id=\"top-bar\" class=\"ui-widget ui-widget-header ui-corner-all\">\r\n";
+    $bjprompt .= "<a href=\"https://support.apple.com/kb/DL999\">\r\n";
+    $bjprompt .= "<img style=\"float: left;\" src=\"images/bonjour.png\" alt=\"Bonjour icon\" width=\"43\" /></a>\r\n";
+    $bjprompt .= "<p>&nbsp;You are using an IP to access your BrewPi.\r\n";
+    $bjprompt .= "You can use <a href=\"" . $named_url . "\">" . $named_url . "</a> instead\r\n";
+    $bjprompt .= "if you install <a href=\"https://support.apple.com/kb/DL999\">Bonjour from Apple</a>.\r\n";
+    $bjprompt .= "</div>\r\n</div>";
 }
 
 $title = ($chamber=='' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
@@ -130,7 +143,9 @@ $title = ($chamber=='' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
 </head>
 <body>
 
-<?php echo $bjprompt; ?><!-- Bonjour prompt -->
+<!-- Bonjour prompt bar start -->
+<?php echo $bjprompt; ?>
+<!-- Bonjour prompt bar end -->
 
 <div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all">
     <?php include 'beer-panel.php'; ?>
@@ -164,14 +179,9 @@ $title = ($chamber=='' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
 <script type="text/javascript" src="js/beer-chart.js"></script>
 <script type="text/javascript" src="js/profile-table.js"></script>
 
-<div id="version-panel" class="ui-widget ui-widget-content ui-corner-all">
-    <div id="bottom-bar" class="ui-widget ui-widget-header ui-corner-all">
-        <div id="version-bar-text">
-            <div id="version-text">
-                <span>BrewPi Remix version: <?php echo $gitinfo; ?></span>
-            </div>
-        </div
-    </div>
-</div>
+<!-- Git version bar start -->
+<?php echo $gitinfo; ?>
+<!-- Git version bar end -->
+
 </body>
 </html>

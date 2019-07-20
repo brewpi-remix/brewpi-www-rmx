@@ -35,15 +35,15 @@ function getFileList($dir, $recurse = FALSE, $depth = FALSE)
 {
   $retval = [];
 
-  // add trailing slash if missing
+  // Add trailing slash if missing
   if(substr($dir, -1) != "/") {
     $dir .= "/";
   }
 
-  // open pointer to directory and read list of files
+  // Open pointer to directory and read list of files
   $d = @dir($dir) or die("getFileList: Failed opening directory {$dir} for reading");
   while(FALSE !== ($entry = $d->read())) {
-    // skip hidden files
+    // Skip hidden files
     if($entry{0} == ".") continue;
     if(is_dir("{$dir}{$entry}")) {
       // Skip directory;
@@ -66,10 +66,29 @@ function getFileList($dir, $recurse = FALSE, $depth = FALSE)
   return $retval;
 }
 
+ // See if we are using an IP to access page, and/or if user is on Windows
+ $ipurl = (filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) ? true : false);
+ $windows = (preg_match('/windows|win32/i', $_SERVER['HTTP_USER_AGENT']) ? true : false);
+ // Form URL with host name
+ $named_url = 'http://' . gethostname() . '.local' . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Bonjour prompt
+$bjprompt = '';
+if ($ipurl && $windows) {
+    $bjprompt .= "<div id=\"bonjour-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
+    $bjprompt .= "<div id=\"top-bar\" class=\"ui-widget ui-widget-header ui-corner-all\">\r\n";
+    $bjprompt .= "<a href=\"https://support.apple.com/kb/DL999\">\r\n";
+    $bjprompt .= "<img style=\"float: left;\" src=\"images/bonjour.png\" alt=\"Bonjour icon\" width=\"43\" /></a>\r\n";
+    $bjprompt .= "<p>&nbsp;You are using an IP to access your BrewPi.\r\n";
+    $bjprompt .= "You can use <a href=\"" . $named_url . "\">" . $named_url . "</a> instead\r\n";
+    $bjprompt .= "if you install <a href=\"https://support.apple.com/kb/DL999\">Bonjour from Apple</a>.\r\n";
+    $bjprompt .= "</div>\r\n</div>";
+}
+
 // Create table of frames
 $i = 0;
 // Establish the output variable
-$dyn_table = '<table summary="Multi-Chamber Display" class="lcd-table">';
+$dyn_table = '<table summary="Multi-Chamber Display" class="lcd-table" cellpadding="5px">';
 // Get file list
 $dirlist = getFileList("./", TRUE, 1);
 // Sort the array
@@ -84,7 +103,7 @@ foreach($dirlist as $file) {
 }
 $dyn_table .= ($i % $columns == 0 ? '' : '</tr>' . "\n"); // Close row if it has not been closed
 $dyn_table .= '<tr><td></td></tr>' . "\n"; // Hack to pad the bottom of lcd-panel to allow dynamic height
-$dyn_table .= '</table>' . "\n";
+$dyn_table .= '</table>';
 
 // Get correct logo
 list($scriptPath) = get_included_files();
@@ -97,24 +116,31 @@ $logo = (file_exists($_SERVER['DOCUMENT_ROOT'] . $custom) ? $custom : $stock);
 $logo = '<img class="logo" src="' . $logo . '">';
 
 // Git information for footer
-$pwd = getcwd();
-chdir(dirname($scriptPath));
-$version = shell_exec('git describe --tags $(git rev-list --tags --max-count=1)');
-$branch = shell_exec('git branch | grep \* | cut -d " " -f2');
-$commit = shell_exec('git -C . log --oneline -n1');
-$arr = explode(' ',trim($commit));
-$commit='';
+$docloc = str_replace($_SERVER['DOCUMENT_ROOT'],'',dirname($scriptPath));
+$tbwd = getcwd();
+chdir($_SERVER['DOCUMENT_ROOT'] . $GLOBALS['docloc']);
+$version = trim(shell_exec('git describe --tags $(git rev-list --tags --max-count=1)'));
+$branch = trim(shell_exec('git branch | grep \* | cut -d " " -f2'));
+$commit = trim(shell_exec('git -C . log --oneline -n1'));
+chdir($tbwd);
+$arr = explode(' ', trim($commit));
+$commit = "[ <span class=\"version-text-mono\">";
+$loop = '';
 foreach ($arr as $key => $word) {
-    if ($key == 0) {
-        $commit .= '<span class="version-text-monoylw">' . $word . '</span> ';
+    if ($key == 0) { // Make commit hash yellow
+        $loop = "<span class=\"version-text-monoylw\">" . $word . "</span> - ";
     } else {
-        $commit .= $word . ' ';
+        $loop .= $word . " ";
     }
 }
-$commit = rtrim($commit) . '</span>';
-$gitinfo = $version . ' (<span class="version-text-mono">' . rtrim($branch) . '</span>) ';
-$gitinfo .= '[<span class="version-text-mono">' . rtrim($commit) . '</span>]';
-chdir($pwd);
+$commit .= trim($loop) . "</span> ]";
+$division .= "<div id=\"version-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
+$division .= "<div id=\"bottom-bar\" class=\"ui-widget ui-widget-header ui-corner-all\">\r\n";
+$division .= "<div id=\"version-text\">\r\n";
+$division .= "<span>BrewPi Remix version: " . trim($version) . " (" . trim($branch) . ")</span>\r\n";
+$division .= trim($commit) . "\r\n";
+$division .= "</div>\r\n</div>\r\n</div>";
+$gitinfo = $division;
 
 $title = 'BLR: Chamber Dashboard';
 
@@ -135,6 +161,10 @@ $title = 'BLR: Chamber Dashboard';
 </head>
 <body>
 
+<!-- Bonjour prompt bar start -->
+<?php echo $bjprompt; ?>
+<!-- Bonjour prompt bar end -->
+
 <div id="lcd-logo-panel" class="ui-widget ui-widget-content ui-corner-all">
     <div id="lcd-top-bar" class="ui-widget ui-widget-header ui-corner-all">
     	<div id="lcd-logo-container">
@@ -150,13 +180,9 @@ $title = 'BLR: Chamber Dashboard';
     <?php echo $dyn_table; ?>
 </div>
 
-<div id="lcd-version-panel" class="ui-widget ui-widget-content ui-corner-all">
-    <div id="lcd-bottom-bar" class="ui-widget ui-widget-header ui-corner-all">
-        <div id="version-text">
-            <span>BrewPi Remix version: <?php echo $gitinfo; ?></span>
-        </div>
-    </div>
-</div>
+<!-- Git version bar start -->
+<?php echo $gitinfo; ?>
+<!-- Git version bar end -->
 
 </body>
 </html>
