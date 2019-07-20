@@ -104,7 +104,7 @@ $division .= trim($commit) . "\r\n";
 $division .= "</div>\r\n</div>\r\n</div>";
 $gitinfo = $division;
 
- // See if we are using an IP to access page, and/or if user is on Windows
+// See if we are using an IP to access page, and/or if user is on Windows
 $ipurl = (filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) ? true : false);
 $windows = (preg_match('/windows|win32/i', $_SERVER['HTTP_USER_AGENT']) ? true : false);
 // Form URL with host name
@@ -143,7 +143,9 @@ $title = ($chamber=='' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
 </head>
 <body>
 
-<?php echo $bjprompt; ?><!-- Bonjour prompt -->
+<!-- Bonjour prompt bar start -->
+<?php echo $bjprompt; ?>
+<!-- Bonjour prompt bar end -->
 
 <div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all">
     <?php include 'beer-panel.php'; ?>
