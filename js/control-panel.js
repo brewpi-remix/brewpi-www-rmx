@@ -33,22 +33,14 @@
 var beerTemp = defaultTemp();
 var fridgeTemp = defaultTemp();
 
-// Determine if we are in a frame or in the LCD.php page
-function inIframe() {
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
-}
-function isLCD() {
-    var path = window.location.pathname;
-    var pageName = path.split("/").pop();
-    // if (typeof pageName !== 'undefined') {var pageName = "index.php"}
-    if (pageName == "lcd.php" || pageName == "fullscreen-lcd.php" || inIframe()) {
-        return true;
-    }
-}
+// Lets hack a little shall we ?
+Dygraph.EVERY2DAYS = -1;
+Dygraph.EVERY3DAYS = -2;
+Dygraph.EVERY4DAYS = -3;
+var _1DAY = 1000 * 86400;
+Dygraph.SHORT_SPACINGS[Dygraph.EVERY2DAYS]    = 2 * _1DAY;
+Dygraph.SHORT_SPACINGS[Dygraph.EVERY3DAYS]    = 3 * _1DAY;
+Dygraph.SHORT_SPACINGS[Dygraph.EVERY4DAYS]    = 4 * _1DAY;
 
 function statusMessage(messageType, messageText){
     "use strict";
@@ -75,7 +67,6 @@ function statusMessage(messageType, messageText){
 
 function loadControlPanel(){
     "use strict";
-    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     if ( window.profileName !== '' ) {
         loadProfile(window.profileName, renderProfile);
     }
@@ -199,7 +190,6 @@ function renderProfile(beerProfile) {
 
 function drawSelectPreviewChart(beerProfile) {
     "use strict";
-    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     // display temporary loading message
     $("#profileSelectChartDiv").html("<span class='chart-loading chart-placeholder'>Loading profile...</span>");
 
@@ -223,17 +213,6 @@ function drawEditPreviewChart() {
 
     // display error if loading failed: span will still exist
     $("#profileEditChartDiv span.chart-loading").text("Error drawing profile chart!");
-}
-
-if (!isLCD()) {
-    // lets hack a little shall we ?
-    Dygraph.EVERY2DAYS = -1;
-    Dygraph.EVERY3DAYS = -2;
-    Dygraph.EVERY4DAYS = -3;
-    var _1DAY = 1000 * 86400;
-    Dygraph.SHORT_SPACINGS[Dygraph.EVERY2DAYS]    = 2 * _1DAY;
-    Dygraph.SHORT_SPACINGS[Dygraph.EVERY3DAYS]    = 3 * _1DAY;
-    Dygraph.SHORT_SPACINGS[Dygraph.EVERY4DAYS]    = 4 * _1DAY;
 }
 
 function drawProfileChart(divId, profileObj) {
@@ -359,7 +338,6 @@ function drawProfileChart(divId, profileObj) {
 function loadProfile(profile, onProfileLoaded) {
     "use strict";
     $.post("get_beer_profile.php", { "name": profile }, function(beerProfile) {
-        if (isLCD()) {return;} // Skip all this if we are on the LCD page
         try {
             if ( typeof( onProfileLoaded ) !== "undefined" ) {
                 onProfileLoaded(beerProfile);
@@ -441,7 +419,6 @@ function promptToApplyProfile(profName) {
 
 function showProfileEditDialog(editableName, dialogTitle, isSaveAs) {
     "use strict";
-    if (isLCD()) {return;} // Skip all this if we are on the LCD page
     $('#profileSaveError').hide();
     var profileNames = [];
     $.post("get_beer_profiles.php", {}, function(resp) {
@@ -576,7 +553,6 @@ function profTableGlobalClickHandler() {
 
 $(document).ready(function(){
     "use strict";
-    if (isLCD()) {return;} // Skip all this if we are on the LCD page
 
 	//Control Panel
     profileEdit = new BeerProfileTable('profileEditControls', {
