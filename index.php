@@ -99,8 +99,10 @@ $windows = (preg_match('/windows|win32/i', $_SERVER['HTTP_USER_AGENT']) ? true :
 // Form URL with host name
 $named_url = 'http://' . gethostname() . '.local' . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// Bonjour prompt
+$bjprompt = '';
 if ($ipurl && $windows) {
-    $bjprompt = '<div id="bonjour-panel" class="ui-widget ui-widget-content ui-corner-all">';
+    $bjprompt .= '<div id="bonjour-panel" class="ui-widget ui-widget-content ui-corner-all">';
     $bjprompt .= '<div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">';
     $bjprompt .= '<a href="https://support.apple.com/kb/DL999">';
     $bjprompt .= '<img style="float: left;" src="images/bonjour.png" alt="Bonjour icon" width="43" /></a>';
