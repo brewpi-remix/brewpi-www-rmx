@@ -34,7 +34,7 @@
 
 var currBeerChart;
 var prevBeerChart;
-var colorTilt;
+var colorTilt = "";
 
 var colorIdle = "white";
 var colorCool = "rgba(0, 0, 255, 0.4)";
