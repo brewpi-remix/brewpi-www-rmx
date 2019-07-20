@@ -66,6 +66,7 @@ function prepareJSON($input) {
 }
 
 // Read configuration name for multi-chamber
+$chamber = '';
 if (file_exists('config.php')) {
     require_once('config.php');
     if(file_exists($scriptPath . "/settings/config.cfg")) {
