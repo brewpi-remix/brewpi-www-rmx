@@ -72,6 +72,7 @@ function echoRotarySelect($optionName){
 
 <ul>
         <button class="script-status"></button>
+        <!-- The ul is styled as a nice header by jQuery UI -->
         <li><a href="#settings"><span class="setting-name">Settings</span></a></li>
         <li><a href="#view-logs"><span>View logs</span></a></li>
         <li><a href="previous_beers.php"><span>Previous Beers</span></a></li>
@@ -80,7 +81,6 @@ function echoRotarySelect($optionName){
         <li><a href="#advanced-settings"><span>Advanced Settings</span></a></li>
         <li><a href="#reprogram-arduino"><span>Reprogram <span class="boardMoniker">controller</span></span></a></li>
         <li><a href="#brewpi-addons"><span>BrewPi Add-Ons</span></a></li>
-        <!--kinda dirty to have buttons in the ul, but the ul is styled as a nice header by jQuery UI -->
 </ul>
 
 <div id="reprogram-arduino">

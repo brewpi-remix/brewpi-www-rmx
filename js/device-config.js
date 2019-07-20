@@ -1,4 +1,4 @@
-/* Copyright (C) 2018,2019 Lee C. Bussy (@LBussy)
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
  *
@@ -56,7 +56,7 @@ function getDeviceList(){
             var $deviceConsole = $("#device-console").find("span");
 
             if(response.localeCompare("device-list-not-up-to-date") !== 0){
-                $deviceConsole.find("span").append("<br>Updated device list received<br>");
+                $deviceConsole.find("span").append("<br />Updated device list received<br />");
                 var jsonParsed = false;
                 try
                 {
@@ -67,26 +67,26 @@ function getDeviceList(){
                 }
                 catch(e)
                 {
-                    $("#device-console").find("span").append("Error while receiving device configuration: " + e + "<br>");
+                    $("#device-console").find("span").append("Error while receiving device configuration: " + e + "<br />");
                 }
                 if(jsonParsed){
                     $deviceList.empty();
                     $deviceList.append("<span class='device-list-header'>Installed devices</span>");
                     if(deviceList.installed.length === 0){
-                        $deviceConsole.append("No installed devices found<br>");
+                        $deviceConsole.append("No installed devices found.<br />");
                         $deviceList.append("<span class='device-list-empty-text'>None</span>");
                     }
                     else{
-                        $deviceConsole.append("Parsing installed devices<br>");
+                        $deviceConsole.append("Parsing installed devices.<br />");
                         console.log("Parsing installed devices: " + parseDeviceList(deviceList.installed, pinList));
                     }
                     $deviceList.append("<span class='device-list-header'>Detected devices</span>");
                     if(deviceList.available.length === 0){
-                        $deviceConsole.append("No available devices found<br>");
-                        $('.device-list').append("<span class='device-list-empty-text'>No additional devices found</span>");
+                        $deviceConsole.append("No unconfigured devices found<br />");
+                        $('.device-list').append("<span class='device-list-empty-text'>No unconfigured devices found</span>");
                     }
                     else{
-                        $deviceConsole.append("Parsing available devices<br>");
+                        $deviceConsole.append("Parsing available devices<br />");
                         console.log("Parsing available devices: " + parseDeviceList(deviceList.available, pinList));
                     }
                     // add new device button to device list container if it does not exist already
@@ -98,7 +98,7 @@ function getDeviceList(){
 
                     $deviceConsole.append("Device list updated for " +
                         deviceAndPinList.board + " with a " +
-                        deviceAndPinList.shield + " shield<br>");
+                        deviceAndPinList.shield + " shield.<br />");
                 }
                 deviceListTimeoutCounter = 0; // stop requesting on success
                 if(deviceListTimeout){
@@ -164,7 +164,7 @@ function parseDeviceList(deviceList, pinList){
         device.nr = i+devicesInListAlready;
         output += "Parsing device: ";
         output += JSON.stringify(device);
-        output += '<br>';
+        output += '<br />';
         addDeviceToDeviceList(device, pinList);
     }
     return output;
@@ -534,7 +534,7 @@ function applyDeviceSettings(deviceNr){
 
     $.post('socketmessage.php', {messageType: "applyDevice", message: configString});
 
-    $("#device-console").find("span").append("Device config command sent, U:" + configString + "<br>");
+    $("#device-console").find("span").append("Device config command sent, U:" + configString + "<br />");
 }
 
 function getDeviceConfigString(deviceNr){

@@ -30,7 +30,7 @@
 
 /* global google, loadControlPanel, drawBeerChart */
 
-var prevScriptStatus=-1;
+var prevScriptStatus = -1;
 
 var controlConstants = {};
 var controlSettings = {};
@@ -399,7 +399,7 @@ function beerNameDialogResume($body, $backButton){
     $body.append($("<span  class='dialog-intro'>Clicking the button below will resume logging for your currently active brew.</span>"));
 
     var $buttons = $("<div class='beer-name-buttons'></div>");
-    $buttons.append($("<button>Resume logging for current brew</button>").button({	icons: {primary: "ui-icon-pause" } }).click(function(){
+    $buttons.append($("<button>Resume logging for current brew</button>").button({icons: {primary: "ui-icon-pause" } }).click(function(){
         $.post('socketmessage.php', {messageType: "resumeLogging", message: ""}, function(reply){
             $backButton.show().unbind().bind({click: function(){beerNameDialogResume($body, $backButton);}});
             receiveControlSettings();
@@ -442,5 +442,5 @@ $(document).ready(function(){
         receiveControlSettings();
         receiveControlVariables();
     }
-    refreshLcd(); //will call refreshLcd and alternate between the two
+    refreshLcd(); // Will call refreshLcd and alternate between the two
 });

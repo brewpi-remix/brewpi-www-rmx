@@ -74,7 +74,7 @@ if(isset($_POST['messageType'])){
 	$messageType = $_POST['messageType'];
 }
 else{
-	die("messageType not set");
+	die("messageType not set.");
 }
 
 if(isset($_POST['message'])){
@@ -112,14 +112,14 @@ if($sock !== false){
 		case "lcd":
 			writeToSocket($sock, "lcd");
 			$lcdText = readFromSocket($sock);
-			echo str_replace(chr(0xB0), "&deg;", $lcdText); // replace degree sign with &Deg
+			echo str_replace(chr(0xB0), "&deg;", $lcdText); // Replace degree sign with &deg;
 			break;
 		default:
-			// just pass the command to the socket and read the answer if needed
+			// Pass the command to the socket and read the answer if needed
 			writeToSocket($sock, $messageType);
 			if(startsWith($messageType, "get") or $messageType == "stopLogging" or
 				$messageType == "pauseLogging" or $messageType == "resumeLogging"){
-				// return data expected, read from socket
+				// Return expected data, read from socket
 				echo readFromSocket($sock);
 			}
 		}
@@ -127,5 +127,5 @@ if($sock !== false){
 	socket_close($sock);
 }
 else{
-    die("Cannot open socket to script");
+    die("Cannot open socket to script.");
 }

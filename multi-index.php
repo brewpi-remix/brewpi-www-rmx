@@ -35,15 +35,15 @@ function getFileList($dir, $recurse = FALSE, $depth = FALSE)
 {
   $retval = [];
 
-  // add trailing slash if missing
+  // Add trailing slash if missing
   if(substr($dir, -1) != "/") {
     $dir .= "/";
   }
 
-  // open pointer to directory and read list of files
+  // Open pointer to directory and read list of files
   $d = @dir($dir) or die("getFileList: Failed opening directory {$dir} for reading");
   while(FALSE !== ($entry = $d->read())) {
-    // skip hidden files
+    // Skip hidden files
     if($entry{0} == ".") continue;
     if(is_dir("{$dir}{$entry}")) {
       // Skip directory;
@@ -69,7 +69,7 @@ function getFileList($dir, $recurse = FALSE, $depth = FALSE)
 // Create table of frames
 $i = 0;
 // Establish the output variable
-$dyn_table = '<table summary="Multi-Chamber Display" class="lcd-table">';
+$dyn_table = '<table summary="Multi-Chamber Display" class="lcd-table" cellpadding="15px">';
 // Get file list
 $dirlist = getFileList("./", TRUE, 1);
 // Sort the array
@@ -84,7 +84,7 @@ foreach($dirlist as $file) {
 }
 $dyn_table .= ($i % $columns == 0 ? '' : '</tr>' . "\n"); // Close row if it has not been closed
 $dyn_table .= '<tr><td></td></tr>' . "\n"; // Hack to pad the bottom of lcd-panel to allow dynamic height
-$dyn_table .= '</table>' . "\n";
+$dyn_table .= '</table>';
 
 // Get correct logo
 list($scriptPath) = get_included_files();
