@@ -80,7 +80,9 @@ if (file_exists('config.php')) {
 // Git information for footer
 $docloc = str_replace($_SERVER['DOCUMENT_ROOT'],'',dirname($scriptPath));
 $tbwd = getcwd();
-chdir($_SERVER['DOCUMENT_ROOT'] . $GLOBALS['docloc']);
+if (is_dir($_SERVER['DOCUMENT_ROOT'] . $GLOBALS['docloc'])) {
+    chdir($_SERVER['DOCUMENT_ROOT'] . $GLOBALS['docloc']);
+}
 $version = trim(shell_exec('git describe --tags $(git rev-list --tags --max-count=1)'));
 $branch = trim(shell_exec('git branch | grep \* | cut -d " " -f2'));
 $commit = trim(shell_exec('git -C . log --oneline -n1'));
@@ -96,7 +98,7 @@ foreach ($arr as $key => $word) {
     }
 }
 $commit .= trim($loop) . "</span> ]";
-$division .= "<div id=\"version-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
+$division = "<div id=\"version-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
 $division .= "<div id=\"bottom-bar\" class=\"ui-widget ui-widget-header ui-corner-all\">\r\n";
 $division .= "<div id=\"version-text\">\r\n";
 $division .= "<span>BrewPi Remix version: " . trim($version) . " (" . trim($branch) . ")</span>\r\n";
