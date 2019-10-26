@@ -30,6 +30,16 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
+
+ // Set error reporting level
+error_reporting(E_ALL ^ E_WARNING);
+
+// Define variables
+$code = 200;
+$codedesc = "Ok";
+$response = "";
+$messageType = "";
+$message = "";
  
 function startsWith($haystack, $needle) { // TODO: Was here
 	return !strncmp($haystack, $needle, strlen($needle));
@@ -91,16 +101,6 @@ function getConfig($key, $defaultValue) { // Was in ./socket_open.php
     return isset($GLOBALS[$key]) ? $GLOBALS[$key] : $defaultValue;
 }
 
-// Set error reporting level
-error_reporting(E_ALL ^ E_WARNING);
-
-// Define variables
-$code = 200;
-$codedesc = "Ok";
-$response;
-$messageType;
-$message;
-
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
     $code = 403;
     $codedesc = "Forbidden";
@@ -128,6 +128,9 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
         if (!empty($message)) {
 
             switch ($messageType){ // Message with a message argument
+                case "api":
+                    writeToSocket($sock, $messageType . "=" . $message);
+                    break;
                 case "setActiveProfile":
                 case "startNewBrew":
                 default:

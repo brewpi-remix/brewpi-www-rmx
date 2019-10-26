@@ -34,6 +34,9 @@ $(function () {
 
     // Set up an event listener for the contact form
     $(form).submit(function (e) {
+        // Reset the results area
+        resetResults();
+        
         // Stop the browser from submitting the form
         e.preventDefault();
 

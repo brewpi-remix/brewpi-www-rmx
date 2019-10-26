@@ -29,23 +29,73 @@
  * See: 'original-license.md' for notes about the original project's
  * license and credits. */
 
-$file = "test.txt";
-$args = "LOCK_EX | FILE_APPEND"; // Separate multiples with pipe
-$json = file_get_contents('php://input');
-$json .= "\n"; // Add a line return for easy reviewing
+$debug = false;                                 // Write log file
+$file = "apilog.txt";                           // API Log
+$args = "LOCK_EX | FILE_APPEND";                // File lock mode
+$json = file_get_contents('php://input');       // Get incoming post
+$url = 'http://localhost/newsocketmessage.php'; // Destination
 
-//Open the File Stream
-$handle = fopen($file, "a");
+function writeLog($logLine) { // Log file writer
+    global $debug;
+    if ($debug) {
+        // Get timestamp
+        $date = date('Y-m-j H:m:s  ', time());
+        //Open the File Stream
+        global $file;
+        $handle = fopen($file, "a");
 
-//Lock File, error if unable to lock
-if(flock($handle, LOCK_EX)) {
-    fwrite($handle, $json);     //Write the $data into file
-    flock($handle, LOCK_UN);    //Unlock File
-    // 200 = Ok
-    header('X-PHP-Response-Code: 200', true, 200);
-} else {
-    // 500 = Internal Server Error
-    header('X-PHP-Response-Code: 500', true, 500);
+        //Lock File, error if unable to lock
+        if (flock($handle, LOCK_EX)) {
+            fwrite($handle, $date);
+            fwrite($handle, $logLine);
+            fwrite($handle, "\n");
+            flock($handle, LOCK_UN);
+        }
+    }
 }
-//Close Stream
-?>
+
+$result = json_decode($json);
+
+if (json_last_error() === JSON_ERROR_NONE) { // Json is valid
+    writeLog("Received JSON: " . $json);
+
+    $postdata = array(
+        'messageType' => 'api',
+        'message' => $json
+    );
+
+    $opts = array('http' => array(
+        'method'  => 'POST',
+        'header'  => 'Content-Type: application/x-www-form-urlencoded',
+        'content' => http_build_query($postdata)
+    ));
+
+    $context  = stream_context_create($opts);
+    $result = file_get_contents($url, false, $context);
+
+    writeLog("Result Body: " . $result);
+
+    switch (intval(substr($result, 0, 3))) {
+        case 200:
+            header("HTTP/1.1 200 OK");
+            break;
+        case 400:
+            header("HTTP/1.1 400 Bad Request");
+            break;
+        case 403:
+            header("HTTP/1.1 403 Forbidden");
+            break;
+        case 500:
+            header("HTTP/1.1 500 Internal Server Error");
+            break;
+        default:
+            header("HTTP/1.1 520 Unknown Error");
+            break;
+    }
+    var_dump($result);
+} else {
+    // Unable to decode JSON
+    writeLog("Invalid JSON received.");
+    header("HTTP/1.1 400 Bad Request");
+    echo "Invalid JSON received.";
+}

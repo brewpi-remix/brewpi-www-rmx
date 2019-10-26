@@ -57,7 +57,7 @@
 
             <div class="field">
                 <label for="message">Message:</label>
-                <input type="text" id="message" name="message">
+                <input type="text" id="message" name="message" oninput="resetResults()">
             </div>
 
             <div class="field">
