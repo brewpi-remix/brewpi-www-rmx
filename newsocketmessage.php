@@ -142,6 +142,9 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
         } else {
 
             switch ($messageType) { // Message without a message argument
+                case "quit":
+                    writeToSocket($sock, $messageType);
+                    break;
                 case "checkScript":
                     writeToSocket($sock, $messageType);
                     $response = readFromSocket($sock);
