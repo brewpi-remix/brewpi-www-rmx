@@ -24,10 +24,7 @@
  * @lukepower, @m-mcgowan, @vanosg, @GregAtkinson and I'm sure
  * many more contributors around the world. My apologies if I have
  * missed anyone; those were the names listed as contributors on the
- * Legacy branch.
- *
- * See: 'original-license.md' for notes about the original project's
- * license and credits. */
+ * Legacy branch.*/
 
 $debug = false;                                 // Write log file
 $file = "apilog.txt";                           // API Log
