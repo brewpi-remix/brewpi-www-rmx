@@ -42,7 +42,7 @@
 		echo $logo;
 		?>
 		<div id=beer-name-container>
-			<span>Tracking: </span>
+			<span>Showing: </span>
 			<a href='#' id="beer-name"><?php echo urldecode($beerName); ?></a>
 			<?php
 			// If we are in multi-chamber, print ' in {chamber name}' after
@@ -60,12 +60,14 @@
 			<span class="lcd-line" id="lcd-line-3"></span>
 		</span>
 	</div>
-	<div id="lcd" class="new-status-display">
-		<span class="new-status-header" id="status-line-header">Status Items:</span>
-		<span class="new-status-line" id="status-line-0">_</span>
-		<span class="new-status-line" id="status-line-1">_</span>
-		<span class="new-status-line" id="status-line-2">_</span>
-		<span class="new-status-line" id="status-line-3">_</span>
+	<div id="new-status" class="new-status-display">
+		<span class="new-status-text">
+			<span class="new-status-header" id="new-status-line-header">.</span>
+			<span class="new-status-line" id="new-status-line-0">.</span>
+			<span class="new-status-line" id="new-status-line-1">.</span>
+			<span class="new-status-line" id="new-status-line-2">.</span>
+			<span class="new-status-line" id="new-status-line-3">.</span>
+		</span>
 	</div>
 	<button class="script-status ui-state-error"></button>
 	<button id="maintenance" class="ui-state-default">Maintenance panel</button>

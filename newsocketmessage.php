@@ -125,6 +125,9 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
         $messageType = strip_tags(trim($_POST["messageType"]));
         $message = strip_tags(trim($_POST["message"]));
 
+        error_log("messageType = " + $messageType);
+        error_log("message = " + $message);
+
         if (!empty($message)) {
 
             switch ($messageType){ // Message with a message argument
@@ -152,7 +155,10 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
                 case "lcd":
                     writeToSocket($sock, $messageType);
                     $response = readFromSocket($sock);
-                    $response = str_replace(chr(0xB0), "&deg;", $response);
+                    break;
+                case "status":
+                    writeToSocket($sock, $messageType);
+                    $response = readFromSocket($sock);
                     break;
                 default:
                     // Pass the command to the socket and read the answer if needed
