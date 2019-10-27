@@ -597,7 +597,7 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
             },
             ylabel: "Temperature (\u00B0" + window.tempFormat + ")",
             y2label: "Gravity (SG)",
-            yAxisLabelWidth: 50,
+            yAxisLabelWidth: 60,
             axes: {
                 y: {
                     valueFormatter: tempFormat

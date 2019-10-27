@@ -107,6 +107,7 @@ var validCommands = [
     "refreshControlSettings",
     "refreshControlVariables",
     "refreshDeviceList",
+    "status",
     // Action commands
     "eraseLogs",
     "pauseLogging",
