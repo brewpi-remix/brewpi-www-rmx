@@ -88,7 +88,7 @@ button#maintenance{
 /* Brewometer change: Beer panel height to account for additional legend items */
 #beer-panel{
 	width: 980px;
-    height: 540px;
+    /*height: 540px;*/
 	margin-bottom: 10px;
     float:left;
 }
@@ -207,7 +207,7 @@ iframe {
 
 #control-panel{
 	width: 976px;
-    min-height: 390px;
+    min-height: 340px;
     float: left;
 }
 
@@ -261,7 +261,7 @@ iframe {
          url('../font/5x8_lcd_hd44780u_a02-webfont.woff') format('woff'),
          url('../font/5x8_lcd_hd44780u_a02-webfont.ttf') format('truetype'),
          url('../font/5x8_lcd_hd44780u_a02-webfont.svg#5x8LCDHD44780UA02Regular') format('svg');
-    font-weight: bold;
+    font-weight: normal;
     font-style: normal;
 }
 
@@ -289,13 +289,13 @@ iframe {
 }
 
 .new-status-display { /* New status block */
-	width: 100px;
+	width: 160px;
 	height: 86px;
 	float: left;
 	margin: 5px;
 	border: 0px solid #2378aa;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
+	/* -webkit-border-radius: 2px;
+	-moz-border-radius: 2px; */
 	border-radius: 5px;
 	padding: 2px;
 }
@@ -327,7 +327,7 @@ iframe {
 	font-size: 16px;
 	font-weight: bold;
 	font-style: normal;
-	/*font-family: '5x8LCDHD44780UA02Regular', monospace; */
+	font-family: '5x8LCDHD44780UA02Regular', monospace;
 	/*color: #FFFF00;*/
 	color: rgb(255, 255, 255);
 	white-space: pre;
@@ -747,7 +747,7 @@ iframe {
 	display: block;
 	margin-left: 4px;
 	margin-top: 10px;
-	width: 330px;
+	width: 250px;
 	text-align: left;
 }
 
@@ -892,12 +892,14 @@ button.chart-error-refresh{
 #profileSelect li { margin: 3px; padding: 0.4em; height: 18px; }
 #profileSelectChartDiv{ width: 450px; height: 280px; float: left; margin: 20px 0;}
 
-#profileNameDate { width: 375px; float:right; }
+#profileNameDate { width: 350px; float:right; }
 #profileNameDate div { float:left; clear: left; width:100%;}
 #profileNameDate .profileTableLabel { display: block; float: left; font-weight: bold; margin-left: 5px}
 #profileNameDate .profileTableValue { display: block; float: right; margin-right:5px; }
-#profileChartDiv { width: 400px; height: 280px; float: left; }
-#profileTableDiv { width: 350px; height: 280px; float: right; overflow: auto; }
+/* #profileChartDiv { width: 400px; height: 280px; float: left; }
+#profileTableDiv { width: 350px; height: 280px; float: right; overflow: auto; } */
+#profileChartDiv { width: 390px; float: left; }
+#profileTableDiv { width: 350px; float: right; overflow: auto; }
 #profileTableDiv table {
     border-collapse:separate; border-spacing: 0;
 }

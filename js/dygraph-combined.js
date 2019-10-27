@@ -1463,8 +1463,8 @@ Dygraph.toString = function () {
     return this.__repr__()
 };
 Dygraph.DEFAULT_ROLL_PERIOD = 1;
-Dygraph.DEFAULT_WIDTH = 480;
-Dygraph.DEFAULT_HEIGHT = 320;
+Dygraph.DEFAULT_WIDTH = 470;
+Dygraph.DEFAULT_HEIGHT = 260;
 Dygraph.ANIMATION_STEPS = 12;
 Dygraph.ANIMATION_DURATION = 200;
 Dygraph.KMB_LABELS = ["K", "M", "B", "T", "Q"];
