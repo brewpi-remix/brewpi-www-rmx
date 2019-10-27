@@ -231,6 +231,10 @@ function refreshStatus() {
         data: { messageType: "status", message: "" }
     })
         .done(function (newStatusText) {
+<<<<<<< HEAD
+=======
+            console.log("Running refreshStatus().done().");
+>>>>>>> d05b608db0e1fc8cd678e5df1feb991bc73fc068
             var $newStatusText = $('#new-status .new-status-text');
             $newStatusText.find('#new-status-line-header').html("Status:");
             for (var i = newStatusText.length - 1; i >= 0; i--) {
