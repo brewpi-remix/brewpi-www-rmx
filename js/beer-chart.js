@@ -786,4 +786,7 @@ $(document).ready(function () {
         $("#chart-help-popup").dialog("open");
     });
     applyStateColors();
+
+    // Unhide after loading
+    $("#beer-panel").show();
 });
