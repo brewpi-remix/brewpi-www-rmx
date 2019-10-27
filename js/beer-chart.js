@@ -554,12 +554,12 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
             labels: beerData.labels,
             colors: chartColors,
             axisLabelFontSize: 12,
-            animatedZooms: false,
+            animatedZooms: true,
             gridLineColor: "#ccc",
             gridLineWidth: "0.1px",
             labelsDiv: document.getElementById(div + "-label"),
             displayAnnotations: true,
-            showRangeSelector: true,
+            showRangeSelector: false,
             strokeWidth: 1,
             series: {
                 redSG: {
