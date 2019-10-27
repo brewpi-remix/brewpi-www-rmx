@@ -31,15 +31,7 @@
 ?>
 
 <div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">
-	<div id="lcd" class="lcddisplay">
-        <span class="lcd-text">
-            <span class="lcd-line" id="lcd-line-0">Live LCD waiting</span>
-            <span class="lcd-line" id="lcd-line-1">for update from</span>
-            <span class="lcd-line" id="lcd-line-2">script.</span>
-            <span class="lcd-line" id="lcd-line-3"></span>
-        </span>
-	</div>
-	<div id="logo-container">
+<div id="logo-container">
         <?php
         // Get site root url
         $root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
@@ -59,6 +51,21 @@
             ?>
 			<span class="data-logging-state"></span>
 		</div>
+	</div>
+	<div id="lcd" class="lcddisplay">
+        <span class="lcd-text">
+            <span class="lcd-line" id="lcd-line-0">Live LCD waiting</span>
+            <span class="lcd-line" id="lcd-line-1">for update from</span>
+            <span class="lcd-line" id="lcd-line-2">script.</span>
+            <span class="lcd-line" id="lcd-line-3"></span>
+        </span>
+	</div>
+	<div id="lcd" class="new-status-display">
+		<span class="new-status-header" id="status-line-header">Status Items:</span>
+		<span class="new-status-line" id="status-line-0">_</span>
+		<span class="new-status-line" id="status-line-1">_</span>
+		<span class="new-status-line" id="status-line-2">_</span>
+		<span class="new-status-line" id="status-line-3">_</span>
 	</div>
 	<button class="script-status ui-state-error"></button>
 	<button id="maintenance" class="ui-state-default">Maintenance panel</button>

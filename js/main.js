@@ -220,6 +220,37 @@ function refreshLcd(){
     );
 }
 
+function refreshStatus(){ // TODO:  Build this out.
+	"use strict";
+    $.ajax({
+        type: "POST",
+        dataType:"json",
+        cache: false,
+        contentType:"application/x-www-form-urlencoded; charset=utf-8",
+        url: 'socketmessage.php',
+        data: {messageType: "status", message: ""}
+        })
+        .done( function(lcdText){
+            var $lcdText = $('#lcd .lcd-text');
+            for (var i = lcdText.length - 1; i >= 0; i--) {
+                $lcdText.find('#lcd-line-' + i).html(lcdText[i]);
+            }
+            updateScriptStatus(true);
+        })
+        .fail(function() {
+            var $lcdText = $('#lcd .lcd-text');
+            $lcdText.find('#lcd-line-0').html("Cannot receive");
+            $lcdText.find('#lcd-line-1').html("LCD text from");
+            $lcdText.find('#lcd-line-2').html("Python script");
+            $lcdText.find('#lcd-line-3').html(" ");
+            updateScriptStatus(false);
+        })
+        .always(function() {
+            window.setTimeout(refreshStatus,60000);
+        }
+    );
+}
+
 function updateScriptStatus(running){
 	"use strict";
     if(window.scriptStatus == running){
@@ -443,4 +474,5 @@ $(document).ready(function(){
         receiveControlVariables();
     }
     refreshLcd(); // Will call refreshLcd and alternate between the two
+    // refreshStatus(); // TODO:  Implement status update
 });
