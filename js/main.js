@@ -228,30 +228,60 @@ function refreshStatus() {
         cache: false,
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         url: 'socketmessage.php',
-        data: { messageType: "status", message: "" }
+        data: { messageType: "statusType", message: "" }
     })
         .done(function (newStatusText) {
             var $newStatusText = $('#new-status .new-status-text');
             $newStatusText.find('#new-status-line-header').html("Status:");
             for (var i = newStatusText.length - 1; i >= 0; i--) {
-                $newStatusText.find('#new-status-line-' + i).html(newStatusText[i]);
+                $newStatusText.find('#new-status-item-' + i).html(newStatusText[i]);
             }
             updateScriptStatus(true);
         })
         .fail(function () {
             var $newStatusText = $('#new-status .new-status-text');
             $newStatusText.find('#new-status-line-header').html("Status:");
-            $newStatusText.find('#new-status-line-0').html("Offline");
-            $newStatusText.find('#new-status-line-1').html("Offline");
-            $newStatusText.find('#new-status-line-2').html("Offline");
-            $newStatusText.find('#new-status-line-3').html("Offline");
+            $newStatusText.find('#new-status-item-0').html("Offline");
+            $newStatusText.find('#new-status-item-1').html("Offline");
+            $newStatusText.find('#new-status-item-2').html("Offline");
+            $newStatusText.find('#new-status-item-3').html("Offline");
             updateScriptStatus(false);
         })
         .always(function () {
             window.setTimeout(refreshStatus, 10000);
         }
         );
-}
+        "use strict";
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            url: 'socketmessage.php',
+            data: { messageType: "statusValue", message: "" }
+        })
+            .done(function (newStatusText) {
+                var $newStatusText = $('#new-status .new-status-text');
+                $newStatusText.find('#new-status-line-header').html("Status:");
+                for (var i = newStatusText.length - 1; i >= 0; i--) {
+                    $newStatusText.find('#new-status-value-' + i).html(newStatusText[i]);
+                }
+                updateScriptStatus(true);
+            })
+            .fail(function () {
+                var $newStatusText = $('#new-status .new-status-text');
+                $newStatusText.find('#new-status-line-header').html("Status:");
+                $newStatusText.find('#new-status-value-0').html("Offline");
+                $newStatusText.find('#new-status-value-1').html("Offline");
+                $newStatusText.find('#new-status-value-2').html("Offline");
+                $newStatusText.find('#new-status-value-3').html("Offline");
+                updateScriptStatus(false);
+            })
+            .always(function () {
+                window.setTimeout(refreshStatus, 10000);
+            }
+            );
+    }
 function updateScriptStatus(running) {
     "use strict";
     if (window.scriptStatus == running) {

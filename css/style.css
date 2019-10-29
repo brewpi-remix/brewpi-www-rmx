@@ -312,15 +312,15 @@ iframe {
 }
 
 .new-status-display { /* New status block */
-	width: 160px;
+	width: 170px;
 	height: 86px;
 	float: left;
-	margin: 5px;
-	border: 0px solid #2378aa;
+	margin: 2px;
+	/*border: 0px solid #2378aa;*/
 	/* -webkit-border-radius: 2px;
 	-moz-border-radius: 2px; */
-	border-radius: 5px;
-	padding: 2px;
+	/*border-radius: 5px;*/
+	padding: 0px;
 }
 
 .new-status-header{ /* New status block text */
