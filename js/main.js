@@ -247,10 +247,10 @@ function refreshStatus() {
         $newStatusText.find('#new-status-item-3').html("Offline");
         updateScriptStatus(false);
     })
-    .always(function () {
-        window.setTimeout(refreshStatus, 10000);
-    }
-    );
+    // .always(function () {
+    //     window.setTimeout(refreshStatus, 10000);
+    // }
+    // );
     "use strict";
     $.ajax({
         type: "POST",
