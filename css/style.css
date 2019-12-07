@@ -255,12 +255,12 @@ iframe {
 
 /* LCD display styling */
 @font-face {
-    font-family: '5x8LCDHD44780UA02Regular';
+    font-family: "Courier New", Courier, monospace; /*'5x8LCDHD44780UA02Regular';
     src: url('../font/5x8_lcd_hd44780u_a02-webfont.eot');
     src: url('../font/5x8_lcd_hd44780u_a02-webfont.eot?#iefix') format('embedded-opentype'),
          url('../font/5x8_lcd_hd44780u_a02-webfont.woff') format('woff'),
          url('../font/5x8_lcd_hd44780u_a02-webfont.ttf') format('truetype'),
-         url('../font/5x8_lcd_hd44780u_a02-webfont.svg#5x8LCDHD44780UA02Regular') format('svg');
+         url('../font/5x8_lcd_hd44780u_a02-webfont.svg#5x8LCDHD44780UA02Regular') format('svg'); */
     font-weight: normal;
     font-style: normal;
 }
@@ -316,27 +316,21 @@ iframe {
 	height: 86px;
 	float: left;
 	margin: 2px;
-	/*border: 0px solid #2378aa;*/
-	/* -webkit-border-radius: 2px;
-	-moz-border-radius: 2px; */
-	/*border-radius: 5px;*/
 	padding: 0px;
 }
 
 .new-status-header{ /* New status block text */
-	float:left;
-	clear:left;
+	font-family: "Courier New", Courier, monospace;
 	font-size: 15px;
 	color: rgb(255, 255, 255);
-	white-space: pre;
+	white-space: nowrap;
 }
 
 .new-status-line{ /* New status block text */
-	float:left;
-	clear:left;
+	font-family: "Courier New", Courier, monospace;
 	font-size: 13px;
 	color: rgb(255, 255, 255);
-	white-space: pre;
+	white-space: nowrap;
 }
 
 .lcddisplay .lcd-text{
@@ -350,7 +344,8 @@ iframe {
 	font-size: 16px;
 	font-weight: bold;
 	font-style: normal;
-	font-family: '5x8LCDHD44780UA02Regular', monospace;
+	font-family: "Courier New", Courier, monospace;
+	/*font-family: '5x8LCDHD44780UA02Regular', monospace;*/
 	/*color: #FFFF00;*/
 	color: rgb(255, 255, 255);
 	white-space: pre;
@@ -362,7 +357,8 @@ iframe {
 	font-size: 16px;
 	font-weight: normal;
 	font-style: normal;
-	font-family: '5x8LCDHD44780UA02Regular', monospace;
+	font-family: "Courier New", Courier, monospace;
+	/*font-family: '5x8LCDHD44780UA02Regular', monospace;*/
 	/*color: #FFFF00;*/
 	color: yellow;
 	white-space: pre;

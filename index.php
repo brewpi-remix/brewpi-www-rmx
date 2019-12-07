@@ -173,7 +173,11 @@ $title = ($chamber == '' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
     <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
     <script type="text/javascript" src="js/spin.js"></script>
+
     <script type="text/javascript" src="js/dygraph-combined.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" /> -->
+
     <script type="text/javascript">
         // pass parameters to JavaScript
         window.tempFormat = <?php echo "'$tempFormat'" ?>;
