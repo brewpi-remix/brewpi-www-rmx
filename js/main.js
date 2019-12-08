@@ -231,9 +231,20 @@ function refreshStatus() {
         data: { messageType: "statusText", message: "" }
     })
     .done(function (data) {
+        console.log(data)
         var $newStatusText = $('#new-status .new-status-text');
-        $newStatusText.find('#new-status-line-header').html("Status:");
+        // Clear status fields first
+        $newStatusText.find('#new-status-line-header').html("");
+        var i;
+        for (i = 0; i < 4; i++) {
+            $newStatusText.find('#new-status-item-' + i).html("");
+            $newStatusText.find('#new-status-value-' + i).html("");
+        }
+        //
         for (var row in data) {
+            // Only show status header if there is data
+            $newStatusText.find('#new-status-line-header').html("Status:");
+            //
             for (var item in data[row]) {
                 $newStatusText.find('#new-status-item-' + row).html(item);
                 $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
