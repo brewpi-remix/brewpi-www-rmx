@@ -208,8 +208,8 @@ function refreshLcd() {
         })
         .fail(function () {
             var $lcdText = $('#lcd .lcd-text');
-            $lcdText.find('#lcd-line-0').html("Cannot receive");
-            $lcdText.find('#lcd-line-1').html("LCD text from");
+            $lcdText.find('#lcd-line-0').html("Cannot connect");
+            $lcdText.find('#lcd-line-1').html("to BrewPi");
             $lcdText.find('#lcd-line-2').html("Python script");
             $lcdText.find('#lcd-line-3').html(" ");
             updateScriptStatus(false);

@@ -56,16 +56,16 @@
 						<td colspan="2" class="new-status-header" id="new-status-line-header">.</td>
 					</tr>
 					<tr>
-						<td class="new-status-line" id="new-status-item-0">.</td><td class="new-status-line" id="new-status-value-0">.</td>
+						<td class="new-status-line" id="new-status-item-0"></td><td class="new-status-line" id="new-status-value-0"></td>
 					</tr>
 					<tr>
-						<td class="new-status-line" id="new-status-item-1">.</td><td class="new-status-line" id="new-status-value-1">.</td>
+						<td class="new-status-line" id="new-status-item-1"></td><td class="new-status-line" id="new-status-value-1"></td>
 					</tr>
 					<tr>
-						<td class="new-status-line" id="new-status-item-2">.</td><td class="new-status-line" id="new-status-value-2">.</td>
+						<td class="new-status-line" id="new-status-item-2"></td><td class="new-status-line" id="new-status-value-2"></td>
 					</tr>
 					<tr>
-						<td class="new-status-line" id="new-status-item-3">.</td><td class="new-status-line" id="new-status-value-3">.</td>
+						<td class="new-status-line" id="new-status-item-3"></td><td class="new-status-line" id="new-status-value-3"></td>
 					</tr>
 				</tbody>
 			</table>
