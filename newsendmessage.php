@@ -15,19 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
- *
- * These scripts were originally a part of brewpi-www, a part of
- * the BrewPi project. Legacy support (for the very popular Arduino
- * controller) seems to have been discontinued in favor of new hardware.
- *
- * All credit for the original brewpi-www goes to @elcojacobs,
- * @lukepower, @m-mcgowan, @vanosg, @GregAtkinson and I'm sure
- * many more contributors around the world. My apologies if I have
- * missed anyone; those were the names listed as contributors on the
- * Legacy branch.
- *
- * See: 'original-license.md' for notes about the original project's
- * license and credits. */
+ */
 ?>
 
 <!DOCTYPE html>

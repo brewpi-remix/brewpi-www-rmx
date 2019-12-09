@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
+/* Copyright (C) 2019 Lee C. Bussy (@LBussy)
  *
  * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
  *
@@ -15,24 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
- *
- * These scripts were originally a part of brewpi-www, a part of
- * the BrewPi project. Legacy support (for the very popular Arduino
- * controller) seems to have been discontinued in favor of new hardware.
- *
- * All credit for the original brewpi-www goes to @elcojacobs,
- * @lukepower, @m-mcgowan, @vanosg, @GregAtkinson and I'm sure
- * many more contributors around the world. My apologies if I have
- * missed anyone; those were the names listed as contributors on the
- * Legacy branch.*/
+*/
 
-$debug = false;                                 // Write log file
+$debug = false;                                 // Write log file if true
 $file = "apilog.txt";                           // API Log
 $args = "LOCK_EX | FILE_APPEND";                // File lock mode
 $json = file_get_contents('php://input');       // Get incoming post
 $url = 'http://localhost/newsocketmessage.php'; // Destination
 
-function writeLog($logLine) { // Log file writer
+function writeLog($logLine) { // Log file writer (if $debug == true)
     global $debug;
     if ($debug) {
         // Get timestamp
@@ -53,7 +44,7 @@ function writeLog($logLine) { // Log file writer
 
 $result = json_decode($json);
 
-if (json_last_error() === JSON_ERROR_NONE) { // Json is valid
+if (json_last_error() === JSON_ERROR_NONE) { // JSON is valid
     writeLog("Received JSON: " . $json);
 
     $postdata = array(
