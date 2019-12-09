@@ -266,8 +266,8 @@ iframe {
 }
 
 .lcddisplay {
-	width: 300px;
-	height: 90px;
+	width: 280px;
+	height: 85px;
 	float: left;
 	margin: 5px;
 	/*background: #000000; /* Old browsers */
@@ -282,10 +282,10 @@ iframe {
 	/*-moz-box-shadow: inset 1px 1px 5px #333333;*/
 	/*box-shadow: inset 1px 1px 5px #333333;*/
 	/*border: 2px solid #333;*/
-	border: 0px solid #2378aa;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 5px;
+	/*border: 0px solid #2378aa;*/
+	/*-webkit-border-radius: 2px;*/
+	/*-moz-border-radius: 2px;*/
+	/*border-radius: 5px;*/
 }
 
 .portallcddisplay {
@@ -313,24 +313,17 @@ iframe {
 
 .new-status-display { /* New status block */
 	width: 170px;
-	height: 86px;
 	float: left;
-	margin: 2px;
+	margin: 10px;
 	padding: 0px;
-}
-
-.new-status-header{ /* New status block text */
-	font-family: "Courier New", Courier, monospace;
-	font-size: 15px;
-	color: rgb(255, 255, 255);
-	white-space: nowrap;
 }
 
 .new-status-line{ /* New status block text */
 	font-family: "Courier New", Courier, monospace;
-	font-size: 13px;
 	color: rgb(255, 255, 255);
 	white-space: nowrap;
+	font-size: 13px;
+	font-style: normal;
 }
 
 .lcddisplay .lcd-text{

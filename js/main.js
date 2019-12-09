@@ -34,6 +34,7 @@ var prevScriptStatus = -1;
 var controlConstants = {};
 var controlSettings = {};
 var controlVariables = {};
+var lastStatus = 0;
 
 // Determine if we are in a frame or on an LCD page
 function inIframe() {
@@ -222,6 +223,7 @@ function refreshLcd() {
 
 function refreshStatus() {
     "use strict";
+    var numRows = 4;
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -231,41 +233,49 @@ function refreshStatus() {
         data: { messageType: "statusText", message: "" }
     })
     .done(function (data) {
-        console.log(data)
         var $newStatusText = $('#new-status .new-status-text');
-        // Clear status fields first
-        $newStatusText.find('#new-status-line-header').html("");
-        var i;
-        for (i = 0; i < 4; i++) {
+        // Display statuses
+        var n = 0
+        var numKeys = Object.keys(data).length;
+        if (numKeys > numRows) {
+            // Use this for 5 or more data elements
+            for (var i = window.lastStatus; i < (window.lastStatus + numKeys); i++) {
+                row = data[i % numKeys];
+                for (var item in row) {
+                    $newStatusText.find('#new-status-item-' + n).html(item);
+                    $newStatusText.find('#new-status-value-' + n).html(row[item]);
+                }
+                n++;
+            }
+            window.lastStatus++;
+        } else {
+            // Use this if we only have numRows or less data elements
+            window.lastStatus = 0;
+            for (var row in data) {
+                for (var item in data[row]) {
+                    $newStatusText.find('#new-status-item-' + row).html(item);
+                    $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
+                }
+                n++
+            }
+        }
+        // Clear the rest of the statuses
+        for (var i = n; i < numRows; i++) {
             $newStatusText.find('#new-status-item-' + i).html("");
             $newStatusText.find('#new-status-value-' + i).html("");
         }
-        //
-        for (var row in data) {
-            // Only show status header if there is data
-            $newStatusText.find('#new-status-line-header').html("Status:");
-            //
-            for (var item in data[row]) {
-                $newStatusText.find('#new-status-item-' + row).html(item);
-                $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
-            }
-        }
-        updateScriptStatus(true);
     })
     .fail(function () {
         var $newStatusText = $('#new-status .new-status-text');
-        $newStatusText.find('#new-status-line-header').html("Offline");
-        var i;
-        for (i = 0; i < 4; i++) {
-            $newStatusText.find('#new-status-item-' + i).html(".");
-            $newStatusText.find('#new-status-value-' + i).html(".");
+        for (var i = 0; i < 4; i++) {
+            $newStatusText.find('#new-status-item-' + i).html("");
+            $newStatusText.find('#new-status-value-' + i).html("");
         }
-        updateScriptStatus(false);
     })
     setTimeout(refreshStatus, 10000);
 }
 
-function updateScriptStatus(running) {
+function updateScriptStatus(running) { // TODO:  Make a "Starting" status
     "use strict";
     if (window.scriptStatus == running) {
         return;
@@ -465,6 +475,7 @@ function beerNameDialogResult($body, $backButton, result) {
         result = $.parseJSON(result);
     }
     if (result.status === 0) {
+        // TODO: Reload page
         $body.append($("<span  class='dialog-result-success'>Success!</span>"));
         $backButton.hide();
     }

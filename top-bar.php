@@ -53,9 +53,6 @@
 		<table cellpadding="0">
 				<tbody>
 					<tr>
-						<td colspan="2" class="new-status-header" id="new-status-line-header">.</td>
-					</tr>
-					<tr>
 						<td class="new-status-line" id="new-status-item-0"></td><td class="new-status-line" id="new-status-value-0"></td>
 					</tr>
 					<tr>
