@@ -134,7 +134,7 @@ foreach ($arr as $key => $word) {
     }
 }
 $commit .= trim($loop) . "</span> ]";
-$division .= "<div id=\"version-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
+$division = "<div id=\"version-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
 $division .= "<div id=\"bottom-bar\" class=\"ui-widget ui-widget-header ui-corner-all\">\r\n";
 $division .= "<div id=\"version-text\">\r\n";
 $division .= "<span>BrewPi Remix version: " . trim($version) . " (" . trim($branch) . ")</span>\r\n";

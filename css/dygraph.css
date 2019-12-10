@@ -14,7 +14,7 @@ BR.crystal { clear:both; }
 
 .beer-chart-label {
     /*
-    Leave beer-chart-label there and invisible as we are puposefully
+    Leave beer-chart-label there and invisible as we are purposefully
     hiding dygraphs impl of legends
     */
     display: none;

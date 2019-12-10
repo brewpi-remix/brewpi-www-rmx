@@ -40,9 +40,11 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$("button#send").click(function(){
-					$.post('socketmessage.php', {messageType: String($("#messageType").val()), message: String($("#message").val())}, function(reply){
-						$("span#reply").text(reply);
-					});
+					$.post('socketmessage.php', {
+                        messageType: String($("#messageType").val()), message: String($("#message").val())
+                    }, function(reply){
+                        $("span#reply").text(reply);
+                    });
 				});
 			});
 		</script>

@@ -98,12 +98,12 @@ $title = ($chamber=='' ? 'BrewPi Remix' : 'LCD: ' . $chamber)
 </head>
 <body>
 <div id="lcd-portal" class="ui-widget ui-widget-content ui-corner-all">
-<div id="lcd" class="lcddisplay">
+<div id="lcd" class="portallcddisplay">
 <span class="lcd-text">
-    <span class="lcd-line" id="lcd-line-0">Live LCD waiting</span>
-    <span class="lcd-line" id="lcd-line-1">for update from</span>
-    <span class="lcd-line" id="lcd-line-2">script.</span>
-    <span class="lcd-line" id="lcd-line-3"></span>
+    <span class="portal-lcd-line" id="lcd-line-0">Live LCD waiting</span>
+    <span class="portal-lcd-line" id="lcd-line-1">for update from</span>
+    <span class="portal-lcd-line" id="lcd-line-2">script.</span>
+    <span class="portal-lcd-line" id="lcd-line-3"></span>
 </span><br />
 </div>
 <a href="<?php echo $rooturl; ?>">Open <?php echo $chamber; ?>'s Main Page</a>

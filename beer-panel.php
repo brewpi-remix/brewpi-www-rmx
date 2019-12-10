@@ -30,198 +30,117 @@
  * license and credits. */
 ?>
 
-<div id="top-bar" class="ui-widget ui-widget-header ui-corner-all">
-	<div id="lcd" class="lcddisplay">
-        <span class="lcd-text">
-            <span class="lcd-line" id="lcd-line-0">Live LCD waiting</span>
-            <span class="lcd-line" id="lcd-line-1">for update from</span>
-            <span class="lcd-line" id="lcd-line-2">script.</span>
-            <span class="lcd-line" id="lcd-line-3"></span>
-        </span>
-	</div>
-	<div id="logo-container">
-        <?php
-        // Get site root url
-        $root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
-        // Get logo name (use custom if it exists)
-        $logo = (file_exists('images/custom_logo.png') ? 'images/custom_logo.png' : 'images/brewpi_logo.png');
-        // Use link on logo if we are multi-chamber
-        $logo = ($chamber=='' ? '<img class="logo" src="'.$logo.'">' : '<a href="'.$root.'"><img class="logo" src="'.$logo.'"></a>');
-        echo $logo;
-        ?>
-		<div id=beer-name-container>
-			<span>Tracking: </span>
-            <a href='#' id="beer-name"><?php echo urldecode($beerName);?></a>
-            <?php
-            // If we are in multi-chamber, print ' in {chamber name}' after
-            // the batch name
-            echo ($chamber=='' ? '' : ' in ' . $chamber);
-            ?>
-			<span class="data-logging-state"></span>
-		</div>
-	</div>
-	<button class="script-status ui-state-error"></button>
-	<button id="maintenance" class="ui-state-default">Maintenance panel</button>
-</div>
 <div class="chart-container">
-    <div id="curr-beer-chart-label" class="beer-chart-label"></div>
-    <div id="curr-beer-chart" class="beer-chart" style="width:815px; height:390px"></div>
+	<div id="curr-beer-chart-label" class="beer-chart-label"></div>
+	<div id="curr-beer-chart" class="beer-chart" style="width:815px; height:390px"></div>
 	<div id="curr-beer-chart-controls" class="beer-chart-controls" style="display: none">
-	    <div id="curr-beer-chart-buttons" class="beer-chart-buttons">
-	    	<div class="beer-chart-legend-row">
+		<div id="curr-beer-chart-buttons" class="beer-chart-buttons">
+			<div class="beer-chart-legend-row">
 				<button class="refresh-curr-beer-chart" title="Refresh"></button>
-	    		<div class="beer-chart-legend-label">Refresh Chart</div>
-	    		<br class="crystal" />
-	    	</div>
-	    	<div class="beer-chart-legend-row last">
+				<div class="beer-chart-legend-label">Refresh Chart</div>
+				<br class="crystal" />
+			</div>
+			<div class="beer-chart-legend-row last">
 				<button class="chart-help" title="Help"></button>
-	    		<div class="beer-chart-legend-label">Help</div>
-    			<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label">Help</div>
+				<br class="crystal" />
+			</div>
 		</div>
-	    <div id="curr-beer-chart-legend" class="beer-chart-legend">
-	    	<div class="beer-chart-legend-row time">
-	    		<div class="beer-chart-legend-time">Date/Time</div>
-	    	</div>
-	    	<div class="beer-chart-legend-row beerTemp">
-	    		<div class="toggle beerTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Beer Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-	    	<div class="beer-chart-legend-row beerSet">
+		<div id="curr-beer-chart-legend" class="beer-chart-legend">
+			<div class="beer-chart-legend-row time">
+				<div class="beer-chart-legend-time">Date/Time</div>
+			</div>
+			<div class="beer-chart-legend-row beerTemp">
+				<div class="toggle beerTemp" onClick="toggleLine(this)"></div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Beer Temp</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
+			<div class="beer-chart-legend-row beerSet">
 				<div class="toggle beerSet" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Beer Setting</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-	    	<div class="beer-chart-legend-row fridgeTemp">
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Beer Setting</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
+			<div class="beer-chart-legend-row fridgeTemp">
 				<div class="toggle fridgeTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Chamber Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-	    	<div class="beer-chart-legend-row fridgeSet">
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Chamber Temp</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
+			<div class="beer-chart-legend-row fridgeSet">
 				<div class="toggle fridgeSet" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Chamber Setting</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-	    	<div class="beer-chart-legend-row roomTemp">
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Chamber Setting</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
+			<div class="beer-chart-legend-row roomTemp">
 				<div class="toggle roomTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Room Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <!-- Tilt lines -->
-			<div class="beer-chart-legend-row redTemp">
-				<div class="toggle redTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Room Temp</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
+			<!-- Tilt lines -->
 			<div class="beer-chart-legend-row redSG">
 				<div class="toggle redSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt SG</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <div class="beer-chart-legend-row greenTemp">
-				<div class="toggle greenTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Green Tilt Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
 			<div class="beer-chart-legend-row greenSG">
 				<div class="toggle greenSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Green Tilt SG</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <div class="beer-chart-legend-row blackTemp">
-				<div class="toggle blackTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Black Tilt Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Green Tilt SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
 			<div class="beer-chart-legend-row blackSG">
 				<div class="toggle blackSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Black Tilt SG</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <div class="beer-chart-legend-row purpleTemp">
-				<div class="toggle purpleTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Purple Tilt Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Black Tilt SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
 			<div class="beer-chart-legend-row purpleSG">
 				<div class="toggle purpleSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Purple Tilt SG</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <div class="beer-chart-legend-row orangeTemp">
-				<div class="toggle orangeTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange Tilt Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Purple Tilt SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
 			<div class="beer-chart-legend-row orangeSG">
 				<div class="toggle orangeSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange Tilt SG</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <div class="beer-chart-legend-row blueTemp">
-				<div class="toggle blueTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Blue Tilt Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange Tilt SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
 			<div class="beer-chart-legend-row blueSG">
 				<div class="toggle blueSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Blue Tilt SG</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <div class="beer-chart-legend-row yellowTemp">
-				<div class="toggle yellowTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow Tilt Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Blue Tilt SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
 			<div class="beer-chart-legend-row yellowSG">
 				<div class="toggle yellowSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow Tilt SG</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <div class="beer-chart-legend-row pinkTemp">
-				<div class="toggle pinkTemp" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Pink Tilt Temp</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow Tilt SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
 			<div class="beer-chart-legend-row pinkSG">
 				<div class="toggle pinkSG" onClick="toggleLine(this)"></div>
-	    		<div class="beer-chart-legend-label" onClick="toggleLine(this)">Pink Tilt SG</div>
-	    		<div class="beer-chart-legend-value">--</div>
-	    		<br class="crystal" />
-	    	</div>
-            <!-- Tilt lines END-->
-	    	<div class="beer-chart-legend-row state">
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Pink Tilt SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
+			<!-- Tilt lines END-->
+			<div class="beer-chart-legend-row state">
 				<div class="state-indicator"></div>
-	    		<div class="beer-chart-legend-label"></div>
-	    		<br class="crystal" />
-	    	</div>
-	    	<div class="beer-chart-legend-row annotation last">
+				<div class="beer-chart-legend-label"></div>
+				<br class="crystal" />
+			</div>
+			<div class="beer-chart-legend-row annotation last">
 				<div class="toggleAnnotations dygraphDefaultAnnotation" onClick="toggleAnnotations(this)">A</div>
-	    		<div class="beer-chart-legend-label" onClick="toggleAnnotations(this)">Annotations</div>
-	    		<br class="crystal" />
-	    	</div>
-	    </div>
+				<div class="beer-chart-legend-label" onClick="toggleAnnotations(this)">Annotations</div>
+				<br class="crystal" />
+			</div>
+		</div>
 	</div>
 </div>
 <div id="chart-help-popup" title="Beer graph help" style="display: none">
@@ -273,4 +192,3 @@
 		</span>
 	</div>
 </div>
-

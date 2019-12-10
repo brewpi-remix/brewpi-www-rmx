@@ -1,15 +1,8 @@
 /* Tilt Colors */
 
 /* Red */
-.beer-chart-legend-row.redTemp{
-    color:rgba(255, 0, 0, 1);
-}
 .beer-chart-legend-row.redSG{
     color:rgba(255, 0, 0, 1);
-}
-.beer-chart-legend-row .toggle.redTemp{
-    background-color:rgba(255, 0, 0, 0.5);
-    border:1px solid rgba(255, 0, 0, 1);
 }
 .beer-chart-legend-row .toggle.redSG{
     background-color:rgba(255, 0, 0, 0.5);
@@ -17,15 +10,8 @@
 }
 
 /* Green  */
-.beer-chart-legend-row.greenTemp{
-    color:rgba(0, 255, 0, 1);
-}
 .beer-chart-legend-row.greenSG{
     color:rgba(0, 255, 0, 1);
-}
-.beer-chart-legend-row .toggle.greenTemp{
-    background-color:rgba(0, 255, 0, 0.5);
-    border:1px solid rgba(0, 255, 0, 1);
 }
 .beer-chart-legend-row .toggle.greenSG{
     background-color:rgba(0, 255, 0, 0.5);
@@ -33,15 +19,8 @@
 }
 
 /* Black */
-.beer-chart-legend-row.blackTemp{
-    color:rgba(0, 0, 0, 1);
-}
 .beer-chart-legend-row.blackSG{
     color:rgba(0, 0, 0, 1);
-}
-.beer-chart-legend-row .toggle.blackTemp{
-    background-color:rgba(0, 0, 0, 0.5);
-    border:1px solid rgba(0, 0, 0, 1);
 }
 .beer-chart-legend-row .toggle.blackSG{
     background-color:rgba(0, 0, 0, 0.5);
@@ -49,15 +28,8 @@
 }
 
 /* Purple */
-.beer-chart-legend-row.purpleTemp{
-    color:rgba(128, 0, 128, 1);
-}
 .beer-chart-legend-row.purpleSG{
     color:rgba(128, 0, 128, 1);
-}
-.beer-chart-legend-row .toggle.purpleTemp{
-    background-color:rgba(128, 0, 128, 0.5);
-    border:1px solid rgba(128, 0, 128, 1);
 }
 .beer-chart-legend-row .toggle.purpleSG{
     background-color:rgba(128, 0, 128, 0.5);
@@ -65,15 +37,8 @@
 }
 
 /* Orange */
-.beer-chart-legend-row.orangeTemp{
-    color:rgba(255, 165, 0, 1);
-}
 .beer-chart-legend-row.orangeSG{
     color:rgba(255, 165, 0, 1);
-}
-.beer-chart-legend-row .toggle.orangeTemp{
-    background-color:rgba(255, 165, 0, 0.5);
-    border:1px solid rgba(255, 165, 0, 1);
 }
 .beer-chart-legend-row .toggle.orangeSG{
     background-color:rgba(255, 165, 0, 0.5);
@@ -81,15 +46,8 @@
 }
 
 /* Blue */
-.beer-chart-legend-row.blueTemp{
-    color:rgba(0, 0, 139, 1);
-}
 .beer-chart-legend-row.blueSG{
     color:rgba(0, 0, 139, 1);
-}
-.beer-chart-legend-row .toggle.blueTemp{
-    background-color:rgba(0, 0, 139, 0.5);
-    border:1px solid rgba(0, 0, 139, 1);
 }
 .beer-chart-legend-row .toggle.blueSG{
     background-color:rgba(0, 0, 139, 0.5);
@@ -97,15 +55,8 @@
 }
 
 /* Yellow */
-.beer-chart-legend-row.yellowTemp{
-    color:rgba(255, 255, 0, 1);
-}
 .beer-chart-legend-row.yellowSG{
     color:rgba(255, 255, 0, 1);
-}
-.beer-chart-legend-row .toggle.yellowTemp{
-    background-color:rgba(255, 255, 0, 0.5);
-    border:1px solid rgba(255, 255, 0, 1);
 }
 .beer-chart-legend-row .toggle.yellowSG{
     background-color:rgba(255, 255, 0, 0.5);
@@ -113,15 +64,8 @@
 }
 
 /* Pink */
-.beer-chart-legend-row.pinkTemp{
-    color:rgba(218, 112, 214, 1);
-}
 .beer-chart-legend-row.pinkSG{
     color:rgba(218, 112, 214, 1);
-}
-.beer-chart-legend-row .toggle.pinkTemp{
-    background-color:rgba(218, 112, 214, 0.5);
-    border:1px solid rgba(218, 112, 214, 1);
 }
 .beer-chart-legend-row .toggle.pinkSG{
     background-color:rgba(218, 112, 214, 0.5);
