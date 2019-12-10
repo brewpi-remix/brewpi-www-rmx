@@ -80,7 +80,7 @@
 				<div class="beer-chart-legend-value">--</div>
 				<br class="crystal" />
 			</div>
-			<!-- Tilt lines -->
+			<!-- Tilt lines BEGIN -->
 			<div class="beer-chart-legend-row redSG">
 				<div class="toggle redSG" onClick="toggleLine(this)"></div>
 				<div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt SG</div>
@@ -130,6 +130,14 @@
 				<br class="crystal" />
 			</div>
 			<!-- Tilt lines END-->
+			<!-- iSpindel lines BEGIN-->
+			<div class="beer-chart-legend-row spinSG">
+				<div class="toggle spinSG" onClick="toggleLine(this)"></div>
+				<div class="beer-chart-legend-label" onClick="toggleLine(this)">iSpindel SG</div>
+				<div class="beer-chart-legend-value">--</div>
+				<br class="crystal" />
+			</div>
+			<!-- iSpindel lines END-->
 			<div class="beer-chart-legend-row state">
 				<div class="state-indicator"></div>
 				<div class="beer-chart-legend-label"></div>

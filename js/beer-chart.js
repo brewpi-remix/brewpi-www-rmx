@@ -48,8 +48,8 @@ var legendStorageKeyPrefix = "legendLine_";
 
 var currentDataSet = null;
 
-var TIME_COLUMN = 0; // Time is the first column of data
-var STATE_COLUMN = 6; // State is currently the 6th column of data.
+var TIME_COLUMN = 0;        // Time is the first column of data
+var STATE_COLUMN = 6;       // State is currently the 6th column of data.
 var STATE_LINE_WIDTH = 15;
 
 
@@ -90,7 +90,8 @@ var lineNames = { // Tilt line names and legend
     orangeSG: "Orange Tilt SG",
     blueSG: "Blue Tilt SG",
     yellowSG: "Yellow Tilt SG",
-    pinkSG: "Pink Tilt SG"
+    pinkSG: "Pink Tilt SG",
+    spinSG: "iSpindel SG"
 };
 
 /**
@@ -430,7 +431,12 @@ function showChartLegend(e, x, pts, row, g) { // For legend value display, make 
     $("#curr-beer-chart-legend .beer-chart-legend-row.fridgeTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 3)));
     $("#curr-beer-chart-legend .beer-chart-legend-row.fridgeSet .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 4)));
     $("#curr-beer-chart-legend .beer-chart-legend-row.roomTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 5)));
-
+    // iSpindel rows
+    //if (row.hasOwnProperty('SpinSG')) {
+        //console.log("DEBUG:  Processing iSpindel.");
+    $('#curr-beer-chart-legend .beer-chart-legend-row.SpinSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 7)));
+        //
+    //}
     switch (colorTilt) { // Populate Tilt SG for proper color
         case "Red":
             $("#curr-beer-chart-legend .beer-chart-legend-row.redSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 7)));
@@ -532,18 +538,35 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
             return parseFloat(y).toFixed(2) + "\u00B0 " + window.tempFormat;
         };
 
+        // Tilt and iSpindel
         var gravityFormat = function (y) {
             return parseFloat(y).toFixed(3);
         };
 
-        //Modification: Tilt colors
+        //Modification: Tilt & iSpindel colors
         var chartColors = [
-            "rgb(41, 170, 41)",
-            "rgb(240, 100, 100)",
-            "rgb(89, 184, 255)",
-            "rgb(255, 161, 76)",
-            "rgb(170, 170, 170)",
-            "rgb(153, 0, 153)"
+            'rgb(41,170,41)',
+            'rgb(240, 100, 100)',
+            'rgb(89, 184, 255)',
+            'rgb(255, 161, 76)',
+            '#AAAAAA',
+            'rgb(153,0,153)',
+            'red',
+            'red',
+            'red',
+            'lime',
+            'black',
+            'black',
+            'purple',
+            'purple',
+            'orange',
+            'orange',
+            'darkblue',
+            'darkblue',
+            'yellow',
+            'yellow',
+            'orchid',
+            'orchid'
         ];
 
         if (colorTilt !== "") {
@@ -591,6 +614,10 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
                     strokePattern: [3, 1]
                 },
                 pinkSG: {
+                    axis: "y2",
+                    strokePattern: [3, 1]
+                },
+                spinSG : {
                     axis: "y2",
                     strokePattern: [3, 1]
                 }
@@ -766,6 +793,7 @@ function toggleAnnotations(el) {
 
 $(document).ready(function () {
     "use strict";
+
     $("button.refresh-curr-beer-chart").button({
         icons: {
             primary: "ui-icon-refresh"
@@ -785,6 +813,7 @@ $(document).ready(function () {
     }).click(function () {
         $("#chart-help-popup").dialog("open");
     });
+
     applyStateColors();
 
     // Unhide after loading
