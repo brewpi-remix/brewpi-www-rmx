@@ -30,7 +30,7 @@
 		echo $logo;
 		?>
 		<div id=beer-name-container>
-			<span>Showing: </span>
+			<span>Logging: </span>
 			<a href='#' id="beer-name"><?php echo urldecode($beerName); ?></a>
 			<?php
 			// If we are in multi-chamber, print ' in {chamber name}' after

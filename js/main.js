@@ -105,11 +105,11 @@ function receiveControlSettings(callback) {
             if (typeof (controlSettings.dataLogging) !== 'undefined') {
                 var $loggingState = $("span.data-logging-state");
                 if (controlSettings.dataLogging === 'paused') {
-                    $loggingState.text("(logging paused)");
+                    $loggingState.text("(paused)");
                     $loggingState.show();
                 }
                 else if (controlSettings.dataLogging === 'stopped') {
-                    $loggingState.text("(logging stopped)");
+                    $loggingState.text("(stopped)");
                     $loggingState.show();
                 }
                 else {
