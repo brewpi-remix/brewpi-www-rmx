@@ -14,7 +14,7 @@ BR.crystal { clear:both; }
 
 .beer-chart-label {
     /*
-    Leave beer-chart-label there and invisible as we are puposefully
+    Leave beer-chart-label there and invisible as we are purposefully
     hiding dygraphs impl of legends
     */
     display: none;
@@ -110,8 +110,22 @@ BR.crystal { clear:both; }
     border:1px solid rgba(170, 170, 170, 1);
 }
 
+.beer-chart-legend-row .toggle.spinSG{
+    background-color:rgba(255, 0, 0, 0.5);
+    border:1px solid rgba(255, 0, 0, 1);
+}
+
 .beer-chart-legend-row .toggle.inactive{
     background-color:white;
+}
+
+.dygraph-y2label{ /* TODO:  Do we need this? */
+    font-size:11px;
+}
+
+.dygraph-ylabel { /* TODO:  Do we need this? */
+    font-size:11px;
+    margin: 15px 0px 0px 0px;
 }
 
 .toggleAnnotations{

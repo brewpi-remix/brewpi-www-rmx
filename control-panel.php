@@ -1,21 +1,35 @@
 <?php
-/* Copyright 2012 BrewPi/Elco Jacobs.
- * This file is part of BrewPi.
-
- * BrewPi is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
-
- * BrewPi is distributed in the hope that it will be useful,
+/* Copyright (C) 2018, 2019 Lee C. Bussy (@LBussy)
+ *
+ * This file is part of LBussy's BrewPi WWW Remix (BrewPi-WWW-RMX).
+ *
+ * BrewPi WWW RMX is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * BrewPi WWW RMX is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
  * You should have received a copy of the GNU General Public License
- * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
- */
+ * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * These scripts were originally a part of brewpi-www, a part of
+ * the BrewPi project. Legacy support (for the very popular Arduino
+ * controller) seems to have been discontinued in favor of new hardware.
+ *
+ * All credit for the original brewpi-www goes to @elcojacobs,
+ * @lukepower, @m-mcgowan, @vanosg, @GregAtkinson and I'm sure
+ * many more contributors around the world. My apologies if I have
+ * missed anyone; those were the names listed as contributors on the
+ * Legacy branch.
+ *
+ * See: 'original-license.md' for notes about the original project's
+ * license and credits. */
 ?>
+
 <ul>
 	<div id="control-bar-text">
 		<div id="set-mode-text">Set temperature mode:</div>
@@ -54,16 +68,16 @@
 		<div id="profileSelectTableDiv" style="display: none;"></div>
 	</div>
 	<div id="profileEditDiv">
-		   <div id="profileEditChartDiv"><span class="chart-placeholder">Profile preview will be displayed here</span></div>
-	       <div id="profileEditControls">
-	       <div class="profileEditFieldSet">
-               <div id="profileEditNameLabel" class="profileTableLabel edit">Profile Name:</div><input class="profileTableField" type="text" id="profileEditName" name="profileEditName" value="" />
-               <div class="profileTableLabel edit">Start Date:</div><input class="profileTableField" type="text" id="profileEditStartDate" name="profileEditStartDate" value="" tabindex="-1" />
-	       </div>
-           <button class="halfwidth-button" type="button" id="profileEditNowButton">Start Now</button>
-           <button class="halfwidth-button" type="button" id="profileEditAddCurrentButton">Insert Now</button>
-	       <div id="profileSaveError">Error Saving Profile!</div>
-	       </div>
+		<div id="profileEditChartDiv"><span class="chart-placeholder">Profile preview will be displayed here</span></div>
+		<div id="profileEditControls">
+			<div class="profileEditFieldSet">
+				<div id="profileEditNameLabel" class="profileTableLabel edit">Profile Name:</div><input class="profileTableField" type="text" id="profileEditName" name="profileEditName" value="" />
+				<div class="profileTableLabel edit">Start Date:</div><input class="profileTableField" type="text" id="profileEditStartDate" name="profileEditStartDate" value="" tabindex="-1" />
+			</div>
+			<button class="halfwidth-button" type="button" id="profileEditNowButton">Start Now</button>
+			<button class="halfwidth-button" type="button" id="profileEditAddCurrentButton">Insert Now</button>
+			<div id="profileSaveError">Error Saving Profile!</div>
+		</div>
 	</div>
 	<div id="profileHelpDiv">
 		<p> A temperature profile is a set of timestamps and beer temperature settings. Between the points you define, the temperature is interpolated.
@@ -72,21 +86,24 @@
 		</p>
 		<span class="help-h1">Open</span>
 		<p>
-			The <i>Open</i> button shows a list of saved profiles. Clicking them loads the profile in the web interface, but does <span
-				style="text-decoration: underline;">not</span> activate it yet. When you hit 'Apply', the profile is set as active and the script will start following it.
+			The <i>Open</i> button shows a list of saved profiles. Clicking them loads the profile in the web interface, but does <span style="text-decoration: underline;">not</span> activate it yet. When you hit 'Apply', the profile is set as active and the script will start following it.
 			Remember to change the start date when loading an old profile!
 		</p>
 		<span class="help-h1">New</span>
 		<p>
 			When you click the <i>New</i> button, a dialog will open where you can enter a name for the profile and add temperature points. Decimals are allowed in both columns!
-		</p><p>
+		</p>
+		<p>
 			You can right-click on a row to insert a new row or to delete the row. There will always be an empty row at the bottom too.
-		</p><p>
+		</p>
+		<p>
 			The <i>Start Now</i> button sets the start date of the profile to the current date on your computer. Make sure your Pi and your computer are in sync.
-		</p><p>
+		</p>
+		<p>
 			The <i>Insert Now</i> button adds a new point to the profile at the current date and the current beer temperature setting.
 			This allows you to change a running profile 'from now on', while not changing the part of the profile that already passed.
-		</p><p>
+		</p>
+		<p>
 			When you are done with your profile, click <i>Save</i>. This will save the profile on the Raspberry Pi and load it in the web interface.
 		</p>
 		<p>Note: The table is kept sorted based on the Date and Time column. The 'Date and Time' column cannot be edited directly: it is calculated from the start date and the Day column.</p>
@@ -105,12 +122,15 @@
 		<span class="help-h1">Final notes..</span>
 		<p>
 			If your start date is in the future, BrewPi will use the first temperature in the profile. If your last date is in the past, BrewPi will use the last temperature.
-		</p><p>
+		</p>
+		<p>
 			You can leave a temperature cell empty to temporarily disable temperature control in profile mode.
 			You can start a profile with an empty temperature cell at day 0 to postpone starting temperature control or you can end with an empty cell to disable temperature control after a while.
-		</p><p>
+		</p>
+		<p>
 			Take into account that your points define 'line pieces', to end with 22 degrees for a while and then OFF you define: 22, 22, empty.
-		</p><p>
+		</p>
+		<p>
 			It might sound a bit complicated now, but just play around with the editor a bit and look at the changes in the chart. It is not as complicated as it sounds here.
 		</p>
 	</div>

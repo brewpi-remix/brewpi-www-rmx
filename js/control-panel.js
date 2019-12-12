@@ -809,4 +809,5 @@ $(document).ready(function(){
     $('#control-panel').tabs();
     // Unhide after loading
     $("#control-panel").show();
+    $("#version-panel").show();
 });

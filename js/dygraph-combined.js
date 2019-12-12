@@ -2,7 +2,7 @@
 Date.ext = {};
 Date.ext.util = {};
 Date.ext.util.xPad = function (a, c, b) {
-    if (typeof(b) == "undefined") {
+    if (typeof (b) == "undefined") {
         b = 10
     }
     for (; parseInt(a, 10) < b && b > 1; b /= 10) {
@@ -15,89 +15,91 @@ if (document.getElementsByTagName("html") && document.getElementsByTagName("html
     Date.prototype.locale = document.getElementsByTagName("html")[0].lang
 }
 Date.ext.locales = {};
-Date.ext.locales.en = {a: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], A: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], b: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], B: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], c: "%a %d %b %Y %T %Z", p: ["AM", "PM"], P: ["am", "pm"], x: "%d/%m/%y", X: "%T"};
+Date.ext.locales.en = { a: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], A: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], b: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], B: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], c: "%a %d %b %Y %T %Z", p: ["AM", "PM"], P: ["am", "pm"], x: "%d/%m/%y", X: "%T" };
 Date.ext.locales["en-US"] = Date.ext.locales.en;
 Date.ext.locales["en-US"].c = "%a %d %b %Y %r %Z";
 Date.ext.locales["en-US"].x = "%D";
 Date.ext.locales["en-US"].X = "%r";
 Date.ext.locales["en-GB"] = Date.ext.locales.en;
 Date.ext.locales["en-AU"] = Date.ext.locales["en-GB"];
-Date.ext.formats = {a: function (a) {
-    return Date.ext.locales[a.locale].a[a.getDay()]
-}, A: function (a) {
-    return Date.ext.locales[a.locale].A[a.getDay()]
-}, b: function (a) {
-    return Date.ext.locales[a.locale].b[a.getMonth()]
-}, B: function (a) {
-    return Date.ext.locales[a.locale].B[a.getMonth()]
-}, c: "toLocaleString", C: function (a) {
-    return Date.ext.util.xPad(parseInt(a.getFullYear() / 100, 10), 0)
-}, d: ["getDate", "0"], e: ["getDate", " "], g: function (a) {
-    return Date.ext.util.xPad(parseInt(Date.ext.util.G(a) / 100, 10), 0)
-}, G: function (c) {
-    var e = c.getFullYear();
-    var b = parseInt(Date.ext.formats.V(c), 10);
-    var a = parseInt(Date.ext.formats.W(c), 10);
-    if (a > b) {
-        e++
-    } else {
-        if (a === 0 && b >= 52) {
-            e--
+Date.ext.formats = {
+    a: function (a) {
+        return Date.ext.locales[a.locale].a[a.getDay()]
+    }, A: function (a) {
+        return Date.ext.locales[a.locale].A[a.getDay()]
+    }, b: function (a) {
+        return Date.ext.locales[a.locale].b[a.getMonth()]
+    }, B: function (a) {
+        return Date.ext.locales[a.locale].B[a.getMonth()]
+    }, c: "toLocaleString", C: function (a) {
+        return Date.ext.util.xPad(parseInt(a.getFullYear() / 100, 10), 0)
+    }, d: ["getDate", "0"], e: ["getDate", " "], g: function (a) {
+        return Date.ext.util.xPad(parseInt(Date.ext.util.G(a) / 100, 10), 0)
+    }, G: function (c) {
+        var e = c.getFullYear();
+        var b = parseInt(Date.ext.formats.V(c), 10);
+        var a = parseInt(Date.ext.formats.W(c), 10);
+        if (a > b) {
+            e++
+        } else {
+            if (a === 0 && b >= 52) {
+                e--
+            }
         }
-    }
-    return e
-}, H: ["getHours", "0"], I: function (b) {
-    var a = b.getHours() % 12;
-    return Date.ext.util.xPad(a === 0 ? 12 : a, 0)
-}, j: function (c) {
-    var a = c - new Date("" + c.getFullYear() + "/1/1 GMT");
-    a += c.getTimezoneOffset() * 60000;
-    var b = parseInt(a / 60000 / 60 / 24, 10) + 1;
-    return Date.ext.util.xPad(b, 0, 100)
-}, m: function (a) {
-    return Date.ext.util.xPad(a.getMonth() + 1, 0)
-}, M: ["getMinutes", "0"], p: function (a) {
-    return Date.ext.locales[a.locale].p[a.getHours() >= 12 ? 1 : 0]
-}, P: function (a) {
-    return Date.ext.locales[a.locale].P[a.getHours() >= 12 ? 1 : 0]
-}, S: ["getSeconds", "0"], u: function (a) {
-    var b = a.getDay();
-    return b === 0 ? 7 : b
-}, U: function (e) {
-    var a = parseInt(Date.ext.formats.j(e), 10);
-    var c = 6 - e.getDay();
-    var b = parseInt((a + c) / 7, 10);
-    return Date.ext.util.xPad(b, 0)
-}, V: function (e) {
-    var c = parseInt(Date.ext.formats.W(e), 10);
-    var a = (new Date("" + e.getFullYear() + "/1/1")).getDay();
-    var b = c + (a > 4 || a <= 1 ? 0 : 1);
-    if (b == 53 && (new Date("" + e.getFullYear() + "/12/31")).getDay() < 4) {
-        b = 1
-    } else {
-        if (b === 0) {
-            b = Date.ext.formats.V(new Date("" + (e.getFullYear() - 1) + "/12/31"))
+        return e
+    }, H: ["getHours", "0"], I: function (b) {
+        var a = b.getHours() % 12;
+        return Date.ext.util.xPad(a === 0 ? 12 : a, 0)
+    }, j: function (c) {
+        var a = c - new Date("" + c.getFullYear() + "/1/1 GMT");
+        a += c.getTimezoneOffset() * 60000;
+        var b = parseInt(a / 60000 / 60 / 24, 10) + 1;
+        return Date.ext.util.xPad(b, 0, 100)
+    }, m: function (a) {
+        return Date.ext.util.xPad(a.getMonth() + 1, 0)
+    }, M: ["getMinutes", "0"], p: function (a) {
+        return Date.ext.locales[a.locale].p[a.getHours() >= 12 ? 1 : 0]
+    }, P: function (a) {
+        return Date.ext.locales[a.locale].P[a.getHours() >= 12 ? 1 : 0]
+    }, S: ["getSeconds", "0"], u: function (a) {
+        var b = a.getDay();
+        return b === 0 ? 7 : b
+    }, U: function (e) {
+        var a = parseInt(Date.ext.formats.j(e), 10);
+        var c = 6 - e.getDay();
+        var b = parseInt((a + c) / 7, 10);
+        return Date.ext.util.xPad(b, 0)
+    }, V: function (e) {
+        var c = parseInt(Date.ext.formats.W(e), 10);
+        var a = (new Date("" + e.getFullYear() + "/1/1")).getDay();
+        var b = c + (a > 4 || a <= 1 ? 0 : 1);
+        if (b == 53 && (new Date("" + e.getFullYear() + "/12/31")).getDay() < 4) {
+            b = 1
+        } else {
+            if (b === 0) {
+                b = Date.ext.formats.V(new Date("" + (e.getFullYear() - 1) + "/12/31"))
+            }
         }
+        return Date.ext.util.xPad(b, 0)
+    }, w: "getDay", W: function (e) {
+        var a = parseInt(Date.ext.formats.j(e), 10);
+        var c = 7 - Date.ext.formats.u(e);
+        var b = parseInt((a + c) / 7, 10);
+        return Date.ext.util.xPad(b, 0, 10)
+    }, y: function (a) {
+        return Date.ext.util.xPad(a.getFullYear() % 100, 0)
+    }, Y: "getFullYear", z: function (c) {
+        var b = c.getTimezoneOffset();
+        var a = Date.ext.util.xPad(parseInt(Math.abs(b / 60), 10), 0);
+        var e = Date.ext.util.xPad(b % 60, 0);
+        return (b > 0 ? "-" : "+") + a + e
+    }, Z: function (a) {
+        return a.toString().replace(/^.*\(([^)]+)\)$/, "$1")
+    }, "%": function (a) {
+        return "%"
     }
-    return Date.ext.util.xPad(b, 0)
-}, w: "getDay", W: function (e) {
-    var a = parseInt(Date.ext.formats.j(e), 10);
-    var c = 7 - Date.ext.formats.u(e);
-    var b = parseInt((a + c) / 7, 10);
-    return Date.ext.util.xPad(b, 0, 10)
-}, y: function (a) {
-    return Date.ext.util.xPad(a.getFullYear() % 100, 0)
-}, Y: "getFullYear", z: function (c) {
-    var b = c.getTimezoneOffset();
-    var a = Date.ext.util.xPad(parseInt(Math.abs(b / 60), 10), 0);
-    var e = Date.ext.util.xPad(b % 60, 0);
-    return(b > 0 ? "-" : "+") + a + e
-}, Z: function (a) {
-    return a.toString().replace(/^.*\(([^)]+)\)$/, "$1")
-}, "%": function (a) {
-    return"%"
-}};
-Date.ext.aggregates = {c: "locale", D: "%m/%d/%y", h: "%b", n: "\n", r: "%I:%M:%S %p", R: "%H:%M", t: "\t", T: "%H:%M:%S", x: "locale", X: "locale"};
+};
+Date.ext.aggregates = { c: "locale", D: "%m/%d/%y", h: "%b", n: "\n", r: "%I:%M:%S %p", R: "%H:%M", t: "\t", T: "%H:%M:%S", x: "locale", X: "locale" };
 Date.ext.aggregates.z = Date.ext.formats.z(new Date());
 Date.ext.aggregates.Z = Date.ext.formats.Z(new Date());
 Date.ext.unsupported = {};
@@ -113,18 +115,18 @@ Date.prototype.strftime = function (a) {
     while (a.match(/%[cDhnrRtTxXzZ]/)) {
         a = a.replace(/%([cDhnrRtTxXzZ])/g, function (e, d) {
             var g = Date.ext.aggregates[d];
-            return(g == "locale" ? Date.ext.locales[c.locale][d] : g)
+            return (g == "locale" ? Date.ext.locales[c.locale][d] : g)
         })
     }
     var b = a.replace(/%([aAbBCdegGHIjmMpPSuUVwWyY%])/g, function (e, d) {
         var g = Date.ext.formats[d];
-        if (typeof(g) == "string") {
+        if (typeof (g) == "string") {
             return c[g]()
         } else {
-            if (typeof(g) == "function") {
+            if (typeof (g) == "function") {
                 return g.call(c, c)
             } else {
-                if (typeof(g) == "object" && typeof(g[0]) == "string") {
+                if (typeof (g) == "object" && typeof (g[0]) == "string") {
                     return Date.ext.util.xPad(c[g[0]](), g[1])
                 } else {
                     return d
@@ -143,22 +145,28 @@ function RGBColorParser(f) {
     }
     f = f.replace(/ /g, "");
     f = f.toLowerCase();
-    var b = {aliceblue: "f0f8ff", antiquewhite: "faebd7", aqua: "00ffff", aquamarine: "7fffd4", azure: "f0ffff", beige: "f5f5dc", bisque: "ffe4c4", black: "000000", blanchedalmond: "ffebcd", blue: "0000ff", blueviolet: "8a2be2", brown: "a52a2a", burlywood: "deb887", cadetblue: "5f9ea0", chartreuse: "7fff00", chocolate: "d2691e", coral: "ff7f50", cornflowerblue: "6495ed", cornsilk: "fff8dc", crimson: "dc143c", cyan: "00ffff", darkblue: "00008b", darkcyan: "008b8b", darkgoldenrod: "b8860b", darkgray: "a9a9a9", darkgreen: "006400", darkkhaki: "bdb76b", darkmagenta: "8b008b", darkolivegreen: "556b2f", darkorange: "ff8c00", darkorchid: "9932cc", darkred: "8b0000", darksalmon: "e9967a", darkseagreen: "8fbc8f", darkslateblue: "483d8b", darkslategray: "2f4f4f", darkturquoise: "00ced1", darkviolet: "9400d3", deeppink: "ff1493", deepskyblue: "00bfff", dimgray: "696969", dodgerblue: "1e90ff", feldspar: "d19275", firebrick: "b22222", floralwhite: "fffaf0", forestgreen: "228b22", fuchsia: "ff00ff", gainsboro: "dcdcdc", ghostwhite: "f8f8ff", gold: "ffd700", goldenrod: "daa520", gray: "808080", green: "008000", greenyellow: "adff2f", honeydew: "f0fff0", hotpink: "ff69b4", indianred: "cd5c5c", indigo: "4b0082", ivory: "fffff0", khaki: "f0e68c", lavender: "e6e6fa", lavenderblush: "fff0f5", lawngreen: "7cfc00", lemonchiffon: "fffacd", lightblue: "add8e6", lightcoral: "f08080", lightcyan: "e0ffff", lightgoldenrodyellow: "fafad2", lightgrey: "d3d3d3", lightgreen: "90ee90", lightpink: "ffb6c1", lightsalmon: "ffa07a", lightseagreen: "20b2aa", lightskyblue: "87cefa", lightslateblue: "8470ff", lightslategray: "778899", lightsteelblue: "b0c4de", lightyellow: "ffffe0", lime: "00ff00", limegreen: "32cd32", linen: "faf0e6", magenta: "ff00ff", maroon: "800000", mediumaquamarine: "66cdaa", mediumblue: "0000cd", mediumorchid: "ba55d3", mediumpurple: "9370d8", mediumseagreen: "3cb371", mediumslateblue: "7b68ee", mediumspringgreen: "00fa9a", mediumturquoise: "48d1cc", mediumvioletred: "c71585", midnightblue: "191970", mintcream: "f5fffa", mistyrose: "ffe4e1", moccasin: "ffe4b5", navajowhite: "ffdead", navy: "000080", oldlace: "fdf5e6", olive: "808000", olivedrab: "6b8e23", orange: "ffa500", orangered: "ff4500", orchid: "da70d6", palegoldenrod: "eee8aa", palegreen: "98fb98", paleturquoise: "afeeee", palevioletred: "d87093", papayawhip: "ffefd5", peachpuff: "ffdab9", peru: "cd853f", pink: "ffc0cb", plum: "dda0dd", powderblue: "b0e0e6", purple: "800080", red: "ff0000", rosybrown: "bc8f8f", royalblue: "4169e1", saddlebrown: "8b4513", salmon: "fa8072", sandybrown: "f4a460", seagreen: "2e8b57", seashell: "fff5ee", sienna: "a0522d", silver: "c0c0c0", skyblue: "87ceeb", slateblue: "6a5acd", slategray: "708090", snow: "fffafa", springgreen: "00ff7f", steelblue: "4682b4", tan: "d2b48c", teal: "008080", thistle: "d8bfd8", tomato: "ff6347", turquoise: "40e0d0", violet: "ee82ee", violetred: "d02090", wheat: "f5deb3", white: "ffffff", whitesmoke: "f5f5f5", yellow: "ffff00", yellowgreen: "9acd32"};
+    var b = { aliceblue: "f0f8ff", antiquewhite: "faebd7", aqua: "00ffff", aquamarine: "7fffd4", azure: "f0ffff", beige: "f5f5dc", bisque: "ffe4c4", black: "000000", blanchedalmond: "ffebcd", blue: "0000ff", blueviolet: "8a2be2", brown: "a52a2a", burlywood: "deb887", cadetblue: "5f9ea0", chartreuse: "7fff00", chocolate: "d2691e", coral: "ff7f50", cornflowerblue: "6495ed", cornsilk: "fff8dc", crimson: "dc143c", cyan: "00ffff", darkblue: "00008b", darkcyan: "008b8b", darkgoldenrod: "b8860b", darkgray: "a9a9a9", darkgreen: "006400", darkkhaki: "bdb76b", darkmagenta: "8b008b", darkolivegreen: "556b2f", darkorange: "ff8c00", darkorchid: "9932cc", darkred: "8b0000", darksalmon: "e9967a", darkseagreen: "8fbc8f", darkslateblue: "483d8b", darkslategray: "2f4f4f", darkturquoise: "00ced1", darkviolet: "9400d3", deeppink: "ff1493", deepskyblue: "00bfff", dimgray: "696969", dodgerblue: "1e90ff", feldspar: "d19275", firebrick: "b22222", floralwhite: "fffaf0", forestgreen: "228b22", fuchsia: "ff00ff", gainsboro: "dcdcdc", ghostwhite: "f8f8ff", gold: "ffd700", goldenrod: "daa520", gray: "808080", green: "008000", greenyellow: "adff2f", honeydew: "f0fff0", hotpink: "ff69b4", indianred: "cd5c5c", indigo: "4b0082", ivory: "fffff0", khaki: "f0e68c", lavender: "e6e6fa", lavenderblush: "fff0f5", lawngreen: "7cfc00", lemonchiffon: "fffacd", lightblue: "add8e6", lightcoral: "f08080", lightcyan: "e0ffff", lightgoldenrodyellow: "fafad2", lightgrey: "d3d3d3", lightgreen: "90ee90", lightpink: "ffb6c1", lightsalmon: "ffa07a", lightseagreen: "20b2aa", lightskyblue: "87cefa", lightslateblue: "8470ff", lightslategray: "778899", lightsteelblue: "b0c4de", lightyellow: "ffffe0", lime: "00ff00", limegreen: "32cd32", linen: "faf0e6", magenta: "ff00ff", maroon: "800000", mediumaquamarine: "66cdaa", mediumblue: "0000cd", mediumorchid: "ba55d3", mediumpurple: "9370d8", mediumseagreen: "3cb371", mediumslateblue: "7b68ee", mediumspringgreen: "00fa9a", mediumturquoise: "48d1cc", mediumvioletred: "c71585", midnightblue: "191970", mintcream: "f5fffa", mistyrose: "ffe4e1", moccasin: "ffe4b5", navajowhite: "ffdead", navy: "000080", oldlace: "fdf5e6", olive: "808000", olivedrab: "6b8e23", orange: "ffa500", orangered: "ff4500", orchid: "da70d6", palegoldenrod: "eee8aa", palegreen: "98fb98", paleturquoise: "afeeee", palevioletred: "d87093", papayawhip: "ffefd5", peachpuff: "ffdab9", peru: "cd853f", pink: "ffc0cb", plum: "dda0dd", powderblue: "b0e0e6", purple: "800080", red: "ff0000", rosybrown: "bc8f8f", royalblue: "4169e1", saddlebrown: "8b4513", salmon: "fa8072", sandybrown: "f4a460", seagreen: "2e8b57", seashell: "fff5ee", sienna: "a0522d", silver: "c0c0c0", skyblue: "87ceeb", slateblue: "6a5acd", slategray: "708090", snow: "fffafa", springgreen: "00ff7f", steelblue: "4682b4", tan: "d2b48c", teal: "008080", thistle: "d8bfd8", tomato: "ff6347", turquoise: "40e0d0", violet: "ee82ee", violetred: "d02090", wheat: "f5deb3", white: "ffffff", whitesmoke: "f5f5f5", yellow: "ffff00", yellowgreen: "9acd32" };
     for (var g in b) {
         if (f == g) {
             f = b[g]
         }
     }
     var e = [
-        {re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/, example: ["rgb(123, 234, 45)", "rgb(255,234,245)"], process: function (i) {
-            return[parseInt(i[1]), parseInt(i[2]), parseInt(i[3])]
-        }},
-        {re: /^(\w{2})(\w{2})(\w{2})$/, example: ["#00ff00", "336699"], process: function (i) {
-            return[parseInt(i[1], 16), parseInt(i[2], 16), parseInt(i[3], 16)]
-        }},
-        {re: /^(\w{1})(\w{1})(\w{1})$/, example: ["#fb0", "f0f"], process: function (i) {
-            return[parseInt(i[1] + i[1], 16), parseInt(i[2] + i[2], 16), parseInt(i[3] + i[3], 16)]
-        }}
+        {
+            re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/, example: ["rgb(123, 234, 45)", "rgb(255,234,245)"], process: function (i) {
+                return [parseInt(i[1]), parseInt(i[2]), parseInt(i[3])]
+            }
+        },
+        {
+            re: /^(\w{2})(\w{2})(\w{2})$/, example: ["#00ff00", "336699"], process: function (i) {
+                return [parseInt(i[1], 16), parseInt(i[2], 16), parseInt(i[3], 16)]
+            }
+        },
+        {
+            re: /^(\w{1})(\w{1})(\w{1})$/, example: ["#fb0", "f0f"], process: function (i) {
+                return [parseInt(i[1] + i[1], 16), parseInt(i[2] + i[2], 16), parseInt(i[3] + i[3], 16)]
+            }
+        }
     ];
     for (var c = 0; c < e.length; c++) {
         var j = e[c].re;
@@ -176,7 +184,7 @@ function RGBColorParser(f) {
     this.g = (this.g < 0 || isNaN(this.g)) ? 0 : ((this.g > 255) ? 255 : this.g);
     this.b = (this.b < 0 || isNaN(this.b)) ? 0 : ((this.b > 255) ? 255 : this.b);
     this.toRGB = function () {
-        return"rgb(" + this.r + ", " + this.g + ", " + this.b + ")"
+        return "rgb(" + this.r + ", " + this.g + ", " + this.b + ")"
     };
     this.toHex = function () {
         var l = this.r.toString(16);
@@ -191,158 +199,160 @@ function RGBColorParser(f) {
         if (i.length == 1) {
             i = "0" + i
         }
-        return"#" + l + k + i
+        return "#" + l + k + i
     }
 }
 function printStackTrace(b) {
-    b = b || {guess: true};
+    b = b || { guess: true };
     var c = b.e || null, e = !!b.guess;
     var d = new printStackTrace.implementation(), a = d.run(c);
-    return(e) ? d.guessAnonymousFunctions(a) : a
+    return (e) ? d.guessAnonymousFunctions(a) : a
 }
 printStackTrace.implementation = function () {
 };
-printStackTrace.implementation.prototype = {run: function (a, b) {
-    a = a || this.createException();
-    b = b || this.mode(a);
-    if (b === "other") {
-        return this.other(arguments.callee)
-    } else {
-        return this[b](a)
-    }
-}, createException: function () {
-    try {
-        this.undef()
-    } catch (a) {
-        return a
-    }
-}, mode: function (a) {
-    if (a["arguments"] && a.stack) {
-        return"chrome"
-    } else {
-        if (typeof a.message === "string" && typeof window !== "undefined" && window.opera) {
-            if (!a.stacktrace) {
-                return"opera9"
-            }
-            if (a.message.indexOf("\n") > -1 && a.message.split("\n").length > a.stacktrace.split("\n").length) {
-                return"opera9"
-            }
-            if (!a.stack) {
-                return"opera10a"
-            }
-            if (a.stacktrace.indexOf("called from line") < 0) {
-                return"opera10b"
-            }
-            return"opera11"
+printStackTrace.implementation.prototype = {
+    run: function (a, b) {
+        a = a || this.createException();
+        b = b || this.mode(a);
+        if (b === "other") {
+            return this.other(arguments.callee)
         } else {
-            if (a.stack) {
-                return"firefox"
-            }
+            return this[b](a)
         }
-    }
-    return"other"
-}, instrumentFunction: function (b, d, e) {
-    b = b || window;
-    var a = b[d];
-    b[d] = function c() {
-        e.call(this, printStackTrace().slice(4));
-        return b[d]._instrumented.apply(this, arguments)
-    };
-    b[d]._instrumented = a
-}, deinstrumentFunction: function (a, b) {
-    if (a[b].constructor === Function && a[b]._instrumented && a[b]._instrumented.constructor === Function) {
-        a[b] = a[b]._instrumented
-    }
-}, chrome: function (b) {
-    var a = (b.stack + "\n").replace(/^\S[^\(]+?[\n$]/gm, "").replace(/^\s+at\s+/gm, "").replace(/^([^\(]+?)([\n$])/gm, "{anonymous}()@$1$2").replace(/^Object.<anonymous>\s*\(([^\)]+)\)/gm, "{anonymous}()@$1").split("\n");
-    a.pop();
-    return a
-}, firefox: function (a) {
-    return a.stack.replace(/(?:\n@:0)?\s+$/m, "").replace(/^\(/gm, "{anonymous}(").split("\n")
-}, opera11: function (g) {
-    var a = "{anonymous}", h = /^.*line (\d+), column (\d+)(?: in (.+))? in (\S+):$/;
-    var k = g.stacktrace.split("\n"), l = [];
-    for (var c = 0, f = k.length; c < f; c += 2) {
-        var d = h.exec(k[c]);
-        if (d) {
-            var j = d[4] + ":" + d[1] + ":" + d[2];
-            var b = d[3] || "global code";
-            b = b.replace(/<anonymous function: (\S+)>/, "$1").replace(/<anonymous function>/, a);
-            l.push(b + "@" + j + " -- " + k[c + 1].replace(/^\s+/, ""))
+    }, createException: function () {
+        try {
+            this.undef()
+        } catch (a) {
+            return a
         }
-    }
-    return l
-}, opera10b: function (g) {
-    var a = "{anonymous}", h = /^(.*)@(.+):(\d+)$/;
-    var j = g.stacktrace.split("\n"), k = [];
-    for (var c = 0, f = j.length; c < f; c++) {
-        var d = h.exec(j[c]);
-        if (d) {
-            var b = d[1] ? (d[1] + "()") : "global code";
-            k.push(b + "@" + d[2] + ":" + d[3])
-        }
-    }
-    return k
-}, opera10a: function (g) {
-    var a = "{anonymous}", h = /Line (\d+).*script (?:in )?(\S+)(?:: In function (\S+))?$/i;
-    var j = g.stacktrace.split("\n"), k = [];
-    for (var c = 0, f = j.length; c < f; c += 2) {
-        var d = h.exec(j[c]);
-        if (d) {
-            var b = d[3] || a;
-            k.push(b + "()@" + d[2] + ":" + d[1] + " -- " + j[c + 1].replace(/^\s+/, ""))
-        }
-    }
-    return k
-}, opera9: function (j) {
-    var d = "{anonymous}", h = /Line (\d+).*script (?:in )?(\S+)/i;
-    var c = j.message.split("\n"), b = [];
-    for (var g = 2, a = c.length; g < a; g += 2) {
-        var f = h.exec(c[g]);
-        if (f) {
-            b.push(d + "()@" + f[2] + ":" + f[1] + " -- " + c[g + 1].replace(/^\s+/, ""))
-        }
-    }
-    return b
-}, other: function (g) {
-    var b = "{anonymous}", f = /function\s*([\w\-$]+)?\s*\(/i, a = [], d, c, e = 10;
-    while (g && a.length < e) {
-        d = f.test(g.toString()) ? RegExp.$1 || b : b;
-        c = Array.prototype.slice.call(g["arguments"] || []);
-        a[a.length] = d + "(" + this.stringifyArguments(c) + ")";
-        g = g.caller
-    }
-    return a
-}, stringifyArguments: function (c) {
-    var b = [];
-    var e = Array.prototype.slice;
-    for (var d = 0; d < c.length; ++d) {
-        var a = c[d];
-        if (a === undefined) {
-            b[d] = "undefined"
+    }, mode: function (a) {
+        if (a["arguments"] && a.stack) {
+            return "chrome"
         } else {
-            if (a === null) {
-                b[d] = "null"
+            if (typeof a.message === "string" && typeof window !== "undefined" && window.opera) {
+                if (!a.stacktrace) {
+                    return "opera9"
+                }
+                if (a.message.indexOf("\n") > -1 && a.message.split("\n").length > a.stacktrace.split("\n").length) {
+                    return "opera9"
+                }
+                if (!a.stack) {
+                    return "opera10a"
+                }
+                if (a.stacktrace.indexOf("called from line") < 0) {
+                    return "opera10b"
+                }
+                return "opera11"
             } else {
-                if (a.constructor) {
-                    if (a.constructor === Array) {
-                        if (a.length < 3) {
-                            b[d] = "[" + this.stringifyArguments(a) + "]"
-                        } else {
-                            b[d] = "[" + this.stringifyArguments(e.call(a, 0, 1)) + "..." + this.stringifyArguments(e.call(a, -1)) + "]"
-                        }
-                    } else {
-                        if (a.constructor === Object) {
-                            b[d] = "#object"
-                        } else {
-                            if (a.constructor === Function) {
-                                b[d] = "#function"
+                if (a.stack) {
+                    return "firefox"
+                }
+            }
+        }
+        return "other"
+    }, instrumentFunction: function (b, d, e) {
+        b = b || window;
+        var a = b[d];
+        b[d] = function c() {
+            e.call(this, printStackTrace().slice(4));
+            return b[d]._instrumented.apply(this, arguments)
+        };
+        b[d]._instrumented = a
+    }, deinstrumentFunction: function (a, b) {
+        if (a[b].constructor === Function && a[b]._instrumented && a[b]._instrumented.constructor === Function) {
+            a[b] = a[b]._instrumented
+        }
+    }, chrome: function (b) {
+        var a = (b.stack + "\n").replace(/^\S[^\(]+?[\n$]/gm, "").replace(/^\s+at\s+/gm, "").replace(/^([^\(]+?)([\n$])/gm, "{anonymous}()@$1$2").replace(/^Object.<anonymous>\s*\(([^\)]+)\)/gm, "{anonymous}()@$1").split("\n");
+        a.pop();
+        return a
+    }, firefox: function (a) {
+        return a.stack.replace(/(?:\n@:0)?\s+$/m, "").replace(/^\(/gm, "{anonymous}(").split("\n")
+    }, opera11: function (g) {
+        var a = "{anonymous}", h = /^.*line (\d+), column (\d+)(?: in (.+))? in (\S+):$/;
+        var k = g.stacktrace.split("\n"), l = [];
+        for (var c = 0, f = k.length; c < f; c += 2) {
+            var d = h.exec(k[c]);
+            if (d) {
+                var j = d[4] + ":" + d[1] + ":" + d[2];
+                var b = d[3] || "global code";
+                b = b.replace(/<anonymous function: (\S+)>/, "$1").replace(/<anonymous function>/, a);
+                l.push(b + "@" + j + " -- " + k[c + 1].replace(/^\s+/, ""))
+            }
+        }
+        return l
+    }, opera10b: function (g) {
+        var a = "{anonymous}", h = /^(.*)@(.+):(\d+)$/;
+        var j = g.stacktrace.split("\n"), k = [];
+        for (var c = 0, f = j.length; c < f; c++) {
+            var d = h.exec(j[c]);
+            if (d) {
+                var b = d[1] ? (d[1] + "()") : "global code";
+                k.push(b + "@" + d[2] + ":" + d[3])
+            }
+        }
+        return k
+    }, opera10a: function (g) {
+        var a = "{anonymous}", h = /Line (\d+).*script (?:in )?(\S+)(?:: In function (\S+))?$/i;
+        var j = g.stacktrace.split("\n"), k = [];
+        for (var c = 0, f = j.length; c < f; c += 2) {
+            var d = h.exec(j[c]);
+            if (d) {
+                var b = d[3] || a;
+                k.push(b + "()@" + d[2] + ":" + d[1] + " -- " + j[c + 1].replace(/^\s+/, ""))
+            }
+        }
+        return k
+    }, opera9: function (j) {
+        var d = "{anonymous}", h = /Line (\d+).*script (?:in )?(\S+)/i;
+        var c = j.message.split("\n"), b = [];
+        for (var g = 2, a = c.length; g < a; g += 2) {
+            var f = h.exec(c[g]);
+            if (f) {
+                b.push(d + "()@" + f[2] + ":" + f[1] + " -- " + c[g + 1].replace(/^\s+/, ""))
+            }
+        }
+        return b
+    }, other: function (g) {
+        var b = "{anonymous}", f = /function\s*([\w\-$]+)?\s*\(/i, a = [], d, c, e = 10;
+        while (g && a.length < e) {
+            d = f.test(g.toString()) ? RegExp.$1 || b : b;
+            c = Array.prototype.slice.call(g["arguments"] || []);
+            a[a.length] = d + "(" + this.stringifyArguments(c) + ")";
+            g = g.caller
+        }
+        return a
+    }, stringifyArguments: function (c) {
+        var b = [];
+        var e = Array.prototype.slice;
+        for (var d = 0; d < c.length; ++d) {
+            var a = c[d];
+            if (a === undefined) {
+                b[d] = "undefined"
+            } else {
+                if (a === null) {
+                    b[d] = "null"
+                } else {
+                    if (a.constructor) {
+                        if (a.constructor === Array) {
+                            if (a.length < 3) {
+                                b[d] = "[" + this.stringifyArguments(a) + "]"
                             } else {
-                                if (a.constructor === String) {
-                                    b[d] = '"' + a + '"'
+                                b[d] = "[" + this.stringifyArguments(e.call(a, 0, 1)) + "..." + this.stringifyArguments(e.call(a, -1)) + "]"
+                            }
+                        } else {
+                            if (a.constructor === Object) {
+                                b[d] = "#object"
+                            } else {
+                                if (a.constructor === Function) {
+                                    b[d] = "#function"
                                 } else {
-                                    if (a.constructor === Number) {
-                                        b[d] = a
+                                    if (a.constructor === String) {
+                                        b[d] = '"' + a + '"'
+                                    } else {
+                                        if (a.constructor === Number) {
+                                            b[d] = a
+                                        }
                                     }
                                 }
                             }
@@ -351,96 +361,96 @@ printStackTrace.implementation.prototype = {run: function (a, b) {
                 }
             }
         }
-    }
-    return b.join(",")
-}, sourceCache: {}, ajax: function (a) {
-    var b = this.createXMLHTTPObject();
-    if (b) {
-        try {
-            b.open("GET", a, false);
-            b.send(null);
-            return b.responseText
-        } catch (c) {
+        return b.join(",")
+    }, sourceCache: {}, ajax: function (a) {
+        var b = this.createXMLHTTPObject();
+        if (b) {
+            try {
+                b.open("GET", a, false);
+                b.send(null);
+                return b.responseText
+            } catch (c) {
+            }
         }
-    }
-    return""
-}, createXMLHTTPObject: function () {
-    var c, a = [function () {
-        return new XMLHttpRequest()
-    }, function () {
-        return new ActiveXObject("Msxml2.XMLHTTP")
-    }, function () {
-        return new ActiveXObject("Msxml3.XMLHTTP")
-    }, function () {
-        return new ActiveXObject("Microsoft.XMLHTTP")
-    }];
-    for (var b = 0; b < a.length; b++) {
+        return ""
+    }, createXMLHTTPObject: function () {
+        var c, a = [function () {
+            return new XMLHttpRequest()
+        }, function () {
+            return new ActiveXObject("Msxml2.XMLHTTP")
+        }, function () {
+            return new ActiveXObject("Msxml3.XMLHTTP")
+        }, function () {
+            return new ActiveXObject("Microsoft.XMLHTTP")
+        }];
+        for (var b = 0; b < a.length; b++) {
+            try {
+                c = a[b]();
+                this.createXMLHTTPObject = a[b];
+                return c
+            } catch (d) {
+            }
+        }
+    }, isSameDomain: function (a) {
+        return a.indexOf(location.hostname) !== -1
+    }, getSource: function (a) {
+        if (!(a in this.sourceCache)) {
+            this.sourceCache[a] = this.ajax(a).split("\n")
+        }
+        return this.sourceCache[a]
+    }, guessAnonymousFunctions: function (k) {
+        for (var g = 0; g < k.length; ++g) {
+            var f = /\{anonymous\}\(.*\)@(.*)/, l = /^(.*?)(?::(\d+))(?::(\d+))?(?: -- .+)?$/, b = k[g], c = f.exec(b);
+            if (c) {
+                var e = l.exec(c[1]), d = e[1], a = e[2], j = e[3] || 0;
+                if (d && this.isSameDomain(d) && a) {
+                    var h = this.guessAnonymousFunction(d, a, j);
+                    k[g] = b.replace("{anonymous}", h)
+                }
+            }
+        }
+        return k
+    }, guessAnonymousFunction: function (c, f, a) {
+        var b;
         try {
-            c = a[b]();
-            this.createXMLHTTPObject = a[b];
-            return c
+            b = this.findFunctionName(this.getSource(c), f)
         } catch (d) {
+            b = "getSource failed with url: " + c + ", exception: " + d.toString()
         }
-    }
-}, isSameDomain: function (a) {
-    return a.indexOf(location.hostname) !== -1
-}, getSource: function (a) {
-    if (!(a in this.sourceCache)) {
-        this.sourceCache[a] = this.ajax(a).split("\n")
-    }
-    return this.sourceCache[a]
-}, guessAnonymousFunctions: function (k) {
-    for (var g = 0; g < k.length; ++g) {
-        var f = /\{anonymous\}\(.*\)@(.*)/, l = /^(.*?)(?::(\d+))(?::(\d+))?(?: -- .+)?$/, b = k[g], c = f.exec(b);
-        if (c) {
-            var e = l.exec(c[1]), d = e[1], a = e[2], j = e[3] || 0;
-            if (d && this.isSameDomain(d) && a) {
-                var h = this.guessAnonymousFunction(d, a, j);
-                k[g] = b.replace("{anonymous}", h)
+        return b
+    }, findFunctionName: function (a, e) {
+        var g = /function\s+([^(]*?)\s*\(([^)]*)\)/;
+        var k = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*function\b/;
+        var h = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*(?:eval|new Function)\b/;
+        var b = "", l, j = Math.min(e, 20), d, c;
+        for (var f = 0; f < j; ++f) {
+            l = a[e - f - 1];
+            c = l.indexOf("//");
+            if (c >= 0) {
+                l = l.substr(0, c)
+            }
+            if (l) {
+                b = l + b;
+                d = k.exec(b);
+                if (d && d[1]) {
+                    return d[1]
+                }
+                d = g.exec(b);
+                if (d && d[1]) {
+                    return d[1]
+                }
+                d = h.exec(b);
+                if (d && d[1]) {
+                    return d[1]
+                }
             }
         }
+        return "(?)"
     }
-    return k
-}, guessAnonymousFunction: function (c, f, a) {
-    var b;
-    try {
-        b = this.findFunctionName(this.getSource(c), f)
-    } catch (d) {
-        b = "getSource failed with url: " + c + ", exception: " + d.toString()
-    }
-    return b
-}, findFunctionName: function (a, e) {
-    var g = /function\s+([^(]*?)\s*\(([^)]*)\)/;
-    var k = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*function\b/;
-    var h = /['"]?([0-9A-Za-z_]+)['"]?\s*[:=]\s*(?:eval|new Function)\b/;
-    var b = "", l, j = Math.min(e, 20), d, c;
-    for (var f = 0; f < j; ++f) {
-        l = a[e - f - 1];
-        c = l.indexOf("//");
-        if (c >= 0) {
-            l = l.substr(0, c)
-        }
-        if (l) {
-            b = l + b;
-            d = k.exec(b);
-            if (d && d[1]) {
-                return d[1]
-            }
-            d = g.exec(b);
-            if (d && d[1]) {
-                return d[1]
-            }
-            d = h.exec(b);
-            if (d && d[1]) {
-                return d[1]
-            }
-        }
-    }
-    return"(?)"
-}};
+};
 CanvasRenderingContext2D.prototype.installPattern = function (e) {
-    if (typeof(this.isPatternInstalled) !== "undefined") {
-        throw"Must un-install old line pattern before installing a new one."
+    if (typeof (this.isPatternInstalled) !== "undefined") {
+        throw "Must un-install old line pattern before installing a new one."
     }
     this.isPatternInstalled = true;
     var g = [0, 0];
@@ -520,7 +530,7 @@ CanvasRenderingContext2D.prototype.installPattern = function (e) {
     }
 };
 CanvasRenderingContext2D.prototype.uninstallPattern = function () {
-    throw"Must install a line pattern before uninstalling it."
+    throw "Must install a line pattern before uninstalling it."
 };
 var DygraphOptions = (function () {
     var a = function (b) {
@@ -534,22 +544,22 @@ var DygraphOptions = (function () {
         this.highlightSeries_ = this.get("highlightSeriesOpts") || {};
         this.reparseSeries()
     };
-    a.AXIS_STRING_MAPPINGS_ = {y: 0, Y: 0, y1: 0, Y1: 0, y2: 1, Y2: 1};
+    a.AXIS_STRING_MAPPINGS_ = { y: 0, Y: 0, y1: 0, Y1: 0, y2: 1, Y2: 1 };
     a.axisToIndex_ = function (b) {
-        if (typeof(b) == "string") {
+        if (typeof (b) == "string") {
             if (a.AXIS_STRING_MAPPINGS_.hasOwnProperty(b)) {
                 return a.AXIS_STRING_MAPPINGS_[b]
             }
-            throw"Unknown axis : " + b
+            throw "Unknown axis : " + b
         }
-        if (typeof(b) == "number") {
+        if (typeof (b) == "number") {
             if (b === 0 || b === 1) {
                 return b
             }
-            throw"Dygraphs only supports two y-axes, indexed from 0-1."
+            throw "Dygraphs only supports two y-axes, indexed from 0-1."
         }
         if (b) {
-            throw"Unknown axis : " + b
+            throw "Unknown axis : " + b
         }
         return 0
     };
@@ -560,9 +570,9 @@ var DygraphOptions = (function () {
         }
         this.labels_ = g.slice(1);
         this.yAxes_ = [
-            {series: [], options: {}}
+            { series: [], options: {} }
         ];
-        this.xAxis_ = {options: {}};
+        this.xAxis_ = { options: {} };
         this.series_ = {};
         var h = !this.user_.series;
         if (h) {
@@ -572,20 +582,20 @@ var DygraphOptions = (function () {
                 var e = this.user_[i] || {};
                 var b = 0;
                 var d = e.axis;
-                if (typeof(d) == "object") {
+                if (typeof (d) == "object") {
                     b = ++c;
-                    this.yAxes_[b] = {series: [i], options: d}
+                    this.yAxes_[b] = { series: [i], options: d }
                 }
                 if (!d) {
                     this.yAxes_[0].series.push(i)
                 }
-                this.series_[i] = {idx: j, yAxis: b, options: e}
+                this.series_[i] = { idx: j, yAxis: b, options: e }
             }
             for (var j = 0; j < this.labels_.length; j++) {
                 var i = this.labels_[j];
                 var e = this.series_[i]["options"];
                 var d = e.axis;
-                if (typeof(d) == "string") {
+                if (typeof (d) == "string") {
                     if (!this.series_.hasOwnProperty(d)) {
                         Dygraph.error("Series " + i + " wants to share a y-axis with series " + d + ", which does not define its own axis.");
                         return
@@ -600,9 +610,9 @@ var DygraphOptions = (function () {
                 var i = this.labels_[j];
                 var e = this.user_.series[i] || {};
                 var b = a.axisToIndex_(e.axis);
-                this.series_[i] = {idx: j, yAxis: b, options: e};
+                this.series_[i] = { idx: j, yAxis: b, options: e };
                 if (!this.yAxes_[b]) {
-                    this.yAxes_[b] = {series: [i], options: {}}
+                    this.yAxes_[b] = { series: [i], options: {} }
                 } else {
                     this.yAxes_[b].series.push(i)
                 }
@@ -640,7 +650,7 @@ var DygraphOptions = (function () {
     a.prototype.getForAxis = function (d, e) {
         var f;
         var i;
-        if (typeof(e) == "number") {
+        if (typeof (e) == "number") {
             f = e;
             i = f === 0 ? "y" : "y2"
         } else {
@@ -656,7 +666,7 @@ var DygraphOptions = (function () {
                     if (e == "x") {
                         f = -1
                     } else {
-                        throw"Unknown axis " + e
+                        throw "Unknown axis " + e
                     }
                 }
             }
@@ -686,7 +696,7 @@ var DygraphOptions = (function () {
             }
         }
         if (!this.series_.hasOwnProperty(e)) {
-            throw"Unknown series: " + e
+            throw "Unknown series: " + e
         }
         var d = this.series_[e];
         var b = d.options;
@@ -737,30 +747,32 @@ DygraphLayout.prototype.getPlotArea = function () {
     return this.area_
 };
 DygraphLayout.prototype.computePlotArea = function () {
-    var a = {x: 0, y: 0};
+    var a = { x: 0, y: 0 };
     a.w = this.dygraph_.width_ - a.x - this.attr_("rightGap");
     a.h = this.dygraph_.height_;
-    var b = {chart_div: this.dygraph_.graphDiv, reserveSpaceLeft: function (c) {
-        var d = {x: a.x, y: a.y, w: c, h: a.h};
-        a.x += c;
-        a.w -= c;
-        return d
-    }, reserveSpaceRight: function (c) {
-        var d = {x: a.x + a.w - c, y: a.y, w: c, h: a.h};
-        a.w -= c;
-        return d
-    }, reserveSpaceTop: function (c) {
-        var d = {x: a.x, y: a.y, w: a.w, h: c};
-        a.y += c;
-        a.h -= c;
-        return d
-    }, reserveSpaceBottom: function (c) {
-        var d = {x: a.x, y: a.y + a.h - c, w: a.w, h: c};
-        a.h -= c;
-        return d
-    }, chartRect: function () {
-        return{x: a.x, y: a.y, w: a.w, h: a.h}
-    }};
+    var b = {
+        chart_div: this.dygraph_.graphDiv, reserveSpaceLeft: function (c) {
+            var d = { x: a.x, y: a.y, w: c, h: a.h };
+            a.x += c;
+            a.w -= c;
+            return d
+        }, reserveSpaceRight: function (c) {
+            var d = { x: a.x + a.w - c, y: a.y, w: c, h: a.h };
+            a.w -= c;
+            return d
+        }, reserveSpaceTop: function (c) {
+            var d = { x: a.x, y: a.y, w: a.w, h: c };
+            a.y += c;
+            a.h -= c;
+            return d
+        }, reserveSpaceBottom: function (c) {
+            var d = { x: a.x, y: a.y + a.h - c, w: a.w, h: c };
+            a.h -= c;
+            return d
+        }, chartRect: function () {
+            return { x: a.x, y: a.y, w: a.w, h: a.h }
+        }
+    };
     this.dygraph_.cascadeEvents_("layout", b);
     this.area_ = a
 };
@@ -851,7 +863,7 @@ DygraphLayout.prototype._evaluateLineCharts = function () {
             if (c && n[1] === null) {
                 l = null
             }
-            o[e] = {x: m, y: g, xval: d, yval: l, name: h, idx: e + k}
+            o[e] = { x: m, y: g, xval: d, yval: l, name: h, idx: e + k }
         }
         this.points[a] = o
     }
@@ -899,7 +911,7 @@ DygraphLayout.prototype.evaluateWithError = function () {
         var l = this.setNames[a];
         var e = this.dygraph_.axisPropertiesForSeries(l);
         var m = this.dygraph_.attributes_.getForSeries("logscale", l);
-        for (g = 0; g < f.length; g++, h++) {
+        for (g = 0; g < f.length; g++ , h++) {
             var q = f[g];
             var c = DygraphLayout.parseFloat_(q[0]);
             var n = DygraphLayout.parseFloat_(q[1]);
@@ -978,7 +990,7 @@ var DygraphCanvasRenderer = function (d, c, b, e) {
     this.height = this.element.height;
     this.width = this.element.width;
     if (!this.isIE && !(DygraphCanvasRenderer.isSupported(this.element))) {
-        throw"Canvas is not supported."
+        throw "Canvas is not supported."
     }
     this.area = e.getPlotArea();
     this.container.style.position = "relative";
@@ -1020,7 +1032,7 @@ DygraphCanvasRenderer.prototype.clear = function () {
 DygraphCanvasRenderer.isSupported = function (f) {
     var b = null;
     try {
-        if (typeof(f) == "undefined" || f === null) {
+        if (typeof (f) == "undefined" || f === null) {
             b = document.createElement("canvas")
         } else {
             b = f
@@ -1074,10 +1086,10 @@ DygraphCanvasRenderer.prototype._createIEClipArea = function () {
     }
 
     var h = this.area;
-    b({x: 0, y: 0, w: h.x, h: this.height});
-    b({x: h.x, y: 0, w: this.width - h.x, h: h.y});
-    b({x: h.x + h.w, y: 0, w: this.width - h.x - h.w, h: this.height});
-    b({x: h.x, y: h.y + h.h, w: this.width - h.x, h: this.height - h.h - h.y})
+    b({ x: 0, y: 0, w: h.x, h: this.height });
+    b({ x: h.x, y: 0, w: this.width - h.x, h: h.y });
+    b({ x: h.x + h.w, y: 0, w: this.width - h.x - h.w, h: this.height });
+    b({ x: h.x, y: h.y + h.h, w: this.width - h.x, h: this.height - h.h - h.y })
 };
 DygraphCanvasRenderer._getIteratorPredicate = function (a) {
     return a ? DygraphCanvasRenderer._predicateThatSkipsEmptyPoints : null
@@ -1238,18 +1250,20 @@ DygraphCanvasRenderer.prototype._renderLineChart = function (g, u) {
             h.save();
             h.strokeStyle = k;
             h.lineWidth = d;
-            e({points: m, setName: b, drawingContext: h, color: k, strokeWidth: d, dygraph: this.dygraph_, axis: this.dygraph_.axisPropertiesForSeries(b), plotArea: this.area, seriesIndex: l, seriesCount: a.length, singleSeriesName: g, allSeriesPoints: a});
+            e({ points: m, setName: b, drawingContext: h, color: k, strokeWidth: d, dygraph: this.dygraph_, axis: this.dygraph_.axisPropertiesForSeries(b), plotArea: this.area, seriesIndex: l, seriesCount: a.length, singleSeriesName: g, allSeriesPoints: a });
             h.restore()
         }
     }
 };
-DygraphCanvasRenderer._Plotters = {linePlotter: function (a) {
-    DygraphCanvasRenderer._linePlotter(a)
-}, fillPlotter: function (a) {
-    DygraphCanvasRenderer._fillPlotter(a)
-}, errorPlotter: function (a) {
-    DygraphCanvasRenderer._errorPlotter(a)
-}};
+DygraphCanvasRenderer._Plotters = {
+    linePlotter: function (a) {
+        DygraphCanvasRenderer._linePlotter(a)
+    }, fillPlotter: function (a) {
+        DygraphCanvasRenderer._fillPlotter(a)
+    }, errorPlotter: function (a) {
+        DygraphCanvasRenderer._errorPlotter(a)
+    }
+};
 DygraphCanvasRenderer._linePlotter = function (f) {
     var d = f.dygraph;
     var h = f.setName;
@@ -1290,7 +1304,7 @@ DygraphCanvasRenderer._errorPlotter = function (s) {
     m.fillStyle = u;
     m.beginPath();
     var b = function (e) {
-        return(e === null || e === undefined || isNaN(e))
+        return (e === null || e === undefined || isNaN(e))
     };
     while (q.hasNext) {
         var l = q.next();
@@ -1457,14 +1471,14 @@ var Dygraph = function (d, c, b, a) {
 Dygraph.NAME = "Dygraph";
 Dygraph.VERSION = "1.2";
 Dygraph.__repr__ = function () {
-    return"[" + this.NAME + " " + this.VERSION + "]"
+    return "[" + this.NAME + " " + this.VERSION + "]"
 };
 Dygraph.toString = function () {
     return this.__repr__()
 };
 Dygraph.DEFAULT_ROLL_PERIOD = 1;
-Dygraph.DEFAULT_WIDTH = 480;
-Dygraph.DEFAULT_HEIGHT = 320;
+Dygraph.DEFAULT_WIDTH = 470;
+Dygraph.DEFAULT_HEIGHT = 260;
 Dygraph.ANIMATION_STEPS = 12;
 Dygraph.ANIMATION_DURATION = 200;
 Dygraph.KMB_LABELS = ["K", "M", "B", "T", "Q"];
@@ -1503,7 +1517,7 @@ Dygraph.numberValueFormatter = function (s, a, u, l) {
         }
         var p = Math.abs(s);
         var d = Dygraph.pow(f, t.length);
-        for (var h = t.length - 1; h >= 0; h--, d /= f) {
+        for (var h = t.length - 1; h >= 0; h-- , d /= f) {
             if (p >= d) {
                 q = Dygraph.round_(s / d, c) + t[h];
                 break
@@ -1556,7 +1570,7 @@ Dygraph.dateAxisFormatter = function (b, c) {
     }
 };
 Dygraph.Plotters = DygraphCanvasRenderer._Plotters;
-Dygraph.DEFAULT_ATTRS = {highlightCircleSize: 3, highlightSeriesOpts: null, highlightSeriesBackgroundAlpha: 0.5, labelsDivWidth: 250, labelsDivStyles: {}, labelsSeparateLines: false, labelsShowZeroValues: true, labelsKMB: false, labelsKMG2: false, showLabelsOnHighlight: true, digitsAfterDecimal: 2, maxNumberWidth: 6, sigFigs: null, strokeWidth: 1, strokeBorderWidth: 0, strokeBorderColor: "white", axisTickSize: 3, axisLabelFontSize: 14, xAxisLabelWidth: 50, yAxisLabelWidth: 50, rightGap: 5, showRoller: false, xValueParser: Dygraph.dateParser, delimiter: ",", sigma: 2, errorBars: false, fractions: false, wilsonInterval: true, customBars: false, fillGraph: false, fillAlpha: 0.15, connectSeparatedPoints: false, stackedGraph: false, hideOverlayOnMouseOut: true, legend: "onmouseover", stepPlot: false, avoidMinZero: false, xRangePad: 0, yRangePad: null, drawAxesAtZero: false, titleHeight: 28, xLabelHeight: 18, yLabelWidth: 18, drawXAxis: true, drawYAxis: true, axisLineColor: "black", axisLineWidth: 0.3, gridLineWidth: 0.3, axisLabelColor: "black", axisLabelFont: "Arial", axisLabelWidth: 50, drawYGrid: true, drawXGrid: true, gridLineColor: "rgb(128,128,128)", interactionModel: null, animatedZooms: false, showRangeSelector: false, rangeSelectorHeight: 40, rangeSelectorPlotStrokeColor: "#808FAB", rangeSelectorPlotFillColor: "#A7B1C4", plotter: [Dygraph.Plotters.fillPlotter, Dygraph.Plotters.errorPlotter, Dygraph.Plotters.linePlotter], plugins: [], axes: {x: {pixelsPerLabel: 60, axisLabelFormatter: Dygraph.dateAxisFormatter, valueFormatter: Dygraph.dateString_, ticker: null}, y: {pixelsPerLabel: 30, valueFormatter: Dygraph.numberValueFormatter, axisLabelFormatter: Dygraph.numberAxisLabelFormatter, ticker: null}, y2: {pixelsPerLabel: 30, valueFormatter: Dygraph.numberValueFormatter, axisLabelFormatter: Dygraph.numberAxisLabelFormatter, ticker: null}}};
+Dygraph.DEFAULT_ATTRS = { highlightCircleSize: 3, highlightSeriesOpts: null, highlightSeriesBackgroundAlpha: 0.5, labelsDivWidth: 250, labelsDivStyles: {}, labelsSeparateLines: false, labelsShowZeroValues: true, labelsKMB: false, labelsKMG2: false, showLabelsOnHighlight: true, digitsAfterDecimal: 2, maxNumberWidth: 6, sigFigs: null, strokeWidth: 1, strokeBorderWidth: 0, strokeBorderColor: "white", axisTickSize: 3, axisLabelFontSize: 14, xAxisLabelWidth: 50, yAxisLabelWidth: 50, rightGap: 5, showRoller: false, xValueParser: Dygraph.dateParser, delimiter: ",", sigma: 2, errorBars: false, fractions: false, wilsonInterval: true, customBars: false, fillGraph: false, fillAlpha: 0.15, connectSeparatedPoints: false, stackedGraph: false, hideOverlayOnMouseOut: true, legend: "onmouseover", stepPlot: false, avoidMinZero: false, xRangePad: 0, yRangePad: null, drawAxesAtZero: false, titleHeight: 28, xLabelHeight: 18, yLabelWidth: 18, drawXAxis: true, drawYAxis: true, axisLineColor: "black", axisLineWidth: 0.3, gridLineWidth: 0.3, axisLabelColor: "black", axisLabelFont: "Arial", axisLabelWidth: 50, drawYGrid: true, drawXGrid: true, gridLineColor: "rgb(128,128,128)", interactionModel: null, animatedZooms: false, showRangeSelector: false, rangeSelectorHeight: 40, rangeSelectorPlotStrokeColor: "#808FAB", rangeSelectorPlotFillColor: "#A7B1C4", plotter: [Dygraph.Plotters.fillPlotter, Dygraph.Plotters.errorPlotter, Dygraph.Plotters.linePlotter], plugins: [], axes: { x: { pixelsPerLabel: 60, axisLabelFormatter: Dygraph.dateAxisFormatter, valueFormatter: Dygraph.dateString_, ticker: null }, y: { pixelsPerLabel: 30, valueFormatter: Dygraph.numberValueFormatter, axisLabelFormatter: Dygraph.numberAxisLabelFormatter, ticker: null }, y2: { pixelsPerLabel: 30, valueFormatter: Dygraph.numberValueFormatter, axisLabelFormatter: Dygraph.numberAxisLabelFormatter, ticker: null } } };
 Dygraph.HORIZONTAL = 1;
 Dygraph.VERTICAL = 2;
 Dygraph.PLUGINS = [];
@@ -1567,12 +1581,12 @@ Dygraph.prototype.__old_init__ = function (f, d, e, b) {
         for (var c = 0; c < e.length; c++) {
             a.push(e[c])
         }
-        Dygraph.update(b, {labels: a})
+        Dygraph.update(b, { labels: a })
     }
     this.__init__(f, d, b)
 };
 Dygraph.prototype.__init__ = function (a, c, l) {
-    if (/MSIE/.test(navigator.userAgent) && !window.opera && typeof(G_vmlCanvasManager) != "undefined" && document.readyState != "complete") {
+    if (/MSIE/.test(navigator.userAgent) && !window.opera && typeof (G_vmlCanvasManager) != "undefined" && document.readyState != "complete") {
         var o = this;
         setTimeout(function () {
             o.__init__(a, c, l)
@@ -1583,14 +1597,14 @@ Dygraph.prototype.__init__ = function (a, c, l) {
         l = {}
     }
     l = Dygraph.mapLegacyOptions_(l);
-    if (typeof(a) == "string") {
+    if (typeof (a) == "string") {
         a = document.getElementById(a)
     }
     if (!a) {
         Dygraph.error("Constructing dygraph with a non-existent div!");
         return
     }
-    this.isUsingExcanvas_ = typeof(G_vmlCanvasManager) != "undefined";
+    this.isUsingExcanvas_ = typeof (G_vmlCanvasManager) != "undefined";
     this.maindiv_ = a;
     this.file_ = c;
     this.rollPeriod_ = l.rollPeriod || Dygraph.DEFAULT_ROLL_PERIOD;
@@ -1635,7 +1649,7 @@ Dygraph.prototype.__init__ = function (a, c, l) {
     for (var g = 0; g < d.length; g++) {
         var k = d[g];
         var f = new k();
-        var j = {plugin: f, events: {}, options: {}, pluginOptions: {}};
+        var j = { plugin: f, events: {}, options: {}, pluginOptions: {} };
         var b = f.activate(this);
         for (var h in b) {
             j.events[h] = b[h]
@@ -1664,14 +1678,16 @@ Dygraph.prototype.cascadeEvents_ = function (c, b) {
     if (!(c in this.eventListeners_)) {
         return true
     }
-    var g = {dygraph: this, cancelable: false, defaultPrevented: false, preventDefault: function () {
-        if (!g.cancelable) {
-            throw"Cannot call preventDefault on non-cancelable event."
+    var g = {
+        dygraph: this, cancelable: false, defaultPrevented: false, preventDefault: function () {
+            if (!g.cancelable) {
+                throw "Cannot call preventDefault on non-cancelable event."
+            }
+            g.defaultPrevented = true
+        }, propagationStopped: false, stopPropagation: function () {
+            g.propagationStopped = true
         }
-        g.defaultPrevented = true
-    }, propagationStopped: false, stopPropagation: function () {
-        g.propagationStopped = true
-    }};
+    };
     Dygraph.update(g, b);
     var a = this.eventListeners_[c];
     if (a) {
@@ -1696,12 +1712,12 @@ Dygraph.prototype.isZoomed = function (a) {
     if (a === "y") {
         return this.zoomed_y_
     }
-    throw"axis parameter is [" + a + "] must be null, 'x' or 'y'."
+    throw "axis parameter is [" + a + "] must be null, 'x' or 'y'."
 };
 Dygraph.prototype.toString = function () {
     var a = this.maindiv_;
     var b = (a && a.id) ? a.id : a;
-    return"[Dygraph " + b + "]"
+    return "[Dygraph " + b + "]"
 };
 Dygraph.prototype.attr_ = function (b, a) {
     return a ? this.attributes_.getForSeries(b, a) : this.attributes_.get(b)
@@ -1719,7 +1735,7 @@ Dygraph.prototype.optionsViewForAxis_ = function (b) {
         if (d && d[b] && d[b].hasOwnProperty(c)) {
             return d[b][c]
         }
-        if (typeof(a.user_attrs_[c]) != "undefined") {
+        if (typeof (a.user_attrs_[c]) != "undefined") {
             return a.user_attrs_[c]
         }
         d = a.attrs_.axes;
@@ -1745,7 +1761,7 @@ Dygraph.prototype.xAxisRange = function () {
 Dygraph.prototype.xAxisExtremes = function () {
     var d = this.attr_("xRangePad") / this.plotter_.area.w;
     if (this.numRows() === 0) {
-        return[0 - d, 1 + d]
+        return [0 - d, 1 + d]
     }
     var c = this.rawData_[0][0];
     var b = this.rawData_[this.rawData_.length - 1][0];
@@ -1754,17 +1770,17 @@ Dygraph.prototype.xAxisExtremes = function () {
         c -= a * d;
         b += a * d
     }
-    return[c, b]
+    return [c, b]
 };
 Dygraph.prototype.yAxisRange = function (a) {
-    if (typeof(a) == "undefined") {
+    if (typeof (a) == "undefined") {
         a = 0
     }
     if (a < 0 || a >= this.axes_.length) {
         return null
     }
     var b = this.axes_[a];
-    return[b.computedValueRange[0], b.computedValueRange[1]]
+    return [b.computedValueRange[0], b.computedValueRange[1]]
 };
 Dygraph.prototype.yAxisRanges = function () {
     var a = [];
@@ -1774,7 +1790,7 @@ Dygraph.prototype.yAxisRanges = function () {
     return a
 };
 Dygraph.prototype.toDomCoords = function (a, c, b) {
-    return[this.toDomXCoord(a), this.toDomYCoord(c, b)]
+    return [this.toDomXCoord(a), this.toDomYCoord(c, b)]
 };
 Dygraph.prototype.toDomXCoord = function (b) {
     if (b === null) {
@@ -1793,7 +1809,7 @@ Dygraph.prototype.toDomYCoord = function (d, a) {
     return b.y + c * b.h
 };
 Dygraph.prototype.toDataCoords = function (a, c, b) {
-    return[this.toDataXCoord(a), this.toDataYCoord(c, b)]
+    return [this.toDataXCoord(a), this.toDataYCoord(c, b)]
 };
 Dygraph.prototype.toDataXCoord = function (b) {
     if (b === null) {
@@ -1809,7 +1825,7 @@ Dygraph.prototype.toDataYCoord = function (h, b) {
     }
     var c = this.plotter_.area;
     var g = this.yAxisRange(b);
-    if (typeof(b) == "undefined") {
+    if (typeof (b) == "undefined") {
         b = 0
     }
     if (!this.axes_[b].logscale) {
@@ -1826,7 +1842,7 @@ Dygraph.prototype.toPercentYCoord = function (f, c) {
     if (f === null) {
         return null
     }
-    if (typeof(c) == "undefined") {
+    if (typeof (c) == "undefined") {
         c = 0
     }
     var e = this.yAxisRange(c);
@@ -1845,7 +1861,7 @@ Dygraph.prototype.toPercentXCoord = function (b) {
         return null
     }
     var a = this.xAxisRange();
-    return(b - a[0]) / (a[1] - a[0])
+    return (b - a[0]) / (a[1] - a[0])
 };
 Dygraph.prototype.numColumns = function () {
     if (!this.rawData_) {
@@ -1930,7 +1946,7 @@ Dygraph.prototype.destroy = function () {
     b(this.maindiv_);
     var c = function (e) {
         for (var f in e) {
-            if (typeof(e[f]) === "object") {
+            if (typeof (e[f]) === "object") {
                 e[f] = null
             }
         }
@@ -2011,7 +2027,7 @@ Dygraph.prototype.getPropertiesForSeries = function (c) {
     if (a == -1) {
         return null
     }
-    return{name: c, column: a, visible: this.visibility()[a - 1], color: this.colorsMap_[c], axis: 1 + this.attributes_.axisForSeries(c)}
+    return { name: c, column: a, visible: this.visibility()[a - 1], color: this.colorsMap_[c], axis: 1 + this.attributes_.axisForSeries(c) }
 };
 Dygraph.prototype.createRollInterface_ = function () {
     if (!this.roller_) {
@@ -2022,7 +2038,7 @@ Dygraph.prototype.createRollInterface_ = function () {
     }
     var e = this.attr_("showRoller") ? "block" : "none";
     var d = this.plotter_.area;
-    var b = {position: "absolute", zIndex: 10, top: (d.y + d.h - 25) + "px", left: (d.x + 1) + "px", display: e};
+    var b = { position: "absolute", zIndex: 10, top: (d.y + d.h - 25) + "px", left: (d.x + 1) + "px", display: e };
     this.roller_.size = "2";
     this.roller_.value = this.rollPeriod_;
     for (var a in b) {
@@ -2042,20 +2058,22 @@ Dygraph.prototype.dragGetY_ = function (b, a) {
     return Dygraph.pageY(b) - a.py
 };
 Dygraph.prototype.createDragInterface_ = function () {
-    var c = {isZooming: false, isPanning: false, is2DPan: false, dragStartX: null, dragStartY: null, dragEndX: null, dragEndY: null, dragDirection: null, prevEndX: null, prevEndY: null, prevDragDirection: null, cancelNextDblclick: false, initialLeftmostDate: null, xUnitsPerPixel: null, dateRange: null, px: 0, py: 0, boundedDates: null, boundedValues: null, tarp: new Dygraph.IFrameTarp(), initializeMouseDown: function (i, h, f) {
-        if (i.preventDefault) {
-            i.preventDefault()
-        } else {
-            i.returnValue = false;
-            i.cancelBubble = true
+    var c = {
+        isZooming: false, isPanning: false, is2DPan: false, dragStartX: null, dragStartY: null, dragEndX: null, dragEndY: null, dragDirection: null, prevEndX: null, prevEndY: null, prevDragDirection: null, cancelNextDblclick: false, initialLeftmostDate: null, xUnitsPerPixel: null, dateRange: null, px: 0, py: 0, boundedDates: null, boundedValues: null, tarp: new Dygraph.IFrameTarp(), initializeMouseDown: function (i, h, f) {
+            if (i.preventDefault) {
+                i.preventDefault()
+            } else {
+                i.returnValue = false;
+                i.cancelBubble = true
+            }
+            f.px = Dygraph.findPosX(h.canvas_);
+            f.py = Dygraph.findPosY(h.canvas_);
+            f.dragStartX = h.dragGetX_(i, f);
+            f.dragStartY = h.dragGetY_(i, f);
+            f.cancelNextDblclick = false;
+            f.tarp.cover()
         }
-        f.px = Dygraph.findPosX(h.canvas_);
-        f.py = Dygraph.findPosY(h.canvas_);
-        f.dragStartX = h.dragGetX_(i, f);
-        f.dragStartY = h.dragGetY_(i, f);
-        f.cancelNextDblclick = false;
-        f.tarp.cover()
-    }};
+    };
     var e = this.attr_("interactionModel");
     var b = this;
     var d = function (f) {
@@ -2129,7 +2147,7 @@ Dygraph.prototype.doZoomX_ = function (c, a) {
 };
 Dygraph.zoomAnimationFunction = function (c, b) {
     var a = 1.5;
-    return(1 - Math.pow(a, -c)) / (1 - Math.pow(a, -b))
+    return (1 - Math.pow(a, -c)) / (1 - Math.pow(a, -b))
 };
 Dygraph.prototype.doZoomXDates_ = function (c, e) {
     var a = this.xAxisRange();
@@ -2167,7 +2185,7 @@ Dygraph.prototype.resetZoom = function () {
         d = true
     }
     for (var g = 0; g < this.axes_.length; g++) {
-        if (typeof(this.axes_[g].valueWindow) !== "undefined" && this.axes_[g].valueWindow !== null) {
+        if (typeof (this.axes_[g].valueWindow) !== "undefined" && this.axes_[g].valueWindow !== null) {
             c = true;
             a = true
         }
@@ -2261,11 +2279,11 @@ Dygraph.prototype.getArea = function () {
 };
 Dygraph.prototype.eventToDomCoords = function (c) {
     if (c.offsetX && c.offsetY) {
-        return[c.offsetX, c.offsetY]
+        return [c.offsetX, c.offsetY]
     } else {
         var b = Dygraph.pageX(c) - Dygraph.findPosX(this.mouseEventElement_);
         var a = Dygraph.pageY(c) - Dygraph.findPosY(this.mouseEventElement_);
-        return[b, a]
+        return [b, a]
     }
 };
 Dygraph.prototype.findClosestRow = function (b) {
@@ -2313,7 +2331,7 @@ Dygraph.prototype.findClosestPoint = function (f, e) {
         }
     }
     var a = this.layout_.setNames[c];
-    return{row: k + this.getLeftBoundary_(), seriesName: a, point: d}
+    return { row: k + this.getLeftBoundary_(), seriesName: a, point: d }
 };
 Dygraph.prototype.findStackedPoint = function (i, h) {
     var p = this.findClosestRow(i);
@@ -2357,7 +2375,7 @@ Dygraph.prototype.findStackedPoint = function (i, h) {
         }
     }
     var b = this.layout_.setNames[c];
-    return{row: p, seriesName: b, point: f}
+    return { row: p, seriesName: b, point: f }
 };
 Dygraph.prototype.mouseMove_ = function (b) {
     var h = this.layout_.points;
@@ -2434,7 +2452,7 @@ Dygraph.prototype.animateSelection_ = function (f) {
     })
 };
 Dygraph.prototype.updateSelection_ = function (d) {
-    this.cascadeEvents_("select", {selectedX: this.lastx_, selectedPoints: this.selPoints_});
+    this.cascadeEvents_("select", { selectedX: this.lastx_, selectedPoints: this.selPoints_ });
     var h;
     var n = this.canvas_ctx_;
     if (this.attr_("highlightSeriesOpts")) {
@@ -2636,7 +2654,7 @@ Dygraph.prototype.extremeValues_ = function (d) {
             }
         }
     }
-    return[h, f]
+    return [h, f]
 };
 Dygraph.prototype.predraw_ = function () {
     var e = new Date();
@@ -2764,7 +2782,7 @@ Dygraph.prototype.gatherDatasets_ = function (v, d) {
             break
         }
     }
-    return[f, a, r]
+    return [f, a, r]
 };
 Dygraph.prototype.drawGraph_ = function () {
     var a = new Date();
@@ -2810,7 +2828,7 @@ Dygraph.prototype.renderGraph_ = function (a) {
     if (this.attr_("underlayCallback")) {
         this.attr_("underlayCallback")(this.hidden_ctx_, this.layout_.getPlotArea(), this, this)
     }
-    var b = {canvas: this.hidden_, drawingContext: this.hidden_ctx_};
+    var b = { canvas: this.hidden_, drawingContext: this.hidden_ctx_ };
     this.cascadeEvents_("willDrawChart", b);
     this.plotter_.render();
     this.cascadeEvents_("didDrawChart", b);
@@ -2830,7 +2848,7 @@ Dygraph.prototype.computeYAxes_ = function () {
     }
     this.axes_ = [];
     for (d = 0; d < this.attributes_.numAxes(); d++) {
-        f = {g: this};
+        f = { g: this };
         Dygraph.update(f, this.attributes_.axisOptions(d));
         this.axes_[d] = f
     }
@@ -3319,7 +3337,7 @@ Dygraph.prototype.parseArray_ = function (c) {
                 this.error("Row " + (1 + a) + " of data is empty");
                 return null
             }
-            if (d[a][0] === null || typeof(d[a][0].getTime) != "function" || isNaN(d[a][0].getTime())) {
+            if (d[a][0] === null || typeof (d[a][0].getTime) != "function" || isNaN(d[a][0].getTime())) {
                 this.error("x value in row " + (1 + a) + " is not a Date");
                 return null
             }
@@ -3404,7 +3422,7 @@ Dygraph.prototype.parseDataTable_ = function (w) {
     var a = [];
     for (q = 0; q < g; q++) {
         var e = [];
-        if (typeof(w.getValue(q, 0)) === "undefined" || w.getValue(q, 0) === null) {
+        if (typeof (w.getValue(q, 0)) === "undefined" || w.getValue(q, 0) === null) {
             this.warn("Ignoring row " + q + " of DataTable because of undefined or null first column.");
             continue
         }
@@ -3496,7 +3514,7 @@ Dygraph.prototype.start_ = function () {
     }
 };
 Dygraph.prototype.updateOptions = function (e, b) {
-    if (typeof(b) == "undefined") {
+    if (typeof (b) == "undefined") {
         b = false
     }
     var d = e.file;
@@ -3551,7 +3569,7 @@ Dygraph.mapLegacyOptions_ = function (c) {
         a.axes[g][f] = h
     };
     var d = function (f, g, h) {
-        if (typeof(c[f]) != "undefined") {
+        if (typeof (c[f]) != "undefined") {
             Dygraph.warn("Option " + f + " is deprecated. Use the " + h + " option for the " + g + " axis instead. (e.g. { axes : { " + g + " : { " + h + " : ... } } } (see http://dygraphs.com/per-axis.html for more information.");
             e(g, h, c[f]);
             delete a[f]
@@ -3623,7 +3641,7 @@ Dygraph.prototype.setVisibility = function (b, c) {
     }
 };
 Dygraph.prototype.size = function () {
-    return{width: this.width_, height: this.height_}
+    return { width: this.width_, height: this.height_ }
 };
 Dygraph.prototype.setAnnotations = function (b, a) {
     Dygraph.addAnnotationRule();
@@ -3696,9 +3714,9 @@ Dygraph.DASHED_LINE = [7, 3];
 Dygraph.DOT_DASH_LINE = [7, 2, 2, 2];
 Dygraph.log = function (c, g) {
     var b;
-    if (typeof(printStackTrace) != "undefined") {
+    if (typeof (printStackTrace) != "undefined") {
         try {
-            b = printStackTrace({guess: false});
+            b = printStackTrace({ guess: false });
             while (b[0].indexOf("stacktrace") != -1) {
                 b.splice(0, 1)
             }
@@ -3711,10 +3729,10 @@ Dygraph.log = function (c, g) {
         } catch (h) {
         }
     }
-    if (typeof(window.console) != "undefined") {
+    if (typeof (window.console) != "undefined") {
         var a = window.console;
         var f = function (e, k, i) {
-            if (k && typeof(k) == "function") {
+            if (k && typeof (k) == "function") {
                 k.call(e, i)
             } else {
                 e.log(i)
@@ -3752,7 +3770,7 @@ Dygraph.error = function (a) {
 };
 Dygraph.prototype.error = Dygraph.error;
 Dygraph.getContext = function (a) {
-    return(a.getContext("2d"))
+    return (a.getContext("2d"))
 };
 Dygraph.addEvent = function addEvent(c, b, a) {
     if (c.addEventListener) {
@@ -3766,7 +3784,7 @@ Dygraph.addEvent = function addEvent(c, b, a) {
 };
 Dygraph.prototype.addEvent = function (c, b, a) {
     Dygraph.addEvent(c, b, a);
-    this.registeredEvents_.push({elem: c, type: b, fn: a})
+    this.registeredEvents_.push({ elem: c, type: b, fn: a })
 };
 Dygraph.removeEvent = function (c, b, a) {
     if (c.removeEventListener) {
@@ -3843,7 +3861,7 @@ Dygraph.hsvToRGB = function (h, g, k) {
     c = Math.floor(255 * c + 0.5);
     d = Math.floor(255 * d + 0.5);
     l = Math.floor(255 * l + 0.5);
-    return"rgb(" + c + "," + d + "," + l + ")"
+    return "rgb(" + c + "," + d + "," + l + ")"
 };
 Dygraph.findPosX = function (c) {
     var d = 0;
@@ -3901,7 +3919,7 @@ Dygraph.findPosY = function (c) {
 };
 Dygraph.pageX = function (c) {
     if (c.pageX) {
-        return(!c.pageX || c.pageX < 0) ? 0 : c.pageX
+        return (!c.pageX || c.pageX < 0) ? 0 : c.pageX
     } else {
         var d = document.documentElement;
         var a = document.body;
@@ -3910,7 +3928,7 @@ Dygraph.pageX = function (c) {
 };
 Dygraph.pageY = function (c) {
     if (c.pageY) {
-        return(!c.pageY || c.pageY < 0) ? 0 : c.pageY
+        return (!c.pageY || c.pageY < 0) ? 0 : c.pageY
     } else {
         var d = document.documentElement;
         var a = document.body;
@@ -3940,13 +3958,13 @@ Dygraph.isValidPoint = function (b, a) {
 };
 Dygraph.floatFormat = function (a, b) {
     var c = Math.min(Math.max(1, b || 2), 21);
-    return(Math.abs(a) < 0.001 && a !== 0) ? a.toExponential(c - 1) : a.toPrecision(c)
+    return (Math.abs(a) < 0.001 && a !== 0) ? a.toExponential(c - 1) : a.toPrecision(c)
 };
 Dygraph.zeropad = function (a) {
     if (a < 10) {
-        return"0" + a
+        return "0" + a
     } else {
-        return"" + a
+        return "" + a
     }
 };
 Dygraph.hmsString_ = function (a) {
@@ -4036,7 +4054,7 @@ Dygraph.dateStrToMillis = function (a) {
     return new Date(a).getTime()
 };
 Dygraph.update = function (b, c) {
-    if (typeof(c) != "undefined" && c !== null) {
+    if (typeof (c) != "undefined" && c !== null) {
         for (var a in c) {
             if (c.hasOwnProperty(a)) {
                 b[a] = c[a]
@@ -4047,10 +4065,10 @@ Dygraph.update = function (b, c) {
 };
 Dygraph.updateDeep = function (b, d) {
     function c(e) {
-        return(typeof Node === "object" ? e instanceof Node : typeof e === "object" && typeof e.nodeType === "number" && typeof e.nodeName === "string")
+        return (typeof Node === "object" ? e instanceof Node : typeof e === "object" && typeof e.nodeType === "number" && typeof e.nodeName === "string")
     }
 
-    if (typeof(d) != "undefined" && d !== null) {
+    if (typeof (d) != "undefined" && d !== null) {
         for (var a in d) {
             if (d.hasOwnProperty(a)) {
                 if (d[a] === null) {
@@ -4062,8 +4080,8 @@ Dygraph.updateDeep = function (b, d) {
                         if (c(d[a])) {
                             b[a] = d[a]
                         } else {
-                            if (typeof(d[a]) == "object") {
-                                if (typeof(b[a]) != "object" || b[a] === null) {
+                            if (typeof (d[a]) == "object") {
+                                if (typeof (b[a]) != "object" || b[a] === null) {
                                     b[a] = {}
                                 }
                                 Dygraph.updateDeep(b[a], d[a])
@@ -4079,14 +4097,14 @@ Dygraph.updateDeep = function (b, d) {
     return b
 };
 Dygraph.isArrayLike = function (b) {
-    var a = typeof(b);
-    if ((a != "object" && !(a == "function" && typeof(b.item) == "function")) || b === null || typeof(b.length) != "number" || b.nodeType === 3) {
+    var a = typeof (b);
+    if ((a != "object" && !(a == "function" && typeof (b.item) == "function")) || b === null || typeof (b.length) != "number" || b.nodeType === 3) {
         return false
     }
     return true
 };
 Dygraph.isDateLike = function (a) {
-    if (typeof(a) != "object" || a === null || typeof(a.getTime) != "function") {
+    if (typeof (a) != "object" || a === null || typeof (a.getTime) != "function") {
         return false
     }
     return true
@@ -4105,13 +4123,13 @@ Dygraph.clone = function (c) {
 Dygraph.createCanvas = function () {
     var a = document.createElement("canvas");
     var b = (/MSIE/.test(navigator.userAgent) && !window.opera);
-    if (b && (typeof(G_vmlCanvasManager) != "undefined")) {
+    if (b && (typeof (G_vmlCanvasManager) != "undefined")) {
         a = G_vmlCanvasManager.initElement((a))
     }
     return a
 };
 Dygraph.isAndroid = function () {
-    return(/Android/).test(navigator.userAgent)
+    return (/Android/).test(navigator.userAgent)
 };
 Dygraph.Iterator = function (d, c, b, a) {
     c = c || 0;
@@ -4189,7 +4207,7 @@ Dygraph.repeatAndCleanup = function (h, g, f, a) {
     })()
 };
 Dygraph.isPixelChangingOptionList = function (h, e) {
-    var d = {annotationClickHandler: true, annotationDblClickHandler: true, annotationMouseOutHandler: true, annotationMouseOverHandler: true, axisLabelColor: true, axisLineColor: true, axisLineWidth: true, clickCallback: true, digitsAfterDecimal: true, drawCallback: true, drawHighlightPointCallback: true, drawPoints: true, drawPointCallback: true, drawXGrid: true, drawYGrid: true, fillAlpha: true, gridLineColor: true, gridLineWidth: true, hideOverlayOnMouseOut: true, highlightCallback: true, highlightCircleSize: true, interactionModel: true, isZoomedIgnoreProgrammaticZoom: true, labelsDiv: true, labelsDivStyles: true, labelsDivWidth: true, labelsKMB: true, labelsKMG2: true, labelsSeparateLines: true, labelsShowZeroValues: true, legend: true, maxNumberWidth: true, panEdgeFraction: true, pixelsPerYLabel: true, pointClickCallback: true, pointSize: true, rangeSelectorPlotFillColor: true, rangeSelectorPlotStrokeColor: true, showLabelsOnHighlight: true, showRoller: true, sigFigs: true, strokeWidth: true, underlayCallback: true, unhighlightCallback: true, xAxisLabelFormatter: true, xTicker: true, xValueFormatter: true, yAxisLabelFormatter: true, yValueFormatter: true, zoomCallback: true};
+    var d = { annotationClickHandler: true, annotationDblClickHandler: true, annotationMouseOutHandler: true, annotationMouseOverHandler: true, axisLabelColor: true, axisLineColor: true, axisLineWidth: true, clickCallback: true, digitsAfterDecimal: true, drawCallback: true, drawHighlightPointCallback: true, drawPoints: true, drawPointCallback: true, drawXGrid: true, drawYGrid: true, fillAlpha: true, gridLineColor: true, gridLineWidth: true, hideOverlayOnMouseOut: true, highlightCallback: true, highlightCircleSize: true, interactionModel: true, isZoomedIgnoreProgrammaticZoom: true, labelsDiv: true, labelsDivStyles: true, labelsDivWidth: true, labelsKMB: true, labelsKMG2: true, labelsSeparateLines: true, labelsShowZeroValues: true, legend: true, maxNumberWidth: true, panEdgeFraction: true, pixelsPerYLabel: true, pointClickCallback: true, pointSize: true, rangeSelectorPlotFillColor: true, rangeSelectorPlotStrokeColor: true, showLabelsOnHighlight: true, showRoller: true, sigFigs: true, strokeWidth: true, underlayCallback: true, unhighlightCallback: true, xAxisLabelFormatter: true, xTicker: true, xValueFormatter: true, yAxisLabelFormatter: true, yValueFormatter: true, zoomCallback: true };
     var a = false;
     var b = {};
     if (h) {
@@ -4243,7 +4261,7 @@ Dygraph.regularShape_ = function (o, c, i, f, e, a, n) {
     var h = function () {
         var p = f + (Math.sin(d) * i);
         var q = e + (-Math.cos(d) * i);
-        return[p, q]
+        return [p, q]
     };
     var b = h();
     var l = b[0];
@@ -4264,43 +4282,45 @@ Dygraph.shapeFunction_ = function (b, a, c) {
         Dygraph.regularShape_(f, b, d, e, k, a, c)
     }
 };
-Dygraph.Circles = {DEFAULT: function (h, f, b, e, d, c, a) {
-    b.beginPath();
-    b.fillStyle = c;
-    b.arc(e, d, a, 0, 2 * Math.PI, false);
-    b.fill()
-}, TRIANGLE: Dygraph.shapeFunction_(3), SQUARE: Dygraph.shapeFunction_(4, Math.PI / 4), DIAMOND: Dygraph.shapeFunction_(4), PENTAGON: Dygraph.shapeFunction_(5), HEXAGON: Dygraph.shapeFunction_(6), CIRCLE: function (f, e, c, b, h, d, a) {
-    c.beginPath();
-    c.strokeStyle = d;
-    c.fillStyle = "white";
-    c.arc(b, h, a, 0, 2 * Math.PI, false);
-    c.fill();
-    c.stroke()
-}, STAR: Dygraph.shapeFunction_(5, 0, 4 * Math.PI / 5), PLUS: function (f, e, c, b, h, d, a) {
-    c.strokeStyle = d;
-    c.beginPath();
-    c.moveTo(b + a, h);
-    c.lineTo(b - a, h);
-    c.closePath();
-    c.stroke();
-    c.beginPath();
-    c.moveTo(b, h + a);
-    c.lineTo(b, h - a);
-    c.closePath();
-    c.stroke()
-}, EX: function (f, e, c, b, h, d, a) {
-    c.strokeStyle = d;
-    c.beginPath();
-    c.moveTo(b + a, h + a);
-    c.lineTo(b - a, h - a);
-    c.closePath();
-    c.stroke();
-    c.beginPath();
-    c.moveTo(b + a, h - a);
-    c.lineTo(b - a, h + a);
-    c.closePath();
-    c.stroke()
-}};
+Dygraph.Circles = {
+    DEFAULT: function (h, f, b, e, d, c, a) {
+        b.beginPath();
+        b.fillStyle = c;
+        b.arc(e, d, a, 0, 2 * Math.PI, false);
+        b.fill()
+    }, TRIANGLE: Dygraph.shapeFunction_(3), SQUARE: Dygraph.shapeFunction_(4, Math.PI / 4), DIAMOND: Dygraph.shapeFunction_(4), PENTAGON: Dygraph.shapeFunction_(5), HEXAGON: Dygraph.shapeFunction_(6), CIRCLE: function (f, e, c, b, h, d, a) {
+        c.beginPath();
+        c.strokeStyle = d;
+        c.fillStyle = "white";
+        c.arc(b, h, a, 0, 2 * Math.PI, false);
+        c.fill();
+        c.stroke()
+    }, STAR: Dygraph.shapeFunction_(5, 0, 4 * Math.PI / 5), PLUS: function (f, e, c, b, h, d, a) {
+        c.strokeStyle = d;
+        c.beginPath();
+        c.moveTo(b + a, h);
+        c.lineTo(b - a, h);
+        c.closePath();
+        c.stroke();
+        c.beginPath();
+        c.moveTo(b, h + a);
+        c.lineTo(b, h - a);
+        c.closePath();
+        c.stroke()
+    }, EX: function (f, e, c, b, h, d, a) {
+        c.strokeStyle = d;
+        c.beginPath();
+        c.moveTo(b + a, h + a);
+        c.lineTo(b - a, h - a);
+        c.closePath();
+        c.stroke();
+        c.beginPath();
+        c.moveTo(b + a, h - a);
+        c.lineTo(b - a, h + a);
+        c.closePath();
+        c.stroke()
+    }
+};
 Dygraph.IFrameTarp = function () {
     this.tarps = []
 };
@@ -4331,13 +4351,13 @@ Dygraph.detectLineDelimiter = function (c) {
         var b = c.charAt(a);
         if (b === "\r") {
             if (((a + 1) < c.length) && (c.charAt(a + 1) === "\n")) {
-                return"\r\n"
+                return "\r\n"
             }
             return b
         }
         if (b === "\n") {
             if (((a + 1) < c.length) && (c.charAt(a + 1) === "\r")) {
-                return"\n\r"
+                return "\n\r"
             }
             return b
         }
@@ -4352,7 +4372,7 @@ Dygraph.isNodeContainedBy = function (b, a) {
     while (c && c !== a) {
         c = c.parentNode
     }
-    return(c === a)
+    return (c === a)
 };
 Dygraph.pow = function (a, b) {
     if (b < 0) {
@@ -4360,7 +4380,7 @@ Dygraph.pow = function (a, b) {
     }
     return Math.pow(a, b)
 };
-Dygraph.dateSetters = {ms: Date.prototype.setMilliseconds, s: Date.prototype.setSeconds, m: Date.prototype.setMinutes, h: Date.prototype.setHours};
+Dygraph.dateSetters = { ms: Date.prototype.setMilliseconds, s: Date.prototype.setSeconds, m: Date.prototype.setMinutes, h: Date.prototype.setHours };
 Dygraph.setDateSameTZ = function (c, b) {
     var f = c.getTimezoneOffset();
     for (var a in b) {
@@ -4369,7 +4389,7 @@ Dygraph.setDateSameTZ = function (c, b) {
         }
         var e = Dygraph.dateSetters[a];
         if (!e) {
-            throw"Invalid setter: " + a
+            throw "Invalid setter: " + a
         }
         e.call(c, b[a]);
         if (c.getTimezoneOffset() != f) {
@@ -4383,7 +4403,7 @@ Dygraph.GVizChart = function (a) {
 };
 Dygraph.GVizChart.prototype.draw = function (b, a) {
     this.container.innerHTML = "";
-    if (typeof(this.date_graph) != "undefined") {
+    if (typeof (this.date_graph) != "undefined") {
         this.date_graph.destroy()
     }
     this.date_graph = new Dygraph(this.container, b, a)
@@ -4403,7 +4423,7 @@ Dygraph.GVizChart.prototype.getSelection = function () {
     }
     var a = this.date_graph.layout_.datasets;
     for (var c = 0; c < a.length; ++c) {
-        b.push({row: d, column: c + 1})
+        b.push({ row: d, column: c + 1 })
     }
     return b
 };
@@ -4605,31 +4625,31 @@ Dygraph.Interaction.startTouch = function (f, e, d) {
     var h = [];
     for (var c = 0; c < f.touches.length; c++) {
         var b = f.touches[c];
-        h.push({pageX: b.pageX, pageY: b.pageY, dataX: e.toDataXCoord(b.pageX), dataY: e.toDataYCoord(b.pageY)})
+        h.push({ pageX: b.pageX, pageY: b.pageY, dataX: e.toDataXCoord(b.pageX), dataY: e.toDataYCoord(b.pageY) })
     }
     d.initialTouches = h;
     if (h.length == 1) {
         d.initialPinchCenter = h[0];
-        d.touchDirections = {x: true, y: true}
+        d.touchDirections = { x: true, y: true }
     } else {
         if (h.length >= 2) {
-            d.initialPinchCenter = {pageX: 0.5 * (h[0].pageX + h[1].pageX), pageY: 0.5 * (h[0].pageY + h[1].pageY), dataX: 0.5 * (h[0].dataX + h[1].dataX), dataY: 0.5 * (h[0].dataY + h[1].dataY)};
+            d.initialPinchCenter = { pageX: 0.5 * (h[0].pageX + h[1].pageX), pageY: 0.5 * (h[0].pageY + h[1].pageY), dataX: 0.5 * (h[0].dataX + h[1].dataX), dataY: 0.5 * (h[0].dataY + h[1].dataY) };
             var a = 180 / Math.PI * Math.atan2(d.initialPinchCenter.pageY - h[0].pageY, h[0].pageX - d.initialPinchCenter.pageX);
             a = Math.abs(a);
             if (a > 90) {
                 a = 90 - a
             }
-            d.touchDirections = {x: (a < (90 - 45 / 2)), y: (a > 45 / 2)}
+            d.touchDirections = { x: (a < (90 - 45 / 2)), y: (a > 45 / 2) }
         }
     }
-    d.initialRange = {x: e.xAxisRange(), y: e.yAxisRange()}
+    d.initialRange = { x: e.xAxisRange(), y: e.yAxisRange() }
 };
 Dygraph.Interaction.moveTouch = function (n, q, d) {
     d.startTimeForDoubleTapMs = null;
     var p, l = [];
     for (p = 0; p < n.touches.length; p++) {
         var k = n.touches[p];
-        l.push({pageX: k.pageX, pageY: k.pageY})
+        l.push({ pageX: k.pageX, pageY: k.pageY })
     }
     var a = d.initialTouches;
     var h;
@@ -4637,9 +4657,9 @@ Dygraph.Interaction.moveTouch = function (n, q, d) {
     if (l.length == 1) {
         h = l[0]
     } else {
-        h = {pageX: 0.5 * (l[0].pageX + l[1].pageX), pageY: 0.5 * (l[0].pageY + l[1].pageY)}
+        h = { pageX: 0.5 * (l[0].pageX + l[1].pageX), pageY: 0.5 * (l[0].pageY + l[1].pageY) }
     }
-    var m = {pageX: h.pageX - j.pageX, pageY: h.pageY - j.pageY};
+    var m = { pageX: h.pageX - j.pageX, pageY: h.pageY - j.pageY };
     var f = d.initialRange.x[1] - d.initialRange.x[0];
     var o = d.initialRange.y[0] - d.initialRange.y[1];
     m.dataX = (m.pageX / q.plotter_.area.w) * f;
@@ -4697,54 +4717,56 @@ Dygraph.Interaction.endTouch = function (e, d, c) {
         }
     }
 };
-Dygraph.Interaction.defaultModel = {mousedown: function (c, b, a) {
-    if (c.button && c.button == 2) {
-        return
-    }
-    a.initializeMouseDown(c, b, a);
-    if (c.altKey || c.shiftKey) {
-        Dygraph.startPan(c, b, a)
-    } else {
-        Dygraph.startZoom(c, b, a)
-    }
-}, mousemove: function (c, b, a) {
-    if (a.isZooming) {
-        Dygraph.moveZoom(c, b, a)
-    } else {
-        if (a.isPanning) {
-            Dygraph.movePan(c, b, a)
+Dygraph.Interaction.defaultModel = {
+    mousedown: function (c, b, a) {
+        if (c.button && c.button == 2) {
+            return
         }
-    }
-}, mouseup: function (c, b, a) {
-    if (a.isZooming) {
-        Dygraph.endZoom(c, b, a)
-    } else {
-        if (a.isPanning) {
-            Dygraph.endPan(c, b, a)
+        a.initializeMouseDown(c, b, a);
+        if (c.altKey || c.shiftKey) {
+            Dygraph.startPan(c, b, a)
+        } else {
+            Dygraph.startZoom(c, b, a)
         }
+    }, mousemove: function (c, b, a) {
+        if (a.isZooming) {
+            Dygraph.moveZoom(c, b, a)
+        } else {
+            if (a.isPanning) {
+                Dygraph.movePan(c, b, a)
+            }
+        }
+    }, mouseup: function (c, b, a) {
+        if (a.isZooming) {
+            Dygraph.endZoom(c, b, a)
+        } else {
+            if (a.isPanning) {
+                Dygraph.endPan(c, b, a)
+            }
+        }
+    }, touchstart: function (c, b, a) {
+        Dygraph.Interaction.startTouch(c, b, a)
+    }, touchmove: function (c, b, a) {
+        Dygraph.Interaction.moveTouch(c, b, a)
+    }, touchend: function (c, b, a) {
+        Dygraph.Interaction.endTouch(c, b, a)
+    }, mouseout: function (c, b, a) {
+        if (a.isZooming) {
+            a.dragEndX = null;
+            a.dragEndY = null;
+            b.clearZoomRect_()
+        }
+    }, dblclick: function (c, b, a) {
+        if (a.cancelNextDblclick) {
+            a.cancelNextDblclick = false;
+            return
+        }
+        if (c.altKey || c.shiftKey) {
+            return
+        }
+        b.resetZoom()
     }
-}, touchstart: function (c, b, a) {
-    Dygraph.Interaction.startTouch(c, b, a)
-}, touchmove: function (c, b, a) {
-    Dygraph.Interaction.moveTouch(c, b, a)
-}, touchend: function (c, b, a) {
-    Dygraph.Interaction.endTouch(c, b, a)
-}, mouseout: function (c, b, a) {
-    if (a.isZooming) {
-        a.dragEndX = null;
-        a.dragEndY = null;
-        b.clearZoomRect_()
-    }
-}, dblclick: function (c, b, a) {
-    if (a.cancelNextDblclick) {
-        a.cancelNextDblclick = false;
-        return
-    }
-    if (c.altKey || c.shiftKey) {
-        return
-    }
-    b.resetZoom()
-}};
+};
 Dygraph.DEFAULT_ATTRS.interactionModel = Dygraph.Interaction.defaultModel;
 Dygraph.defaultInteractionModel = Dygraph.Interaction.defaultModel;
 Dygraph.endZoom = Dygraph.Interaction.endZoom;
@@ -4753,29 +4775,33 @@ Dygraph.startZoom = Dygraph.Interaction.startZoom;
 Dygraph.endPan = Dygraph.Interaction.endPan;
 Dygraph.movePan = Dygraph.Interaction.movePan;
 Dygraph.startPan = Dygraph.Interaction.startPan;
-Dygraph.Interaction.nonInteractiveModel_ = {mousedown: function (c, b, a) {
-    a.initializeMouseDown(c, b, a)
-}, mouseup: function (c, b, a) {
-    a.dragEndX = b.dragGetX_(c, a);
-    a.dragEndY = b.dragGetY_(c, a);
-    var e = Math.abs(a.dragEndX - a.dragStartX);
-    var d = Math.abs(a.dragEndY - a.dragStartY);
-    if (e < 2 && d < 2 && b.lastx_ !== undefined && b.lastx_ != -1) {
-        Dygraph.Interaction.treatMouseOpAsClick(b, c, a)
+Dygraph.Interaction.nonInteractiveModel_ = {
+    mousedown: function (c, b, a) {
+        a.initializeMouseDown(c, b, a)
+    }, mouseup: function (c, b, a) {
+        a.dragEndX = b.dragGetX_(c, a);
+        a.dragEndY = b.dragGetY_(c, a);
+        var e = Math.abs(a.dragEndX - a.dragStartX);
+        var d = Math.abs(a.dragEndY - a.dragStartY);
+        if (e < 2 && d < 2 && b.lastx_ !== undefined && b.lastx_ != -1) {
+            Dygraph.Interaction.treatMouseOpAsClick(b, c, a)
+        }
     }
-}};
-Dygraph.Interaction.dragIsPanInteractionModel = {mousedown: function (c, b, a) {
-    a.initializeMouseDown(c, b, a);
-    Dygraph.startPan(c, b, a)
-}, mousemove: function (c, b, a) {
-    if (a.isPanning) {
-        Dygraph.movePan(c, b, a)
+};
+Dygraph.Interaction.dragIsPanInteractionModel = {
+    mousedown: function (c, b, a) {
+        a.initializeMouseDown(c, b, a);
+        Dygraph.startPan(c, b, a)
+    }, mousemove: function (c, b, a) {
+        if (a.isPanning) {
+            Dygraph.movePan(c, b, a)
+        }
+    }, mouseup: function (c, b, a) {
+        if (a.isPanning) {
+            Dygraph.endPan(c, b, a)
+        }
     }
-}, mouseup: function (c, b, a) {
-    if (a.isPanning) {
-        Dygraph.endPan(c, b, a)
-    }
-}};
+};
 "use strict";
 Dygraph.TickList = undefined;
 Dygraph.Ticker = undefined;
@@ -4794,7 +4820,7 @@ Dygraph.numericTicks = function (F, E, u, p, d, q) {
     var C, A, t, y;
     if (q) {
         for (C = 0; C < q.length; C++) {
-            G.push({v: q[C]})
+            G.push({ v: q[C] })
         }
     } else {
         if (p("logscale")) {
@@ -4812,12 +4838,12 @@ Dygraph.numericTicks = function (F, E, u, p, d, q) {
                 for (var r = H; r >= l; r--) {
                     var m = Dygraph.PREFERRED_LOG_TICK_VALUES[r];
                     var k = Math.log(m / F) / Math.log(E / F) * u;
-                    var D = {v: m};
+                    var D = { v: m };
                     if (s === null) {
-                        s = {tickValue: m, pixel_coord: k}
+                        s = { tickValue: m, pixel_coord: k }
                     } else {
                         if (Math.abs(k - s.pixel_coord) >= z) {
-                            s = {tickValue: m, pixel_coord: k}
+                            s = { tickValue: m, pixel_coord: k }
                         } else {
                             D.label = ""
                         }
@@ -4857,7 +4883,7 @@ Dygraph.numericTicks = function (F, E, u, p, d, q) {
             }
             for (C = 0; C < y; C++) {
                 t = x + C * I;
-                G.push({v: t})
+                G.push({ v: t })
             }
         }
     }
@@ -4875,7 +4901,7 @@ Dygraph.dateTicker = function (e, c, i, g, f, h) {
     if (d >= 0) {
         return Dygraph.getDateAxis(e, c, d, g, f)
     } else {
-        return[]
+        return []
     }
 };
 Dygraph.SECONDLY = 0;
@@ -4917,12 +4943,12 @@ Dygraph.SHORT_SPACINGS[Dygraph.SIX_HOURLY] = 1000 * 3600 * 6;
 Dygraph.SHORT_SPACINGS[Dygraph.DAILY] = 1000 * 86400;
 Dygraph.SHORT_SPACINGS[Dygraph.WEEKLY] = 1000 * 604800;
 Dygraph.LONG_TICK_PLACEMENTS = [];
-Dygraph.LONG_TICK_PLACEMENTS[Dygraph.MONTHLY] = {months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], year_mod: 1};
-Dygraph.LONG_TICK_PLACEMENTS[Dygraph.QUARTERLY] = {months: [0, 3, 6, 9], year_mod: 1};
-Dygraph.LONG_TICK_PLACEMENTS[Dygraph.BIANNUAL] = {months: [0, 6], year_mod: 1};
-Dygraph.LONG_TICK_PLACEMENTS[Dygraph.ANNUAL] = {months: [0], year_mod: 1};
-Dygraph.LONG_TICK_PLACEMENTS[Dygraph.DECADAL] = {months: [0], year_mod: 10};
-Dygraph.LONG_TICK_PLACEMENTS[Dygraph.CENTENNIAL] = {months: [0], year_mod: 100};
+Dygraph.LONG_TICK_PLACEMENTS[Dygraph.MONTHLY] = { months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], year_mod: 1 };
+Dygraph.LONG_TICK_PLACEMENTS[Dygraph.QUARTERLY] = { months: [0, 3, 6, 9], year_mod: 1 };
+Dygraph.LONG_TICK_PLACEMENTS[Dygraph.BIANNUAL] = { months: [0, 6], year_mod: 1 };
+Dygraph.LONG_TICK_PLACEMENTS[Dygraph.ANNUAL] = { months: [0], year_mod: 1 };
+Dygraph.LONG_TICK_PLACEMENTS[Dygraph.DECADAL] = { months: [0], year_mod: 10 };
+Dygraph.LONG_TICK_PLACEMENTS[Dygraph.CENTENNIAL] = { months: [0], year_mod: 100 };
 Dygraph.PREFERRED_LOG_TICK_VALUES = function () {
     var c = [];
     for (var b = -39; b <= 39; b++) {
@@ -4963,19 +4989,19 @@ Dygraph.getDateAxis = function (p, l, a, n, z) {
         var c = Dygraph.SHORT_SPACINGS[a];
         var y = c / 1000;
         var A = new Date(p);
-        Dygraph.setDateSameTZ(A, {ms: 0});
+        Dygraph.setDateSameTZ(A, { ms: 0 });
         var h;
         if (y <= 60) {
             h = A.getSeconds();
-            Dygraph.setDateSameTZ(A, {s: h - h % y})
+            Dygraph.setDateSameTZ(A, { s: h - h % y })
         } else {
-            Dygraph.setDateSameTZ(A, {s: 0});
+            Dygraph.setDateSameTZ(A, { s: 0 });
             y /= 60;
             if (y <= 60) {
                 h = A.getMinutes();
-                Dygraph.setDateSameTZ(A, {m: h - h % y})
+                Dygraph.setDateSameTZ(A, { m: h - h % y })
             } else {
-                Dygraph.setDateSameTZ(A, {m: 0});
+                Dygraph.setDateSameTZ(A, { m: 0 });
                 y /= 60;
                 if (y <= 24) {
                     h = A.getHours();
@@ -5005,7 +5031,7 @@ Dygraph.getDateAxis = function (p, l, a, n, z) {
                     B = A.getTimezoneOffset()
                 }
             }
-            C.push({v: m, label: w(A, a, n, z)})
+            C.push({ v: m, label: w(A, a, n, z) })
         }
     } else {
         var f;
@@ -5029,7 +5055,7 @@ Dygraph.getDateAxis = function (p, l, a, n, z) {
                 if (m < p || m > l) {
                     continue
                 }
-                C.push({v: m, label: w(new Date(m), a, n, z)})
+                C.push({ v: m, label: w(new Date(m), a, n, z) })
             }
         }
     }
@@ -5046,10 +5072,10 @@ Dygraph.Plugins.Annotations = (function () {
         this.annotations_ = []
     };
     a.prototype.toString = function () {
-        return"Annotations Plugin"
+        return "Annotations Plugin"
     };
     a.prototype.activate = function (b) {
-        return{clearChart: this.clearChart, didDrawChart: this.didDrawChart}
+        return { clearChart: this.clearChart, didDrawChart: this.didDrawChart }
     };
     a.prototype.detachLabels = function () {
         for (var c = 0; c < this.annotations_.length; c++) {
@@ -5071,7 +5097,7 @@ Dygraph.Plugins.Annotations = (function () {
             return
         }
         var h = v.canvas.parentNode;
-        var x = {position: "absolute", fontSize: t.getOption("axisLabelFontSize") + "px", zIndex: 10, overflow: "hidden"};
+        var x = { position: "absolute", fontSize: t.getOption("axisLabelFontSize") + "px", zIndex: 10, overflow: "hidden" };
         var b = function (e, g, i) {
             return function (y) {
                 var p = i.annotation;
@@ -5177,10 +5203,10 @@ Dygraph.Plugins.Axes = (function () {
         this.ylabels_ = []
     };
     a.prototype.toString = function () {
-        return"Axes Plugin"
+        return "Axes Plugin"
     };
     a.prototype.activate = function (b) {
-        return{layout: this.layout, clearChart: this.clearChart, willDrawChart: this.willDrawChart}
+        return { layout: this.layout, clearChart: this.clearChart, willDrawChart: this.willDrawChart }
     };
     a.prototype.layout = function (f) {
         var d = f.dygraph;
@@ -5245,9 +5271,9 @@ Dygraph.Plugins.Axes = (function () {
         var d = H.canvas.height;
         var s, u, t, E, D;
         var C = function (e) {
-            return{position: "absolute", fontSize: F.getOptionForAxis("axisLabelFontSize", e) + "px", zIndex: 10, color: F.getOptionForAxis("axisLabelColor", e), width: F.getOption("axisLabelWidth") + "px", lineHeight: "normal", overflow: "hidden"}
+            return { position: "absolute", fontSize: F.getOptionForAxis("axisLabelFontSize", e) + "px", zIndex: 10, color: F.getOptionForAxis("axisLabelColor", e), width: F.getOption("axisLabelWidth") + "px", lineHeight: "normal", overflow: "hidden" }
         };
-        var p = {x: C("x"), y: C("y"), y2: C("y2")};
+        var p = { x: C("x"), y: C("y"), y2: C("y2") };
         var m = function (g, x, y) {
             var K = document.createElement("div");
             var e = p[y == "y2" ? "y2" : x];
@@ -5270,7 +5296,7 @@ Dygraph.Plugins.Axes = (function () {
                 var h = F.numAxes();
                 for (D = 0; D < I.yticks.length; D++) {
                     E = I.yticks[D];
-                    if (typeof(E) == "function") {
+                    if (typeof (E) == "function") {
                         return
                     }
                     u = G.x;
@@ -5394,10 +5420,10 @@ Dygraph.Plugins.ChartLabels = (function () {
         this.y2label_div_ = null
     };
     c.prototype.toString = function () {
-        return"ChartLabels Plugin"
+        return "ChartLabels Plugin"
     };
     c.prototype.activate = function (d) {
-        return{layout: this.layout, didDrawChart: this.didDrawChart}
+        return { layout: this.layout, didDrawChart: this.didDrawChart }
     };
     var b = function (d) {
         var e = document.createElement("div");
@@ -5449,7 +5475,7 @@ Dygraph.Plugins.ChartLabels = (function () {
         m.style.MozTransform = e;
         m.style.OTransform = e;
         m.style.msTransform = e;
-        if (typeof(document.documentMode) !== "undefined" && document.documentMode < 9) {
+        if (typeof (document.documentMode) !== "undefined" && document.documentMode < 9) {
             m.style.filter = "progid:DXImageTransform.Microsoft.BasicImage(rotation=" + (f == 1 ? "3" : "1") + ")";
             m.style.left = "0px";
             m.style.top = "0px"
@@ -5526,10 +5552,10 @@ Dygraph.Plugins.Grid = (function () {
     var a = function () {
     };
     a.prototype.toString = function () {
-        return"Gridline Plugin"
+        return "Gridline Plugin"
     };
     a.prototype.activate = function (b) {
-        return{willDrawChart: this.willDrawChart}
+        return { willDrawChart: this.willDrawChart }
     };
     a.prototype.willDrawChart = function (k) {
         var h = k.dygraph;
@@ -5592,7 +5618,7 @@ Dygraph.Plugins.Legend = (function () {
         this.is_generated_div_ = false
     };
     c.prototype.toString = function () {
-        return"Legend Plugin"
+        return "Legend Plugin"
     };
     var a, d;
     c.prototype.activate = function (j) {
@@ -5600,13 +5626,13 @@ Dygraph.Plugins.Legend = (function () {
         var f = j.getOption("labelsDivWidth");
         var l = j.getOption("labelsDiv");
         if (l && null !== l) {
-            if (typeof(l) == "string" || l instanceof String) {
+            if (typeof (l) == "string" || l instanceof String) {
                 m = document.getElementById(l)
             } else {
                 m = l
             }
         } else {
-            var i = {position: "absolute", fontSize: "14px", zIndex: 10, width: f + "px", top: "0px", left: (j.size().width - f - 2) + "px", background: "white", lineHeight: "normal", textAlign: "left", overflow: "hidden"};
+            var i = { position: "absolute", fontSize: "14px", zIndex: 10, width: f + "px", top: "0px", left: (j.size().width - f - 2) + "px", background: "white", lineHeight: "normal", textAlign: "left", overflow: "hidden" };
             Dygraph.update(i, j.getOption("labelsDivStyles"));
             m = document.createElement("div");
             m.className = "dygraph-legend";
@@ -5625,7 +5651,7 @@ Dygraph.Plugins.Legend = (function () {
         }
         this.legend_div_ = m;
         this.one_em_width_ = 10;
-        return{select: this.select, deselect: this.deselect, predraw: this.predraw, didDrawChart: this.didDrawChart}
+        return { select: this.select, deselect: this.deselect, predraw: this.predraw, didDrawChart: this.didDrawChart }
     };
     var b = function (g) {
         var f = document.createElement("span");
@@ -5666,13 +5692,13 @@ Dygraph.Plugins.Legend = (function () {
     };
     a = function (w, p, l, f) {
         if (w.getOption("showLabelsOnHighlight") !== true) {
-            return""
+            return ""
         }
         var r, C, u, s, m;
         var z = w.getLabels();
-        if (typeof(p) === "undefined") {
+        if (typeof (p) === "undefined") {
             if (w.getOption("legend") != "always") {
-                return""
+                return ""
             }
             C = w.getOption("labelsSeparateLines");
             r = "";
@@ -5727,10 +5753,10 @@ Dygraph.Plugins.Legend = (function () {
     d = function (s, h, r) {
         var e = (/MSIE/.test(navigator.userAgent) && !window.opera);
         if (e) {
-            return"&mdash;"
+            return "&mdash;"
         }
         if (!s || s.length <= 1) {
-            return'<div style="display: inline-block; position: relative; bottom: .5ex; padding-left: 1em; height: 1px; border-bottom: 2px solid ' + h + ';"></div>'
+            return '<div style="display: inline-block; position: relative; bottom: .5ex; padding-left: 1em; height: 1px; border-bottom: 2px solid ' + h + ';"></div>'
         }
         var l, k, f, o;
         var g = 0, q = 0;
@@ -5771,12 +5797,12 @@ Dygraph.Plugins.Legend = (function () {
 Dygraph.Plugins.RangeSelector = (function () {
     var a = function () {
         this.isIE_ = /MSIE/.test(navigator.userAgent) && !window.opera;
-        this.hasTouchInterface_ = typeof(TouchEvent) != "undefined";
+        this.hasTouchInterface_ = typeof (TouchEvent) != "undefined";
         this.isMobileDevice_ = /mobile|android/gi.test(navigator.appVersion);
         this.interfaceCreated_ = false
     };
     a.prototype.toString = function () {
-        return"RangeSelector Plugin"
+        return "RangeSelector Plugin"
     };
     a.prototype.activate = function (b) {
         this.dygraph_ = b;
@@ -5784,7 +5810,7 @@ Dygraph.Plugins.RangeSelector = (function () {
         if (this.getOption_("showRangeSelector")) {
             this.createInterface_()
         }
-        return{layout: this.reserveSpace_, predraw: this.renderStaticLayer_, didDrawChart: this.renderInteractiveLayer_}
+        return { layout: this.reserveSpace_, predraw: this.renderStaticLayer_, didDrawChart: this.renderInteractiveLayer_ }
     };
     a.prototype.destroy = function () {
         this.bgcanvas_ = null;
@@ -5808,7 +5834,7 @@ Dygraph.Plugins.RangeSelector = (function () {
         this.initInteraction_();
         if (this.getOption_("animatedZooms")) {
             this.dygraph_.warn("Animated zooms and range selector are not compatible; disabling animatedZooms.");
-            this.dygraph_.updateOptions({animatedZooms: false}, true)
+            this.dygraph_.updateOptions({ animatedZooms: false }, true)
         }
         this.interfaceCreated_ = true;
         this.addToGraph_()
@@ -5884,7 +5910,7 @@ Dygraph.Plugins.RangeSelector = (function () {
         if (this.getOption_("drawXAxis")) {
             b = this.getOption_("xAxisHeight") || (this.getOption_("axisLabelFontSize") + 2 * this.getOption_("axisTickSize"))
         }
-        this.canvasRect_ = {x: c.x, y: c.y + c.h + b + 4, w: c.w, h: this.getOption_("rangeSelectorHeight")};
+        this.canvasRect_ = { x: c.x, y: c.y + c.h + b + 4, w: c.w, h: this.getOption_("rangeSelectorHeight") };
         d(this.bgcanvas_, this.canvasRect_);
         d(this.fgcanvas_, this.canvasRect_)
     };
@@ -5950,7 +5976,7 @@ Dygraph.Plugins.RangeSelector = (function () {
             var z = (B[1] - B[0]) / o.canvasRect_.w;
             var A = B[0] + (C.leftHandlePos - o.canvasRect_.x) * z;
             var y = B[0] + (C.rightHandlePos - o.canvasRect_.x) * z;
-            return[A, y]
+            return [A, y]
         };
         f = function (y) {
             Dygraph.cancelEvent(y);
@@ -6030,7 +6056,7 @@ Dygraph.Plugins.RangeSelector = (function () {
                 var y = z.left + z.width / 2;
                 z = o.rightZoomHandle_.getBoundingClientRect();
                 var B = z.left + z.width / 2;
-                return(A.clientX > y && A.clientX < B)
+                return (A.clientX > y && A.clientX < B)
             }
         };
         x = function (y) {
@@ -6344,7 +6370,7 @@ Dygraph.Plugins.RangeSelector = (function () {
             c += f;
             b -= f
         }
-        return{data: q, yMin: b, yMax: c}
+        return { data: q, yMin: b, yMax: c }
     };
     a.prototype.placeZoomHandles_ = function () {
         var h = this.dygraph_.xAxisExtremes();
@@ -6407,7 +6433,7 @@ Dygraph.Plugins.RangeSelector = (function () {
         var c = this.leftZoomHandle_.width / 2;
         var d = parseFloat(this.leftZoomHandle_.style.left) + c;
         var b = parseFloat(this.rightZoomHandle_.style.left) + c;
-        return{leftHandlePos: d, rightHandlePos: b, isZoomed: (d - 1 > this.canvasRect_.x || b + 1 < this.canvasRect_.x + this.canvasRect_.w)}
+        return { leftHandlePos: d, rightHandlePos: b, isZoomed: (d - 1 > this.canvasRect_.x || b + 1 < this.canvasRect_.x + this.canvasRect_.w) }
     };
     return a
 })();

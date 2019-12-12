@@ -114,6 +114,10 @@ if($sock !== false){
 			$lcdText = readFromSocket($sock);
 			echo str_replace(chr(0xB0), "&deg;", $lcdText); // Replace degree sign with &deg;
 			break;
+		case "statusText":
+			writeToSocket($sock, $messageType);
+			echo readFromSocket($sock);
+			break;
 		default:
 			// Pass the command to the socket and read the answer if needed
 			writeToSocket($sock, $messageType);

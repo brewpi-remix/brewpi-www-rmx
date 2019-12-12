@@ -98,22 +98,10 @@
 		    		<div class="beer-chart-legend-value">--</div>
 		    		<br class="crystal" />
 		    	</div>
-                <!-- Brewometer lines -->
-                <div class="beer-chart-legend-row redTemp">
-                    <div class="toggle redTemp" onClick="toggleLine(this)"></div>
-                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt Temp</div>
-                    <div class="beer-chart-legend-value">--</div>
-                    <br class="crystal" />
-                </div>
+                <!-- Tilt lines BEGIN -->
                 <div class="beer-chart-legend-row redSG">
                     <div class="toggle redSG" onClick="toggleLine(this)"></div>
                     <div class="beer-chart-legend-label" onClick="toggleLine(this)">Red Tilt SG</div>
-                    <div class="beer-chart-legend-value">--</div>
-                    <br class="crystal" />
-                </div>
-                <div class="beer-chart-legend-row greenTemp">
-                    <div class="toggle greenTemp" onClick="toggleLine(this)"></div>
-                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">Green Tilt Temp</div>
                     <div class="beer-chart-legend-value">--</div>
                     <br class="crystal" />
                 </div>
@@ -123,21 +111,9 @@
                     <div class="beer-chart-legend-value">--</div>
                     <br class="crystal" />
                 </div>
-                <div class="beer-chart-legend-row blackTemp">
-                    <div class="toggle blackTemp" onClick="toggleLine(this)"></div>
-                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">Black Tilt Temp</div>
-                    <div class="beer-chart-legend-value">--</div>
-                    <br class="crystal" />
-                </div>
                 <div class="beer-chart-legend-row blackSG">
                     <div class="toggle blackSG" onClick="toggleLine(this)"></div>
                     <div class="beer-chart-legend-label" onClick="toggleLine(this)">Black Tilt SG</div>
-                    <div class="beer-chart-legend-value">--</div>
-                    <br class="crystal" />
-                </div>
-                <div class="beer-chart-legend-row purpleTemp">
-                    <div class="toggle purpleTemp" onClick="toggleLine(this)"></div>
-                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">Purple Tilt Temp</div>
                     <div class="beer-chart-legend-value">--</div>
                     <br class="crystal" />
                 </div>
@@ -147,21 +123,9 @@
                     <div class="beer-chart-legend-value">--</div>
                     <br class="crystal" />
                 </div>
-                <div class="beer-chart-legend-row orangeTemp">
-                    <div class="toggle orangeTemp" onClick="toggleLine(this)"></div>
-                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange Tilt Temp</div>
-                    <div class="beer-chart-legend-value">--</div>
-                    <br class="crystal" />
-                </div>
                 <div class="beer-chart-legend-row orangeSG">
                     <div class="toggle orangeSG" onClick="toggleLine(this)"></div>
                     <div class="beer-chart-legend-label" onClick="toggleLine(this)">Orange Tilt SG</div>
-                    <div class="beer-chart-legend-value">--</div>
-                    <br class="crystal" />
-                </div>
-                <div class="beer-chart-legend-row blueTemp">
-                    <div class="toggle blueTemp" onClick="toggleLine(this)"></div>
-                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">Blue Tilt Temp</div>
                     <div class="beer-chart-legend-value">--</div>
                     <br class="crystal" />
                 </div>
@@ -171,21 +135,9 @@
                     <div class="beer-chart-legend-value">--</div>
                     <br class="crystal" />
                 </div>
-                <div class="beer-chart-legend-row yellowTemp">
-                    <div class="toggle yellowTemp" onClick="toggleLine(this)"></div>
-                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow Tilt Temp</div>
-                    <div class="beer-chart-legend-value">--</div>
-                    <br class="crystal" />
-                </div>
                 <div class="beer-chart-legend-row yellowSG">
                     <div class="toggle yellowSG" onClick="toggleLine(this)"></div>
                     <div class="beer-chart-legend-label" onClick="toggleLine(this)">Yellow Tilt SG</div>
-                    <div class="beer-chart-legend-value">--</div>
-                    <br class="crystal" />
-                </div>
-                <div class="beer-chart-legend-row pinkTemp">
-                    <div class="toggle pinkTemp" onClick="toggleLine(this)"></div>
-                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">Pink Tilt Temp</div>
                     <div class="beer-chart-legend-value">--</div>
                     <br class="crystal" />
                 </div>
@@ -195,7 +147,15 @@
                     <div class="beer-chart-legend-value">--</div>
                     <br class="crystal" />
                 </div>
-                <!-- Brewometer lines END-->
+                <!-- Tilt lines END-->
+				<!-- iSpindel lines BEGIN-->
+                <div class="beer-chart-legend-row SpinSG">
+                    <div class="toggle spinSG" onClick="toggleLine(this)"></div>
+                    <div class="beer-chart-legend-label" onClick="toggleLine(this)">iSpindel SG</div>
+                    <div class="beer-chart-legend-value">--</div>
+                    <br class="crystal" />
+                </div>
+				<!-- iSpindel lines END-->
 		    	<div class="beer-chart-legend-row state">
 					<div class="state-indicator"></div>
 		    		<div class="beer-chart-legend-label"></div>
