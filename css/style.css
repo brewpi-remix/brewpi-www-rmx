@@ -770,7 +770,7 @@ iframe {
 	clear: none;
 	display: block;
 	margin-left: 4px;
-	margin-top: 10px;
+	margin-top: 5px;
 	width: 250px;
 	text-align: left;
 }
@@ -778,10 +778,10 @@ iframe {
 #logo-container div#beer-name-container{
 	float: left;
 	display: block;
-	line-height: 0.5em;
+	line-height: 1.2em;
 	color: #000;
 	width: inherit;
-	margin-top: 10px;
+	margin-top: 0px;
 }
 
 .logo-placeholder a{
