@@ -21,7 +21,7 @@ $debug = false;                                 // Write log file if true
 $file = "apilog.txt";                           // API Log
 $args = "LOCK_EX | FILE_APPEND";                // File lock mode
 $json = file_get_contents('php://input');       // Get incoming post
-$url = 'http://localhost/newsocketmessage.php'; // Destination
+$url = 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['PHP_SELF']) . '/newsocketmessage.php'; // Destination
 
 function writeLog($logLine) { // Log file writer (if $debug == true)
     global $debug;
