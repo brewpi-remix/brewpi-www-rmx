@@ -527,12 +527,6 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
             return;
         }
         var beerData = toDygraphArray(combinedJson);
-        // console.log("answer:"); // DEBUG
-        // console.log(answer.toString()); // DEBUG
-        // console.log("combinedJson:"); // DEBUG
-        // console.log(combinedJson.toString()); // DEBUG
-        // console.log("beerData:"); // DEBUG
-        // console.log(beerData.toString()); // DEBUG
 
         var tempFormat = function (y) {
             return parseFloat(y).toFixed(2) + "\u00B0 " + window.tempFormat;
@@ -545,33 +539,22 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
 
         //Modification: Tilt & iSpindel colors
         var chartColors = [
-            'rgb(41,170,41)',
-            'rgb(240, 100, 100)',
-            'rgb(89, 184, 255)',
-            'rgb(255, 161, 76)',
-            '#AAAAAA',
-            'rgb(153,0,153)',
-            'red',
-            'red',
-            'red',
-            'lime',
-            'black',
-            'black',
-            'purple',
-            'purple',
-            'orange',
-            'orange',
-            'darkblue',
-            'darkblue',
-            'yellow',
-            'yellow',
-            'orchid',
-            'orchid'
+            '#29aa29', // Beer Temp = Green
+            '#f06464', // Beer Set = Salmon
+            '#59b8ff', // Fridge Temp = Cyan
+            '#ffa14c', // Fridge Set = Orange
+            '#AAAAAA', // Room Temp = Gray
+            '#990099'  // ??? = Purple
         ];
 
         if (colorTilt !== "") {
             chartColors.push(colorTilt.toLowerCase());
         }
+
+        console.log("beerData.labels:");
+        console.log(beerData.labels);
+        console.log("chartColors:");
+        console.log(chartColors);
 
         var beerChart = new Dygraph(document.getElementById(div), beerData.values, {
             labels: beerData.labels,
