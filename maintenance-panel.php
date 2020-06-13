@@ -147,6 +147,7 @@ function echoRotarySelect($optionName){
                         <select id="datetime-format-display">
                                 <option <?php if ($dateTimeFormatDisplay == "mm/dd/yy") echo "selected=\"selected\""; ?>>mm/dd/yy</option>
                                 <option <?php if ($dateTimeFormatDisplay == "dd/mm/yy") echo "selected=\"selected\""; ?>>dd/mm/yy</option>
+                                <option <?php if ($dateTimeFormatDisplay == "yy-mm-dd") echo "selected=\"selected\""; ?>>yy-mm-dd</option>
                         </select>
                         <button class="apply-datetime-format-display apply-button">Apply</button>
                 </div>
