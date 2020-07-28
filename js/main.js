@@ -243,7 +243,13 @@ function refreshStatus() {
                 row = data[i % numKeys];
                 for (var item in row) {
                     $newStatusText.find('#new-status-item-' + n).html(item);
-                    $newStatusText.find('#new-status-value-' + n).html(row[item]);
+                    // Check for SG, use 3 decimal places
+                    var dataItem = parseFloat(data[row][item]);
+                    if (item.includes("SG")) {
+                        $newStatusText.find('#new-status-value-' + row).html();
+                    } else {
+                        $newStatusText.find('#new-status-value-' + row).html(dataItem.toFixed(3));
+                    }
                 }
                 n++;
             }
@@ -254,6 +260,13 @@ function refreshStatus() {
             for (var row in data) {
                 for (var item in data[row]) {
                     $newStatusText.find('#new-status-item-' + row).html(item);
+                    // Check for SG, use 3 decimal places
+                    var dataItem = parseFloat(data[row][item]);
+                    if (item.includes("SG")) {
+                        $newStatusText.find('#new-status-value-' + row).html();
+                    } else {
+                        $newStatusText.find('#new-status-value-' + row).html(dataItem.toFixed(3));
+                    }
                     $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
                 }
                 n++
