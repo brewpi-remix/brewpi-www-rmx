@@ -245,10 +245,10 @@ function refreshStatus() {
                     $newStatusText.find('#new-status-item-' + n).html(item);
                     // Check for SG, use 3 decimal places
                     var dataItem = parseFloat(data[row][item]);
-                    if (item.includes("SG")) {
-                        $newStatusText.find('#new-status-value-' + row).html();
-                    } else {
+                    if (item.indexOf("SG") > -1) {
                         $newStatusText.find('#new-status-value-' + row).html(dataItem.toFixed(3));
+                    } else {
+                        $newStatusText.find('#new-status-value-' + row).html();
                     }
                 }
                 n++;
@@ -262,10 +262,10 @@ function refreshStatus() {
                     $newStatusText.find('#new-status-item-' + row).html(item);
                     // Check for SG, use 3 decimal places
                     var dataItem = parseFloat(data[row][item]);
-                    if (item.includes("SG")) {
-                        $newStatusText.find('#new-status-value-' + row).html();
-                    } else {
+                    if (item.indexOf("SG") > -1) {
                         $newStatusText.find('#new-status-value-' + row).html(dataItem.toFixed(3));
+                    } else {
+                        $newStatusText.find('#new-status-value-' + row).html();
                     }
                     $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
                 }
