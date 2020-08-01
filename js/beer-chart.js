@@ -238,7 +238,6 @@ function toDygraphArray(jsonData) {
             if (!val) {
                 return;
             }
-            // console.log(concat('%s %s %s %s', labelsArray[index * 2 / 3], date.getTime(), String.fromCharCode(65 + annotationsArray.length % 26), val.v)); // DEBUG
             annotationsArray.push({
                 series: labelsArray[index * 2 / 3],
                 x: date.getTime(),
@@ -431,12 +430,10 @@ function showChartLegend(e, x, pts, row, g) { // For legend value display, make 
     $("#curr-beer-chart-legend .beer-chart-legend-row.fridgeTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 3)));
     $("#curr-beer-chart-legend .beer-chart-legend-row.fridgeSet .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 4)));
     $("#curr-beer-chart-legend .beer-chart-legend-row.roomTemp .beer-chart-legend-value").text(formatForChartLegend(currentDataSet.getValue(row, 5)));
-    // iSpindel rows
-    //if (row.hasOwnProperty('SpinSG')) {
-        //console.log("DEBUG:  Processing iSpindel.");
-    $('#curr-beer-chart-legend .beer-chart-legend-row.SpinSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 7)));
-        //
-    //}
+    // iSpindel row
+    if (row.hasOwnProperty('SpinSG')) {
+        $('#curr-beer-chart-legend .beer-chart-legend-row.SpinSG .beer-chart-legend-value').text( formatForChartLegendSG(currentDataSet.getValue(row, 7)));
+    }
     switch (colorTilt) { // Populate Tilt SG for proper color
         case "Red":
             $("#curr-beer-chart-legend .beer-chart-legend-row.redSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 7)));
@@ -550,11 +547,6 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
         if (colorTilt !== "") {
             chartColors.push(colorTilt.toLowerCase());
         }
-
-        console.log("beerData.labels:");
-        console.log(beerData.labels);
-        console.log("chartColors:");
-        console.log(chartColors);
 
         var beerChart = new Dygraph(document.getElementById(div), beerData.values, {
             labels: beerData.labels,
@@ -733,7 +725,7 @@ function updateVisibility(lineName, $button) {
     } else if (chartId.localeCompare("prev-beer-chart") === 0) {
         chart = prevBeerChart;
     } else {
-        console.log("cannot find chart with id " + chartId);
+        console.log("Warning: Cannot find chart with id: " + chartId);
         return;
     }
     if ($button.hasClass("inactive")) {

@@ -232,46 +232,55 @@ function refreshStatus() {
         url: 'socketmessage.php',
         data: { messageType: "statusText", message: "" }
     })
-    .done(function (data) {
-        var $newStatusText = $('#new-status .new-status-text');
-        // Display statuses
-        var n = 0
-        var numKeys = Object.keys(data).length;
-        if (numKeys > numRows) {
-            // Use this for 5 or more data elements
-            for (var i = window.lastStatus; i < (window.lastStatus + numKeys); i++) {
-                row = data[i % numKeys];
-                for (var item in row) {
-                    $newStatusText.find('#new-status-item-' + n).html(item);
-                    $newStatusText.find('#new-status-value-' + n).html(row[item]);
+        .done(function (data) {
+            var $newStatusText = $('#new-status .new-status-text');
+            // Display statuses
+            var n = 0
+            var numKeys = Object.keys(data).length;
+            if (numKeys > numRows) {
+                // Use this for 5 or more data elements
+                for (var i = window.lastStatus; i < (window.lastStatus + numKeys); i++) {
+                    row = data[i % numKeys];
+                    for (var item in row) {
+                        if (item.indexOf("SG") > -1) {
+                            var dataItem = parseFloat(data[row][item]).toFixed(3);
+                            $newStatusText.find('#new-status-value-' + row).html(dataItem);
+                        } else {
+                            $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
+                        }
+                    }
+                    n++;
                 }
-                n++;
-            }
-            window.lastStatus++;
-        } else {
-            // Use this if we only have numRows or less data elements
-            window.lastStatus = 0;
-            for (var row in data) {
-                for (var item in data[row]) {
-                    $newStatusText.find('#new-status-item-' + row).html(item);
-                    $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
+                window.lastStatus++;
+            } else {
+                // Use this if we only have numRows or less data elements
+                window.lastStatus = 0;
+                for (var row in data) {
+                    for (var item in data[row]) {
+                        $newStatusText.find('#new-status-item-' + row).html(item);
+                        if (item.indexOf("SG") > -1) {
+                            var dataItem = parseFloat(data[row][item]).toFixed(3);
+                            $newStatusText.find('#new-status-value-' + row).html(dataItem);
+                        } else {
+                            $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
+                        }
+                    }
+                    n++
                 }
-                n++
             }
-        }
-        // Clear the rest of the statuses
-        for (var i = n; i < numRows; i++) {
-            $newStatusText.find('#new-status-item-' + i).html("");
-            $newStatusText.find('#new-status-value-' + i).html("");
-        }
-    })
-    .fail(function () {
-        var $newStatusText = $('#new-status .new-status-text');
-        for (var i = 0; i < 4; i++) {
-            $newStatusText.find('#new-status-item-' + i).html("");
-            $newStatusText.find('#new-status-value-' + i).html("");
-        }
-    })
+            // Clear the rest of the statuses
+            for (var i = n; i < numRows; i++) {
+                $newStatusText.find('#new-status-item-' + i).html("");
+                $newStatusText.find('#new-status-value-' + i).html("");
+            }
+        })
+        .fail(function () {
+            var $newStatusText = $('#new-status .new-status-text');
+            for (var i = 0; i < 4; i++) {
+                $newStatusText.find('#new-status-item-' + i).html("");
+                $newStatusText.find('#new-status-value-' + i).html("");
+            }
+        })
     setTimeout(refreshStatus, 10000);
 }
 
