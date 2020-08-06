@@ -73,7 +73,7 @@ var tiltColors = { // Array to pick Tilt color based on json field passed
     PurpleSG: "Purple",
     OrangeSG: "Orange",
     BlueSG: "Blue",
-    YellowSG: "Yellow",
+    YellowSG: "Gold",
     PinkSG: "Pink"
 };
 
