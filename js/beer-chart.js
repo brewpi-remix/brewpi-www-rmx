@@ -71,9 +71,9 @@ var tiltColors = { // Array to pick Tilt color based on json field passed
     GreenSG: "Green",
     BlackSG: "Black",
     PurpleSG: "Purple",
-    OrangeSG: "Orange",
+    OrangeSG: "DarkOrange",
     BlueSG: "Blue",
-    YellowSG: "Yellow",
+    YellowSG: "Orange",
     PinkSG: "Pink"
 };
 
@@ -447,13 +447,13 @@ function showChartLegend(e, x, pts, row, g) { // For legend value display, make 
         case "Purple":
             $("#curr-beer-chart-legend .beer-chart-legend-row.purpleSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 7)));
             break;
-        case "Orange":
+        case "DarkOrange":
             $("#curr-beer-chart-legend .beer-chart-legend-row.orangeSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 7)));
             break;
         case "Blue":
             $("#curr-beer-chart-legend .beer-chart-legend-row.blueSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 7)));
             break;
-        case "Yellow":
+        case "Orange":
             $("#curr-beer-chart-legend .beer-chart-legend-row.yellowSG .beer-chart-legend-value").text(formatForChartLegendSG(currentDataSet.getValue(row, 7)));
             break;
         case "Pink":
@@ -586,7 +586,7 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
                 },
                 yellowSG: {
                     axis: "y2",
-                    strokePattern: [3, 1]
+                    strokePattern: [4, 1]
                 },
                 pinkSG: {
                     axis: "y2",
