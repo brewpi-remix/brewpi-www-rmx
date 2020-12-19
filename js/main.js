@@ -104,11 +104,13 @@ function receiveControlSettings(callback) {
             }
             if (typeof (controlSettings.dataLogging) !== 'undefined') {
                 var $loggingState = $("span.data-logging-state");
+                var $beerName = $("#beer-name");
                 if (controlSettings.dataLogging === 'paused') {
                     $loggingState.text("(paused)");
                     $loggingState.show();
                 }
                 else if (controlSettings.dataLogging === 'stopped') {
+                    $beerName.text("None");
                     $loggingState.text("(stopped)");
                     $loggingState.show();
                 }
@@ -210,8 +212,8 @@ function refreshLcd() {
         .fail(function () {
             var $lcdText = $('#lcd .lcd-text');
             $lcdText.find('#lcd-line-0').html("Cannot connect");
-            $lcdText.find('#lcd-line-1').html("to BrewPi");
-            $lcdText.find('#lcd-line-2').html("Python script");
+            $lcdText.find('#lcd-line-1').html("to script");
+            $lcdText.find('#lcd-line-2').html(" ");
             $lcdText.find('#lcd-line-3').html(" ");
             updateScriptStatus(false);
         })
@@ -233,7 +235,8 @@ function refreshStatus() {
         data: { messageType: "statusText", message: "" }
     })
         .done(function (data) {
-            var $newStatusText = $('#new-status .new-status-text');
+            var $newStatusText = $('#new-status');
+            var $newValueText = $('#new-value');
             // Display statuses
             var curRow = 0
             var numKeys = Object.keys(data).length;
@@ -253,7 +256,7 @@ function refreshStatus() {
                         dataItem = row[item];
                     }
                     $newStatusText.find('#new-status-item-' + curRow).html(dataName);
-                    $newStatusText.find('#new-status-value-' + curRow).html(dataItem);
+                    $newValueText.find('#new-status-value-' + curRow).html(dataItem);
                 }
                 curRow++;
             }
@@ -261,14 +264,15 @@ function refreshStatus() {
             // Clear the rest of the statuses
             for (var i = curRow; i < numRows; i++) {
                 $newStatusText.find('#new-status-item-' + i).html("");
-                $newStatusText.find('#new-status-value-' + i).html("");
+                $newValueText.find('#new-status-value-' + i).html("");
             }
         })
         .fail(function () {
-            var $newStatusText = $('#new-status .new-status-text');
+            var $newStatusText = $('#new-status');
+            var $newValueText = $('#new-value');
             for (var i = 0; i < 4; i++) {
                 $newStatusText.find('#new-status-item-' + i).html("");
-                $newStatusText.find('#new-status-value-' + i).html("");
+                $newValueText.find('#new-status-value-' + i).html("");
             }
         })
     setTimeout(refreshStatus, 10000);
