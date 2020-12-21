@@ -143,11 +143,6 @@ button#maintenance{
 	margin: 5px;
 }
 
-img.logo {
-    width: 200px;
-    height: 55px;
-}
-
 #status-container{
 	width: 294px;
     height: 125px;
@@ -691,13 +686,18 @@ img.logo {
 	display: block;
 	margin-left: 4px;
 	margin-top: 5px;
-	width: 250px;
+	width: 260px;
 	text-align: left;
-}
-
-#logo-container{
 	margin-top: 0px;
 }
+
+img.logo{
+	display: block;
+	max-width:250px;
+	max-height:70px;
+	width: auto;
+	height: auto;
+  }
 
 span.beer-name-container{
     font-size: 0.8em;
