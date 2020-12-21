@@ -16,19 +16,142 @@
  * You should have received a copy of the GNU General Public License
  * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
  */
+
+$mimetypes = array(
+    "image/bmp",
+    "image/cmu-raster",
+    "image/fif",
+    "image/florian",
+    "image/g3fax",
+    "image/gif",
+    "image/ief",
+    "image/jpeg",
+    "image/jutvision",
+    "image/naplps",
+    "image/pict",
+    "image/pjpeg",
+    "image/png",
+    "image/tiff",
+    "image/vasa",
+    "image/vnd.dwg",
+    "image/vnd.fpx",
+    "image/vnd.net-fpx",
+    "image/vnd.rn-realflash",
+    "image/vnd.rn-realpix",
+    "image/vnd.wap.wbmp",
+    "image/vnd.xiff",
+    "image/xbm",
+    "image/x-cmu-raster",
+    "image/x-dwg",
+    "image/x-icon",
+    "image/x-jg",
+    "image/x-jps",
+    "image/x-niff",
+    "image/x-pcx",
+    "image/x-pict",
+    "image/xpm",
+    "image/x-portable-anymap",
+    "image/x-portable-bitmap",
+    "image/x-portable-graymap",
+    "image/x-portable-greymap",
+    "image/x-portable-pixmap",
+    "image/x-quicktime",
+    "image/x-rgb",
+    "image/x-tiff",
+    "image/x-windows-bmp",
+    "image/x-xbitmap",
+    "image/x-xbm",
+    "image/x-xpixmap",
+    "image/x-xwd",
+    "image/x-xwindowdump"
+);
+
+$mimeexts = array(
+    ".art",
+    ".bm",
+    ".bmp",
+    ".dwg",
+    ".dxf",
+    ".fif",
+    ".flo",
+    ".fpx",
+    ".g3",
+    ".gif",
+    ".ico",
+    ".ief",
+    ".iefs",
+    ".jfif",
+    ".jfif-tbnl",
+    ".jpe",
+    ".jpeg",
+    ".jpg",
+    ".jps",
+    ".jut",
+    ".mcf",
+    ".nap",
+    ".naplps",
+    ".nif",
+    ".niff",
+    ".pbm",
+    ".pct",
+    ".pcx",
+    ".pgm",
+    ".pic",
+    ".pict",
+    ".pm",
+    ".png",
+    ".pnm",
+    ".ppm",
+    ".qif",
+    ".qti",
+    ".qtif",
+    ".ras",
+    ".rast",
+    ".rf",
+    ".rgb",
+    ".rp",
+    ".svf",
+    ".tif",
+    ".tiff",
+    ".turbot",
+    ".wbmp",
+    ".xbm",
+    ".xif",
+    ".xpm",
+    ".x-png",
+    ".xwd"
+);
+
+// Grab the custom logo if it exists, otherwise use the stock one
+$custom_logo = glob('images/custom_logo.*');
+$logo = (count($custom_logo) ? $custom_logo[0] : 'images/brewpi_logo.png');
+// Get site root url
+$root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+
 ?>
 
 <div class="header-grid-container ui-widget ui-widget-header ui-corner-all" id="top-bar">
 
 	<div class="logo">
 		<?php
-			// Get site root url
-			$root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
-			// Get logo name (use custom if it exists)
-			$logo = (file_exists('images/custom_logo.png') ? 'images/custom_logo.png' : 'images/brewpi_logo.png');
-			// Use link on logo if we are multi-chamber
-			$logo = ($chamber == '' ? '<img class="logo" src="' . $logo . '">' : '<a href="' . $root . '"><img class="logo" src="' . $logo . '"></a>');
-			echo $logo;
+		if (file_exists($logo)) {
+            // Get some additional information about the logo file
+            $filemime = mime_content_type($logo);
+            $fileext = pathinfo($logo, PATHINFO_EXTENSION);
+            // Check to make sure the logo is a valid image
+            if (in_array ($filemime, $mimetypes) && in_array ("." . $fileext, $mimeexts)) {
+                // Use chamber path as link on logo if we are multi-chamber
+                $logo_code = ($chamber == '' ? '<img class="logo" src="' . $logo . '">' : '<a href="' . $root . '"><img class="logo" src="' . $logo . '"></a>');
+                // Logo will be resized by CSS
+                echo $logo_code;
+            } else {
+                echo $logo . " is invalid";
+                error_log($logo . " is an invalid image.");
+            }
+		} else {
+            echo "Missing " . $logo;
+            error_log($logo . " not found.");
+		}
 		?>
 	</div>
 
