@@ -38,11 +38,11 @@
 
 /* Orange */
 .beer-chart-legend-row.orangeSG{
-    color:rgba(255, 165, 0, 1);
+    color:rgba(255, 140, 0, 1);
 }
 .beer-chart-legend-row .toggle.orangeSG{
-    background-color:rgba(255, 165, 0, 0.5);
-    border:1px solid rgba(255, 165, 0, 1);
+    background-color:rgba(255, 140, 0, 0.5);
+    border:1px solid rgba(255, 140, 0, 1);
 }
 
 /* Blue */
@@ -56,11 +56,11 @@
 
 /* Yellow */
 .beer-chart-legend-row.yellowSG{
-    color:rgba(255, 255, 0, 1);
+    color:rgba(250, 165, 0, 1);
 }
 .beer-chart-legend-row .toggle.yellowSG{
-    background-color:rgba(255, 255, 0, 0.5);
-    border:1px solid rgba(255, 255, 0, 1);
+    background-color:rgba(250, 165, 0, 0.5);
+    border:1px solid rgba(250, 165, 0, 1);
 }
 
 /* Pink */

@@ -104,11 +104,13 @@ function receiveControlSettings(callback) {
             }
             if (typeof (controlSettings.dataLogging) !== 'undefined') {
                 var $loggingState = $("span.data-logging-state");
+                var $beerName = $("#beer-name");
                 if (controlSettings.dataLogging === 'paused') {
                     $loggingState.text("(paused)");
                     $loggingState.show();
                 }
                 else if (controlSettings.dataLogging === 'stopped') {
+                    $beerName.text("None");
                     $loggingState.text("(stopped)");
                     $loggingState.show();
                 }
@@ -210,8 +212,8 @@ function refreshLcd() {
         .fail(function () {
             var $lcdText = $('#lcd .lcd-text');
             $lcdText.find('#lcd-line-0').html("Cannot connect");
-            $lcdText.find('#lcd-line-1').html("to BrewPi");
-            $lcdText.find('#lcd-line-2').html("Python script");
+            $lcdText.find('#lcd-line-1').html("to script");
+            $lcdText.find('#lcd-line-2').html(" ");
             $lcdText.find('#lcd-line-3').html(" ");
             updateScriptStatus(false);
         })
@@ -233,52 +235,44 @@ function refreshStatus() {
         data: { messageType: "statusText", message: "" }
     })
         .done(function (data) {
-            var $newStatusText = $('#new-status .new-status-text');
+            var $newStatusText = $('#new-status');
+            var $newValueText = $('#new-value');
             // Display statuses
-            var n = 0
+            var curRow = 0
             var numKeys = Object.keys(data).length;
-            if (numKeys > numRows) {
-                // Use this for 5 or more data elements
-                for (var i = window.lastStatus; i < (window.lastStatus + numKeys); i++) {
-                    row = data[i % numKeys];
-                    for (var item in row) {
-                        if (item.indexOf("SG") > -1) {
-                            var dataItem = parseFloat(data[row][item]).toFixed(3);
-                            $newStatusText.find('#new-status-value-' + row).html(dataItem);
-                        } else {
-                            $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
-                        }
-                    }
-                    n++;
-                }
-                window.lastStatus++;
-            } else {
-                // Use this if we only have numRows or less data elements
+            var dataName;
+            var dataItem;
+            if (numKeys <= numRows) {
                 window.lastStatus = 0;
-                for (var row in data) {
-                    for (var item in data[row]) {
-                        $newStatusText.find('#new-status-item-' + row).html(item);
-                        if (item.indexOf("SG") > -1) {
-                            var dataItem = parseFloat(data[row][item]).toFixed(3);
-                            $newStatusText.find('#new-status-value-' + row).html(dataItem);
-                        } else {
-                            $newStatusText.find('#new-status-value-' + row).html(data[row][item]);
-                        }
-                    }
-                    n++
-                }
             }
+            for (var i = window.lastStatus; i < (window.lastStatus + numKeys); i++) {
+                var row = data[i % numKeys];
+                for (var item in row) {
+                    var keys = Object.keys(row);
+                    dataName = keys[0];
+                    if (item.indexOf("SG") > -1) {
+                        dataItem = parseFloat(row[item]).toFixed(3);
+                    } else {
+                        dataItem = row[item];
+                    }
+                    $newStatusText.find('#new-status-item-' + curRow).html(dataName);
+                    $newValueText.find('#new-status-value-' + curRow).html(dataItem);
+                }
+                curRow++;
+            }
+            window.lastStatus++;
             // Clear the rest of the statuses
-            for (var i = n; i < numRows; i++) {
+            for (var i = curRow; i < numRows; i++) {
                 $newStatusText.find('#new-status-item-' + i).html("");
-                $newStatusText.find('#new-status-value-' + i).html("");
+                $newValueText.find('#new-status-value-' + i).html("");
             }
         })
         .fail(function () {
-            var $newStatusText = $('#new-status .new-status-text');
+            var $newStatusText = $('#new-status');
+            var $newValueText = $('#new-value');
             for (var i = 0; i < 4; i++) {
                 $newStatusText.find('#new-status-item-' + i).html("");
-                $newStatusText.find('#new-status-value-' + i).html("");
+                $newValueText.find('#new-status-value-' + i).html("");
             }
         })
     setTimeout(refreshStatus, 10000);
