@@ -253,7 +253,6 @@ function refreshStatus() {
                     dataItem = row[item];
                     $newStatusText.find('#new-status-item-' + curRow).html(dataName);
                     $newValueText.find('#new-status-value-' + curRow).html(dataItem);
-                    console.log("Status: " +  dataName + " " + dataItem) // DEBUG
                 }
                 curRow++;
             }
