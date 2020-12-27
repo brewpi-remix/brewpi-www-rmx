@@ -250,13 +250,10 @@ function refreshStatus() {
                 for (var item in row) {
                     var keys = Object.keys(row);
                     dataName = keys[0];
-                    if (item.indexOf("SG") > -1) {
-                        dataItem = parseFloat(row[item]).toFixed(3);
-                    } else {
-                        dataItem = row[item];
-                    }
+                    dataItem = row[item];
                     $newStatusText.find('#new-status-item-' + curRow).html(dataName);
                     $newValueText.find('#new-status-value-' + curRow).html(dataItem);
+                    console.log("Status: " +  dataName + " " + dataItem) // DEBUG
                 }
                 curRow++;
             }
@@ -275,7 +272,7 @@ function refreshStatus() {
                 $newValueText.find('#new-status-value-' + i).html("");
             }
         })
-    setTimeout(refreshStatus, 10000);
+    setTimeout(refreshStatus, 5000);
 }
 
 function updateScriptStatus(running) { // TODO:  Make a "Starting" status

@@ -65,7 +65,6 @@ function findTiltByColor(field) { // Determine Tilt color from json field name
     return null;
 }
 
-
 var tiltColors = { // Array to pick Tilt color based on json field passed
     RedSG: "Red",
     GreenSG: "Green",
@@ -531,6 +530,7 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
 
         // Tilt and iSpindel
         var gravityFormat = function (y) {
+            // TODO:  Return 4?
             return parseFloat(y).toFixed(3);
         };
 
