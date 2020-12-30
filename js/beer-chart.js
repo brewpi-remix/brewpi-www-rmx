@@ -777,7 +777,7 @@ function toggleAnnotations(el) {
 
 function getTiltInfo() {
     "use strict";
-    $.post("tiltInfo.php", {}, function (answer) {
+    $.post("get-tiltinfo.php", {}, function (answer) {
         var tiltInfo = {};
         try {
             tiltInfo = $.parseJSON(answer);
