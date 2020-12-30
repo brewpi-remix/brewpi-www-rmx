@@ -78,54 +78,6 @@ if (file_exists('config.php')) {
     die('ERROR: Unable to open required file (config.php).');
 }
 
-// Git information for footer
-$docloc = str_replace($_SERVER['DOCUMENT_ROOT'], '', dirname($scriptPath));
-$tbwd = getcwd();
-if (is_dir($_SERVER['DOCUMENT_ROOT'] . $GLOBALS['docloc'])) {
-    chdir($_SERVER['DOCUMENT_ROOT'] . $GLOBALS['docloc']);
-}
-$version = trim(shell_exec('git describe --tags $(git rev-list --tags --max-count=1)'));
-$branch = trim(shell_exec('git branch | grep \* | cut -d " " -f2'));
-$commit = trim(shell_exec('git -C . log --oneline -n1'));
-chdir($tbwd);
-$arr = explode(' ', trim($commit));
-$commit = "[ <span class=\"version-text-mono\">";
-$loop = '';
-foreach ($arr as $key => $word) {
-    if ($key == 0) { // Make commit hash yellow
-        $loop = "<span class=\"version-text-monoylw\">" . $word . "</span> - ";
-    } else {
-        $loop .= $word . " ";
-    }
-}
-$commit .= trim($loop) . "</span> ]";
-$division = "<div id=\"version-panel\" class=\"ui-widget ui-widget-content ui-corner-all\" style=\"display:none\">\r\n";
-$division .= "<div id=\"bottom-bar\" class=\"ui-widget ui-widget-header ui-corner-all\">\r\n";
-$division .= "<div id=\"version-text\">\r\n";
-$division .= "<span>BrewPi Remix version: " . trim($version) . " (" . trim($branch) . ")</span>\r\n";
-$division .= trim($commit) . "\r\n";
-$division .= "</div>\r\n</div>\r\n</div>";
-$gitinfo = $division;
-
-// See if we are using an IP to access page, and/or if user is on Windows
-$ipurl = (filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP) ? true : false);
-$windows = (preg_match('/windows|win32/i', $_SERVER['HTTP_USER_AGENT']) ? true : false);
-// Form URL with host name
-$named_url = 'http://' . gethostname() . '.local' . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-// Bonjour prompt
-$bjprompt = '';
-if ($ipurl && $windows) {
-    $bjprompt .= "<div id=\"bonjour-panel\" class=\"ui-widget ui-widget-content ui-corner-all\">\r\n";
-    $bjprompt .= "<div id=\"top-bar\" class=\"ui-widget ui-widget-header ui-corner-all\">\r\n";
-    $bjprompt .= "<a href=\"https://support.apple.com/kb/DL999\">\r\n";
-    $bjprompt .= "<img style=\"float: left;\" src=\"images/bonjour.png\" alt=\"Bonjour icon\" width=\"43\" /></a>\r\n";
-    $bjprompt .= "<p>&nbsp;You are using an IP to access your BrewPi.\r\n";
-    $bjprompt .= "You can use <a href=\"" . $named_url . "\">" . $named_url . "</a> instead\r\n";
-    $bjprompt .= "if you install <a href=\"https://support.apple.com/kb/DL999\">Bonjour from Apple</a>.\r\n";
-    $bjprompt .= "</div>\r\n</div>";
-}
-
 $title = ($chamber == '' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
 
 ?>
@@ -148,9 +100,7 @@ $title = ($chamber == '' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
 
 <body>
 
-    <!-- Bonjour prompt bar start -->
-    <?php echo $bjprompt; ?>
-    <!-- Bonjour prompt bar end -->
+    <?php include 'get-bjprompt.php'; ?>
 
     <div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all" style="display:none">
         <?php include 'top-bar.php'; ?>
@@ -163,9 +113,7 @@ $title = ($chamber == '' ? 'BrewPi Remix' : 'BLR: ' . $chamber)
         <?php include 'maintenance-panel.php'; ?>
     </div>
 
-    <!-- Git version bar start -->
-    <?php echo $gitinfo; ?>
-    <!-- Git version bar end -->
+    <?php include 'get-gitinfo.php'; ?>
 
     <!-- Load scripts after the body, so they don't block rendering of the page -->
     <!-- <script type="text/javascript" src="js/jquery-1.11.0.js"></script> -->
