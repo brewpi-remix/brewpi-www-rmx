@@ -92,7 +92,7 @@ $title = ($chamberName == '' ? 'BrewPi Remix' : 'LCD: ' . $chamberName)
             <div class="lcd0 lcd-line" id="lcd-line-0">Waiting for</div>
             <div class="lcd1 lcd-line" id="lcd-line-1">update from</div>
             <div class="lcd2 lcd-line" id="lcd-line-2">script.</div>
-            <div class="lcd3 lcd-line" id="lcd-line-3"></div>
+            <div class="lcd3 lcd-line" id="lcd-line-3">&nbsp;</div>
         </div>
     </div>
     <div><a href="<?php echo $rooturl; ?>">Open <?php echo $chamberName; ?>'s Main Page</a></div>
