@@ -140,7 +140,7 @@ if (file_exists($logo)) {
     if (in_array ($filemime, $mimetypes) && in_array ("." . $fileext, $mimeexts)) {
         // Use chamber path as link on logo if we are multi-chamber
         $root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
-        $logo_code = (isset($chamberLoc) ? '<a href="' . $root . '"><img class="logo" src="' . $logo . '"></a>' : '<img class="logo" src="' . $logo . '">');
+        $logo_code = (substr_count($_SERVER['REQUEST_URI'], '/') - 1 ? '<a href="' . $root . '"><img class="logo" src="' . $logo . '"></a>' : '<img class="logo" src="' . $logo . '">');
         // Logo will be resized by CSS
         $displayLogo = $logo_code;
     } else {
