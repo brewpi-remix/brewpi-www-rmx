@@ -86,7 +86,10 @@ $title = ($chamberName == '' ? 'BrewPi Remix' : 'LCD: ' . $chamberName)
 <base target="_parent">
 </head>
 <body>
-<div id="lcd-portal" class="ui-widget-header ui-widget ui-widget-content ui-corner-all">
+
+<div id="portal-message" style='display:none'>This page is intended to be viewed as part of a multi-chamber index.</div>
+
+<div id="lcd-portal" class="ui-widget-header ui-widget ui-widget-content ui-corner-all" style='display:none'>
     <div id="lcd" class="portallcddisplay">
         <div class="lcd-text">
             <div class="lcd0 lcd-line" id="lcd-line-0">Waiting for</div>
@@ -97,6 +100,7 @@ $title = ($chamberName == '' ? 'BrewPi Remix' : 'LCD: ' . $chamberName)
     </div>
     <div><a href="<?php echo $rooturl; ?>">Open <?php echo $chamberName; ?>'s Main Page</a></div>
 </div>
+
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
@@ -104,10 +108,24 @@ $title = ($chamberName == '' ? 'BrewPi Remix' : 'LCD: ' . $chamberName)
 <script type="text/javascript">
     // Pass parameters to JavaScript
     window.tempFormat = <?php echo "'$tempFormat'" ?>;
-    window.beerName = <?php echo "\"$beerName\""?>;
-    window.profileName = <?php echo "\"$profileName\""?>;
-    window.dateTimeFormat = <?php echo "\"$dateTimeFormat\""?>;
-    window.dateTimeFormatDisplay = <?php echo "\"$dateTimeFormatDisplay\""?>;
+    window.beerName = <?php echo "'$beerName'"?>;
+    window.profileName = <?php echo "'$profileName'"?>;
+    window.dateTimeFormat = <?php echo "'$dateTimeFormat'"?>;
+    window.dateTimeFormatDisplay = <?php echo "'$dateTimeFormatDisplay'"?>;
+
+    function iniFrame() {
+        if ( window.location !== window.parent.location )
+        {
+            // The page is in an iFrame
+            document.getElementById("lcd-portal").style.display="block";
+        } else {
+            // The page is not in an iFrame
+            document.getElementById("portal-message").style.display="block";
+        }
+    }
+
+    // Calling iniFrame function
+    iniFrame();
 </script>
 
 </body>

@@ -67,7 +67,7 @@ function htmlpath($relative_path) {
 // Create table of frames
 $i = 0;
 // Establish the output variable
-$dyn_table = '<table summary="Multi-Chamber Display" class="lcd-table" cellpadding="5px">';
+$dyn_table = '<table summary="Multi-Chamber Display" cellpadding="5px">';
 // Get file list
 $dirlist = getFileList("./", TRUE, 1);
 // Sort the array
@@ -78,7 +78,7 @@ $chamberLoc = ltrim($chamberLoc,'/');
 
 foreach($dirlist as $file) {
     $dyn_table .= ($i % $columns == 0 ? '<tr>' . "\n" : ''); // Make a table up to $columns columns wide
-    $dyn_table .= '<td>' . '<iframe src="' . $file['name'] . '" scrolling="no" width="312" height="135">' . "\n";
+    $dyn_table .= '<td>' . '<iframe src="' . $file['name'] . '" scrolling="no" width="312">' . "\n";
     $dyn_table .= '<p>Your browser does not support iframes.</p></iframe>' . "\n";
     $dyn_table .= '</td>' . "\n";
     $i++;
@@ -110,18 +110,32 @@ $title = 'BLR: Chamber Dashboard';
 
 <body>
 
-<?php include 'get-bjprompt.php'; ?>
+<div id="not-multi-index" style='display:none'>This page is intended to be viewed as part of a multi-chamber index.</div>
 
-<div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all">
-        <div id="top-bar" class="grid-container ui-widget ui-widget-header ui-corner-all">
-            <div class="m-logo"><?php include 'get-logo.php'; ?></div>
-            <div class="m-title">Multi-Chamber Dashboard</div>
-        </div>
+<div id="multi-index" style='display:none'>
 
-        <?php echo $dyn_table; ?>
+    <?php include 'get-bjprompt.php'; ?>
+
+    <div id="beer-panel" class="ui-widget ui-widget-content ui-corner-all">
+            <div id="top-bar" class="grid-container ui-widget ui-widget-header ui-corner-all">
+                <div class="m-logo"><?php include 'get-logo.php'; ?></div>
+                <div class="m-title">Multi-Chamber Dashboard</div>
+            </div>
+
+            <?php echo $dyn_table; ?>
+    </div>
+
+    <?php include 'get-gitinfo.php'; ?>
+
 </div>
 
-<?php include 'get-gitinfo.php'; ?>
+<script type="text/javascript">
+    if ( window.location.pathname.includes("multi-index.php") ) {
+        document.getElementById("not-multi-index").style.display="block";
+    } else {
+        document.getElementById("multi-index").style.display="block";
+    }
+</script>
 
 </body>
 </html>
