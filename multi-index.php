@@ -17,9 +17,6 @@
  * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
 */
 
-// TODO:  Remove
-clearstatcache();
-
 $columns = 3; // Number of columns in display table
 $chamberLoc = "";
 

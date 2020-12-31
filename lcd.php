@@ -89,7 +89,7 @@ $title = ($chamberName == '' ? 'BrewPi Remix' : 'LCD: ' . $chamberName)
 
 <div id="portal-message" style='display:none'>This page is intended to be viewed as part of a multi-chamber index.</div>
 
-<div id="lcd-portal" class="ui-widget-header ui-widget ui-widget-content ui-corner-all" style='display:none'>
+<div id="lcd-portal" class="ui-widget-header ui-widget ui-corner-all" style='display:none'>
     <div id="lcd" class="portallcddisplay">
         <div class="lcd-text">
             <div class="lcd0 lcd-line" id="lcd-line-0">Waiting for</div>
