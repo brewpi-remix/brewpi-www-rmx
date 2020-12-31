@@ -35,6 +35,7 @@
 var currBeerChart;
 var prevBeerChart;
 var colorTilt = "";
+var isHighResTilt = false;
 
 var colorIdle = "white";
 var colorCool = "rgba(0, 0, 255, 0.4)";
@@ -64,7 +65,6 @@ function findTiltByColor(field) { // Determine Tilt color from json field name
     }
     return null;
 }
-
 
 var tiltColors = { // Array to pick Tilt color based on json field passed
     RedSG: "Red",
@@ -416,7 +416,11 @@ function formatForChartLegendSG(v) {
     "use strict";
     var val = parseFloat(v);
     if (!isNaN(val)) {
-        return val.toFixed(3);
+        if (isHighResTilt) {
+            return val.toFixed(4);
+        } else {
+            return val.toFixed(3);
+        }
     }
     return "--";
 }
@@ -490,7 +494,7 @@ function findLineByName(name) {
     return null;
 }
 
-function drawBeerChart(beerToDraw, div) { // Give name of the beer to display and div in which to draw the graph
+function drawBeerChart(beerToDraw, div) { // Give name of the beer to display and div in which to draw the graphs
     "use strict";
     var $chartDiv = $("#" + div);
     $chartDiv.empty();
@@ -531,7 +535,12 @@ function drawBeerChart(beerToDraw, div) { // Give name of the beer to display an
 
         // Tilt and iSpindel
         var gravityFormat = function (y) {
-            return parseFloat(y).toFixed(3);
+            var val = parseFloat(y);
+            if (isHighResTilt) {
+                return val.toFixed(4);
+            } else {
+                return val.toFixed(4);
+            }
         };
 
         //Modification: Tilt & iSpindel colors
@@ -766,6 +775,26 @@ function toggleAnnotations(el) {
     }
 }
 
+function getTiltInfo() {
+    "use strict";
+    $.post("get-tiltinfo.php", {}, function (answer) {
+        var tiltInfo = {};
+        try {
+            tiltInfo = $.parseJSON(answer);
+        } catch (e) {
+            console.log("Error: Unable to parse Tilt data.")
+            return;
+        }
+
+		isHighResTilt = tiltInfo.isHighRes;
+
+        // Refresh Tilt info every 60 seconds
+        setTimeout(function () {
+            getTiltInfo();
+        }, 60000);
+    });
+}
+
 $(document).ready(function () {
     "use strict";
 
@@ -790,6 +819,8 @@ $(document).ready(function () {
     });
 
     applyStateColors();
+
+    getTiltInfo()
 
     // Unhide after loading
     $("#beer-panel").show();

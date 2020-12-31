@@ -1,0 +1,17 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 260px 698px;
+    grid-template-rows: 70px;
+	grid-gap: 0px;
+	padding: 5px;
+    grid-template-areas:
+      "m-logo m-title";
+}
+
+.m-logo { grid-area: m-logo; }
+.m-title {
+      grid-area: m-title;
+      color: #FFFFFF;
+      padding: 12px;
+      font-size: x-large;
+}

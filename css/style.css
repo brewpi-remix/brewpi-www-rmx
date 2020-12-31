@@ -65,8 +65,8 @@ body {
 #version-panel{
 	width: 980px;
     height: 28px;
-    margin-top: 10px;
-	margin-bottom: 10px;
+    margin-top: 0px;
+	margin-bottom: 0px;
     float:left;
 }
 
@@ -94,9 +94,8 @@ body {
 
 #bonjour-panel{
 	width: 980px;
-    height: 50;
 	margin-bottom: 10px;
-    float:left;
+	float:left;
 }
 
 #lcd-panel{
@@ -107,7 +106,7 @@ body {
 .lcd-title{
     color: #FFFFFF;
     padding: 12px;
-    font-size: large;
+    font-size: x-large;
 }
 
 #lcd-top-bar{
@@ -117,7 +116,6 @@ body {
 
 #lcd-portal{
 	width: 294px;
-	height: 125px;
     text-align: center;
 }
 
@@ -127,6 +125,11 @@ iframe {
 
 #top-bar{
 	width: 958px;
+	margin: 5px;
+}
+
+#bonjour-bar{
+	width: 968px;
 	margin: 5px;
 }
 
@@ -157,7 +160,8 @@ button#maintenance{
 
 #control-panel{
 	width: 976px;
-    min-height: 340px;
+	min-height: 340px;
+	margin-bottom: 10px;
     float: left;
 }
 
@@ -209,7 +213,6 @@ button#maintenance{
 .header-grid-container {
 	display: grid;
 	grid-template-columns: 260px 240px 150px 90px 210px;
-
 	grid-template-rows: 70px;
 	grid-template-areas:
 		"logo lcd0 scrollname0 scrollvalue0 button"

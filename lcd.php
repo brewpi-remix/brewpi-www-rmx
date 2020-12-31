@@ -15,28 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with BrewPi WWW RMX. If not, see <https://www.gnu.org/licenses/>.
- *
- * These scripts were originally a part of brewpi-www, a part of
- * the BrewPi project. Legacy support (for the very popular Arduino
- * controller) seems to have been discontinued in favor of new hardware.
- *
- * All credit for the original brewpi-www goes to @elcojacobs,
- * @lukepower, @m-mcgowan, @vanosg, @GregAtkinson and I'm sure
- * many more contributors around the world. My apologies if I have
- * missed anyone; those were the names listed as contributors on the
- * Legacy branch.
- *
- * See: 'original-license.md' for notes about the original project's
- * license and credits. */
+*/
 
-// load default settings from file
+// Load default settings from file
 $defaultSettings = file_get_contents('defaultSettings.json');
 if ($defaultSettings == false) die("Cannot open: defaultSettings.json");
 
 $settingsArray = json_decode(prepareJSON($defaultSettings), true);
 if (is_null($settingsArray)) die("Cannot decode: defaultSettings.json");
 
-// overwrite default settings with user settings
+// Overwrite default settings with user settings
 if(file_exists('userSettings.json')){
     $userSettings = file_get_contents('userSettings.json');
     if($userSettings == false) die("Cannot open: userSettings.json");
@@ -49,35 +37,36 @@ if(file_exists('userSettings.json')){
     }
 }
 
+// Read configuration name for multi-chamber
+if (file_exists('config.php')) {
+    require_once('config.php');
+    if(file_exists($scriptPath . "/settings/config.cfg")) {
+        $ini_array = parse_ini_file($scriptPath . "/settings/config.cfg");
+    }
+} else {
+    die('ERROR: Unable to open required file (config.php).');
+}
+
 $beerName = $settingsArray["beerName"];
 $tempFormat = $settingsArray["tempFormat"];
 $profileName = $settingsArray["profileName"];
 $dateTimeFormat = $settingsArray["dateTimeFormat"];
 $dateTimeFormatDisplay = $settingsArray["dateTimeFormatDisplay"];
+$chamberName = $ini_array['chamber'];
 
 function prepareJSON($input) {
-    //This will convert ASCII/ISO-8859-1 to UTF-8.
-    //Be careful with the third parameter (encoding detect list), because
-    //if set wrong, some input encodings will get garbled (including UTF-8!)
+    // This will convert ASCII/ISO-8859-1 to UTF-8.
+    // Be careful with the third parameter (encoding detect list), because
+    // if set wrong, some input encodings will get garbled (including UTF-8!)
     $input = mb_convert_encoding($input, 'UTF-8', 'ASCII,UTF-8,ISO-8859-1');
     //Remove UTF-8 BOM if present, json_decode() does not like it.
     if(substr($input, 0, 3) == pack("CCC", 0xEF, 0xBB, 0xBF)) $input = substr($input, 3);
     return $input;
 }
 
-// Read configuration name for multi-chamber
-if (file_exists('config.php')) {
-    require_once('config.php');
-    if(file_exists($scriptPath . "/settings/config.cfg")) {
-        $ini_array = parse_ini_file($scriptPath . "/settings/config.cfg");
-        $chamber=$ini_array['chamber'];
-    }
-} else {
-    die('ERROR: Unable to open required file (config.php).');
-}
-
+// Get link to root of chamber
 $rooturl = substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT']));
-$title = ($chamber=='' ? 'BrewPi Remix' : 'LCD: ' . $chamber)
+$title = ($chamberName == '' ? 'BrewPi Remix' : 'LCD: ' . $chamberName)
 
 ?>
 
@@ -97,35 +86,47 @@ $title = ($chamber=='' ? 'BrewPi Remix' : 'LCD: ' . $chamber)
 <base target="_parent">
 </head>
 <body>
-<div id="lcd-portal" class="ui-widget ui-widget-content ui-corner-all">
-<div id="lcd" class="portallcddisplay">
-<span class="lcd-text">
-    <span class="portal-lcd-line" id="lcd-line-0">Live LCD waiting</span>
-    <span class="portal-lcd-line" id="lcd-line-1">for update from</span>
-    <span class="portal-lcd-line" id="lcd-line-2">script.</span>
-    <span class="portal-lcd-line" id="lcd-line-3"></span>
-</span><br />
+
+<div id="portal-message" style='display:none'>This page is intended to be viewed as part of a multi-chamber index.</div>
+
+<div id="lcd-portal" class="ui-widget-header ui-widget ui-corner-all" style='display:none'>
+    <div id="lcd" class="portallcddisplay">
+        <div class="lcd-text">
+            <div class="lcd0 lcd-line" id="lcd-line-0">Waiting for</div>
+            <div class="lcd1 lcd-line" id="lcd-line-1">update from</div>
+            <div class="lcd2 lcd-line" id="lcd-line-2">script.</div>
+            <div class="lcd3 lcd-line" id="lcd-line-3">&nbsp;</div>
+        </div>
+    </div>
+    <div><a href="<?php echo $rooturl; ?>">Open <?php echo $chamberName; ?>'s Main Page</a></div>
 </div>
-<a href="<?php echo $rooturl; ?>">Open <?php echo $chamber; ?>'s Main Page</a>
-</div>
-<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script><!-- Need this for LCD -->
-<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script><!-- Need this for LCD -->
-<!-- <script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script> -->
-<!-- <script type="text/javascript" src="js/spin.js"></script> -->
-<!-- <script type="text/javascript" src="js/dygraph-combined.js"></script> -->
+
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
 <script type="text/javascript">
-    // pass parameters to JavaScript
+    // Pass parameters to JavaScript
     window.tempFormat = <?php echo "'$tempFormat'" ?>;
-    window.beerName = <?php echo "\"$beerName\""?>;
-    window.profileName = <?php echo "\"$profileName\""?>;
-    window.dateTimeFormat = <?php echo "\"$dateTimeFormat\""?>;
-    window.dateTimeFormatDisplay = <?php echo "\"$dateTimeFormatDisplay\""?>;
+    window.beerName = <?php echo "'$beerName'"?>;
+    window.profileName = <?php echo "'$profileName'"?>;
+    window.dateTimeFormat = <?php echo "'$dateTimeFormat'"?>;
+    window.dateTimeFormatDisplay = <?php echo "'$dateTimeFormatDisplay'"?>;
+
+    function iniFrame() {
+        if ( window.location !== window.parent.location )
+        {
+            // The page is in an iFrame
+            document.getElementById("lcd-portal").style.display="block";
+        } else {
+            // The page is not in an iFrame
+            document.getElementById("portal-message").style.display="block";
+        }
+    }
+
+    // Calling iniFrame function
+    iniFrame();
 </script>
-<script type="text/javascript" src="js/main.js"></script><!--  Need this for LCD -->
-<!-- <script type="text/javascript" src="js/device-config.js"></script> -->
-<!-- <script type="text/javascript" src="js/control-panel.js"></script> -->
-<!-- <script type="text/javascript" src="js/maintenance-panel.js"></script> -->
-<!-- <script type="text/javascript" src="js/beer-chart.js"></script> -->
-<!-- <script type="text/javascript" src="js/profile-table.js"></script> -->
+
 </body>
 </html>
