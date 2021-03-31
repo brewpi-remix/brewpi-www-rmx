@@ -31,6 +31,7 @@ foreach ($cmtarr as $key => $word) {
         $loop .= $word . " ";
     }
 }
+$loop = (strlen($loop) > 128) ? substr($loop,0,125).'...' : $loop;
 $commit .= trim($loop) . "</span> ]";
 
 $division = "";
