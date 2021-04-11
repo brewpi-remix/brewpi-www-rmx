@@ -574,7 +574,7 @@ function addToConfigString(configString, key, value){
             configString += ",";
         }
 
-        configString += "\"" + key + "\"" + ":" + "\"" + value + "\"";
+        configString += "\"" + key + "\"" + ":" + parseInt(value);
     }
     return configString;
 }
