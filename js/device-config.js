@@ -535,6 +535,8 @@ function applyDeviceSettings(deviceNr){
     $.post('socketmessage.php', {messageType: "applyDevice", message: configString});
 
     $("#device-console").find("span").append("Device config command sent, U:" + configString + "<br />");
+
+    refreshDeviceList();
 }
 
 function getDeviceConfigString(deviceNr){
@@ -574,7 +576,7 @@ function addToConfigString(configString, key, value){
             configString += ",";
         }
 
-        configString += "\"" + key + "\"" + ":" + "\"" + value + "\"";
+        configString += "\"" + key + "\"" + ":" + parseInt(value);
     }
     return configString;
 }
