@@ -77,8 +77,7 @@ function getDeviceList(){
                         $deviceList.append("<span class='device-list-empty-text'>None</span>");
                     }
                     else{
-                        $deviceConsole.append("Parsing installed devices.<br />");
-                        console.log("Parsing installed devices: " + parseDeviceList(deviceList.installed, pinList));
+                        $deviceConsole.append("Parsing installed devices:<br />" + parseDeviceList(deviceList.installed, pinList));
                     }
                     $deviceList.append("<span class='device-list-header'>Detected devices</span>");
                     if(deviceList.available.length === 0){
@@ -86,8 +85,7 @@ function getDeviceList(){
                         $('.device-list').append("<span class='device-list-empty-text'>No unconfigured devices found</span>");
                     }
                     else{
-                        $deviceConsole.append("Parsing available devices<br />");
-                        console.log("Parsing available devices: " + parseDeviceList(deviceList.available, pinList));
+                        $deviceConsole.append("Parsing available devices: " + parseDeviceList(deviceList.available, pinList));
                     }
                     // add new device button to device list container if it does not exist already
                     if($("button.add-new-device").length < 1){
@@ -575,8 +573,11 @@ function addToConfigString(configString, key, value){
         if(configString !== "{"){
             configString += ",";
         }
-
-        configString += "\"" + key + "\"" + ":" + parseInt(value);
+        if (key == "a") {
+            configString += "\"" + key + "\"" + ":" + "\"" + value + "\"";
+        } else {
+            configString += "\"" + key + "\"" + ":" + parseInt(value);
+        }
     }
     return configString;
 }
